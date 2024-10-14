@@ -1,16 +1,21 @@
 const mongoose = require('mongoose');
 
+let mongoConnectionStatus = 'MongoDB not connected'; // Default status message
+
 const connectDB = async () => {
     try {
         await mongoose.connect(process.env.MONGO_URI, {
             // useNewUrlParser: true,
             // useUnifiedTopology: true
         });
-        console.log('MongoDB connected successfully');
+        mongoConnectionStatus = 'MongoDB connected successfully';
+        console.log(mongoConnectionStatus);
     } catch (error) {
-        console.error('MongoDB connection failed:', error.message);
+        mongoConnectionStatus = `MongoDB connection failed: ${error.message}`;
+        console.error(mongoConnectionStatus);
         process.exit(1); // Exit the process with failure
     }
 };
 
-module.exports = connectDB;
+// Export both the connection function and status
+module.exports = { connectDB, mongoConnectionStatus };

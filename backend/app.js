@@ -1,7 +1,7 @@
 
 const express = require('express');
 const dotenv = require('dotenv');
-const connectDB = require('./config/db');
+const {connectDB,mongoConnectionStatus } = require('./config/db');
 const cors = require('cors'); // Import cors
 
 const userRoutes = require('./routes/userRoutes');
@@ -35,8 +35,8 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Define API routes
 app.get('/', (req, res) => {
-    res.send('Hello, World! MongoDB connected.');
-  });
+  res.send(`<h1>${mongoConnectionStatus}</h1>`);
+});
 app.use('/api/users', userRoutes);
 app.use('/api/features', featureTableRoutes);
 app.use('/api', serviceRoutes);
