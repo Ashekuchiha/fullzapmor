@@ -34,6 +34,9 @@ app.use(express.json());
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Define API routes
+app.get('/', (req, res) => {
+    res.send('Hello, World! MongoDB connected.');
+  });
 app.use('/api/users', userRoutes);
 app.use('/api/features', featureTableRoutes);
 app.use('/api', serviceRoutes);
