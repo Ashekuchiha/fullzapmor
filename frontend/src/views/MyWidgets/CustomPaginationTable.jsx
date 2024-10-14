@@ -164,7 +164,7 @@ function ReusablePaginationTable({
     //         setOpenDialog(false);
     //     }
     // };
-
+    //ashik s
     const confirmDelete = async () => {
         setDialogLoading(true);
         try {
@@ -185,7 +185,7 @@ function ReusablePaginationTable({
             setOpenDialog(false);
         }
     };
-    
+    //ashik e
     const handleEdit = (id) => {
         navigate(`/edit/${id}`);
     };
@@ -236,7 +236,9 @@ function ReusablePaginationTable({
     return (
         <>
             <ParentCard title={title}>
-                {children}
+                {/* ashik s */}
+                {children} 
+                {/* ashik e */}
                 <Paper variant='outlined'>
                     <Box sx={{ padding: '16px', backgroundColor: 'transparent' }}>
                         <Stack direction="row" justifyContent="space-between" alignItems="center">
