@@ -25,7 +25,7 @@ const app = express();
 app.use(cors());  // <--- Add this
 
 // Connect to MongoDB
-connectDB();
+connectDB()
 
 // Middleware to parse incoming JSON requests
 app.use(express.json());

@@ -45,7 +45,7 @@ export default function AddUserForm() {
           formData.append('profile', values.profile);
           formData.append('password', values.password);
           try {
-            const response = await fetch('http://localhost:5000/api/appusers', {
+            const response = await fetch('https://fullzapmor-api.vercel.app/api/appusers', {
               method: 'POST',
               headers:{
                 'Accept':'application/json'
