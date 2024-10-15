@@ -37,6 +37,9 @@ app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 app.get('/', (req, res) => {
   res.send(`<h1>${mongoConnectionStatus}</h1>`);
 });
+app.get('/test', (req, res) => {
+  res.send(`<h1>test</h1>`);
+});
 app.use('/api/users', userRoutes);
 app.use('/api/features', featureTableRoutes);
 app.use('/api', serviceRoutes);
