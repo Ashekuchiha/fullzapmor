@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageContainer from 'src/components/container/PageContainer'
 import ParentCard from 'src/components/shared/ParentCard'
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb'
@@ -11,13 +11,28 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import axios from 'axios';
 
 const validationSchema = yup.object({
     amount:yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
 });
 
 export default function CommissionSetup() {
+  const [services, setServices] = useState([]);
 
+  useEffect(() => {
+    // Fetch the service options from the API
+    const fetchServices = async () => {
+        try {
+            const response = await axios.get('https://fullzapmor-api.vercel.app/api/services');
+            setServices(response.data); // Assuming the data is an array of service objects
+        } catch (error) {
+            console.error('Error fetching services:', error);
+        }
+    };
+
+    fetchServices();
+}, []);
     const formik = useFormik({
         initialValues: {
             amount:'',
@@ -69,8 +84,11 @@ export default function CommissionSetup() {
                     value={formik.values.service}
                     onChange={formik.handleChange}
                     >
-                    <MenuItem value='1'>1</MenuItem>
-                    <MenuItem value='2'>2</MenuItem>
+                       {services.map(service => (
+                    <MenuItem key={service.id} value={service.name}>
+                        {service.name}
+                    </MenuItem>
+                ))}
                     </CustomSelect>
                     {formik.errors.service && (
                         <FormHelperText error id="standard-weight-helper-text-email-login">

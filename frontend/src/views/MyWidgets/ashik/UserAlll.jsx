@@ -23,7 +23,6 @@ const UserAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        // apiUrl="http://localhost:5000/api/appusers"
         apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
         enableSearch={true}
         enableSort={true}

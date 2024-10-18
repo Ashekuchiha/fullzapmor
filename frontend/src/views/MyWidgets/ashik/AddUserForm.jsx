@@ -55,7 +55,6 @@ export default function AddUserForm() {
             if (!response.ok) {
               throw new Error('Failed to submit form');
             }
-          
             const data = await response.json();
             console.log('Success:', data);
             alert('Form submitted successfully!');

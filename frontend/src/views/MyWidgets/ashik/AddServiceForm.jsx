@@ -32,14 +32,13 @@ export default function AddServiceForm() {
       formData.append('featured', values.featured);
 
       try {
-        const response = await fetch('https://zapmor.sohabagcluster.com/api/services', {
+        const response = await fetch('https://fullzapmor-api.vercel.app/api/services', {
           method: 'POST',
           headers: {
             Accept: 'application/json',
           },
           body: formData, // Let the browser handle the multipart/form-data
         });
-console.log(response)
         if (!response.ok) {
           throw new Error('Failed to submit form ');
         }
