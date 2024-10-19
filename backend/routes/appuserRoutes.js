@@ -1,19 +1,19 @@
 const express = require('express');
 const router = express.Router();
-const multer = require('multer');
+const upload =require('../middlewares/uploadMiddleware')
 const appUserController = require('../controllers/appuserController');
 
 // Set up multer for file uploads (profile images)
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + '-' + file.originalname);
+//     }
+// });
 
-const upload = multer({ storage });
+// const upload = multer({ storage });
 
 // Routes
 router.post('/', upload.single('profile'), appUserController.createAppUser);
