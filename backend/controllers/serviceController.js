@@ -149,31 +149,6 @@ exports.deleteService = async (req, res) => {
 };
 
 //Delet multiple services by ID
-// exports.deleteMultipleservice = async (req, res) => {
-//     try {
-//         const { ids } = req.body; // Expecting an array of user IDs in the request body
-        
-//         if (!Array.isArray(ids) || ids.length === 0) {
-//             return res.status(400).json({ success: false, error: 'No user IDs provided' });
-//         }
-
-//         // Validate that each id is a valid ObjectId
-//         const validIds = ids.filter(id => mongoose.Types.ObjectId.isValid(id));
-//         if (validIds.length !== ids.length) {
-//             return res.status(400).json({ success: false, error: 'One or more IDs are invalid' });
-//         }
-
-//         // Delete service by their IDs
-//         const result = await Service.deleteMany({ _id: { $in: validIds } });
-
-//         res.status(200).json({
-//             success: true,
-//             message: `${result.deletedCount} service deleted successfully`
-//         });
-//     } catch (error) {
-//         res.status(500).json({ success: false, error: error.message });
-//     }
-// };
 
 exports.deleteMultipleservice = async (req, res) => {
     try {

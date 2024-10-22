@@ -50,6 +50,7 @@ const Router = [
         //edit
         {path:'admin/user/all/edit/:id' , element:<AddUserForm/>},
         {path:'admin/services/all/edit/:id' , element:<AddServiceForm/>},
+        {path:'admin/serviceslocation/all/edit/:id' , element:<AddServicesLocationForm/>},
       ]
     }
   ]

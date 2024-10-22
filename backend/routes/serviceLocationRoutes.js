@@ -14,6 +14,8 @@ router.get('/:id', serviceLocationController.getServiceLocationById);
 // Update a service location by ID
 router.put('/:id', serviceLocationController.updateServiceLocation);
 
+router.delete('/delete-multiple', serviceLocationController.deleteMultipleServiceLocation);
+
 // Delete a service location by ID
 router.delete('/:id', serviceLocationController.deleteServiceLocation);
 

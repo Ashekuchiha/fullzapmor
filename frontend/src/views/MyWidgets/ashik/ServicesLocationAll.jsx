@@ -7,16 +7,9 @@ import { Link } from 'react-router-dom';
 // import ReusablePaginationTable from './CustomPaginationTable';
 
 const columns = [
-    { field: 'name', headerName: 'Name' },
-    { field: 'sku', headerName: 'SKU' },
-    { field: 'barcode', headerName: 'Barcode' },
-    { field: 'cost_price', headerName: 'Cost Price', renderCell: (value) => `$${value}` },
-    { field: 'selling_price', headerName: 'Selling Price', renderCell: (value) => `$${value}` },
-    { field: 'stock_qty', headerName: 'Stock Qty' },
-    { field: 'discount', headerName: 'Discount', renderCell: (value) => `$${value}` },
-    { field: 'vat', headerName: 'VAT', renderCell: (value) => `$${value}` },
-    { field: 'tax', headerName: 'Tax', renderCell: (value) => `$${value}` },
-];
+    { field: 'locname', headerName: 'Location Name' },
+    { field: 'address', headerName: 'Adress' },
+   ];
 
 const handleCustomAction = (id) => {
     console.log('Custom action for id:', id);
@@ -28,7 +21,7 @@ const ServicesLocationAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://my-pos.sohabagcluster.com/api/products"
+        apiUrl="http://localhost:5000/api/service-locations/"
         enableSearch={true}
         enableSort={true}
         >
