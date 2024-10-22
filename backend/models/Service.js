@@ -16,7 +16,7 @@ const ServiceSchema = new mongoose.Schema({
     },
     icon: {
         type: String, // Store the path to the uploaded image
-        required: true,
+        required: false,
     }
 });
 

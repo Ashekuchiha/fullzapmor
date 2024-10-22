@@ -147,7 +147,7 @@ import { useNavigate, useParams } from 'react-router-dom'; // Import useParams a
 const validationSchema = yup.object({
   name: yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
   description: yup.string().min(2, 'Too Short!').max(500, 'Too Long!').required('required'),
-  icon: yup.mixed().required('Icon is required'),
+  icon: yup.mixed(),
 });
 
 export default function AddServiceForm() {
@@ -172,8 +172,8 @@ export default function AddServiceForm() {
 
       try {
         const url = id
-          ? `http://localhost:5000/api/services/${id}` // Update service if id exists
-          : 'http://localhost:5000/api/services/'; // Add new service otherwise
+          ? `https://fullzapmor-api.vercel.app/api/services/${id}` // Update service if id exists
+          : 'https://fullzapmor-api.vercel.app/api/services/'; // Add new service otherwise
 
         const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
 
@@ -205,7 +205,7 @@ export default function AddServiceForm() {
   useEffect(() => {
     if (id) {
       setLoading(true);  // Set loading state while fetching data
-      fetch(`http://localhost:5000/api/services/${id}`)
+      fetch(`https://fullzapmor-api.vercel.app/api/services/${id}`)
         .then((response) => response.json())
         .then((data) => {
           formik.setValues({
