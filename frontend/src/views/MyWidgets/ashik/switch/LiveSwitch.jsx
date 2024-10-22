@@ -42,7 +42,7 @@ const LiveSwitch = ({ onSwitchChange, initialChecked }) => {
     setChecked(isChecked);
 
     // Return 1 for true (checked), 0 for false (unchecked)
-    onSwitchChange(isChecked ? 1 : 0);
+    onSwitchChange(isChecked ? true : false);
   };
 
   return (

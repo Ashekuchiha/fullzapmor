@@ -46,6 +46,10 @@ const Router = [
         { path: '/admin/providers/all', element: <ProviderAll /> },
         { path: '/admin/user/all', element: <UserAll /> },
         { path: '/admin/serviceslocation/all', element: <ServicesLocationAll /> },
+
+        //edit
+        {path:'admin/user/all/edit/:id' , element:<AddUserForm/>},
+        {path:'admin/services/all/edit/:id' , element:<AddServiceForm/>},
       ]
     }
   ]

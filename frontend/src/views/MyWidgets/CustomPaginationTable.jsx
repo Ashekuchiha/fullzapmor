@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
+import { useLocation } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import {
     Table, TableBody, TableCell, TableHead, TableRow,
@@ -34,6 +35,7 @@ function ReusablePaginationTable({
     const [dialogLoading, setDialogLoading] = useState(false);
     const [actionMenuAnchorEl, setActionMenuAnchorEl] = useState(null);
     const [currentId, setCurrentId] = useState(null);
+    const location = useLocation();
 
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -52,7 +54,7 @@ function ReusablePaginationTable({
             setLoading(false);
         }
     };
-
+console.log("data find after fetch",data)
     useEffect(() => {
         fetchData(page + 1);
     }, [page, rowsPerPage]);
@@ -187,12 +189,14 @@ function ReusablePaginationTable({
     };
     //ashik e
     const handleEdit = (id) => {
-        navigate(`/edit/${id}`);
+        navigate(`${location.pathname}/edit/${id}`);
+        console.log(id)
     };
 
     const handleDelete = async (id) => {
         setCurrentId(id);
         setOpenDialog(true);
+        console.log(id)
     };
 
     const confirmDeleteSingle = async () => {
@@ -360,9 +364,9 @@ function ReusablePaginationTable({
                                                     <TableCell>Action</TableCell> {/* Action Column */}
                                                 </TableRow>
                                             </TableHead>
-                                            <TableBody>
+                                            <TableBody>{console.log("filteredData",filteredData)}
                                                 {filteredData.map((row) => (
-                                                    <TableRow key={row.id}>
+                                                    <TableRow key={row.id}>{console.log(row)}
                                                         <TableCell padding="checkbox">
                                                             <Checkbox
                                                                 checked={selectedIds.includes(row.id)}
@@ -381,7 +385,7 @@ function ReusablePaginationTable({
                                                                     setCurrentId(row.id);
                                                                     setActionMenuAnchorEl(event.currentTarget);
                                                                 }}
-                                                            >
+                                                            >{console.log(row.id,currentId)}
                                                                 <MoreHoriz />
                                                             </IconButton>
                                                             <Menu
@@ -392,7 +396,7 @@ function ReusablePaginationTable({
                                                                 <MenuItem
                                                                     onClick={() => {
                                                                         setActionMenuAnchorEl(null);
-                                                                        handleEdit(row.id);
+                                                                        handleEdit(currentId);
                                                                     }}
                                                                 >
                                                                     Edit
@@ -400,7 +404,7 @@ function ReusablePaginationTable({
                                                                 <MenuItem
                                                                     onClick={() => {
                                                                         setActionMenuAnchorEl(null);
-                                                                        handleDelete(row.id);
+                                                                        handleDelete(currentId);
                                                                     }}
                                                                 >
                                                                     Delete
