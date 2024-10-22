@@ -83,9 +83,9 @@ exports.createService = async (req, res) => {
     const { name, description, featured } = req.body;
     const icon = req.file ? req.file.path : null; // Assuming file upload middleware like multer
 
-    if (!icon) {
-        return res.status(400).json({ message: 'Icon is required' });
-    }
+    // if (!icon) {
+    //     return res.status(400).json({ message: 'Icon is required' });
+    // }
 
     try {
         const newService = new Service({
