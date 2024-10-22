@@ -1,31 +1,18 @@
-// middleware/uploadMiddleware.js
+// cloudinaryMiddleware.js
 const multer = require('multer');
-const { CloudinaryStorage } = require('multer-storage-cloudinary');
 const cloudinary = require('../config/cloudinaryConfig');
+const { CloudinaryStorage } = require('multer-storage-cloudinary');
 
-// Cloudinary storage configuration for both images and files
+// Configure Cloudinary storage for multer
 const storage = new CloudinaryStorage({
   cloudinary: cloudinary,
-  params: async (req, file) => {
-    let folder = 'uploads'; // Default folder
-    let resource_type = 'auto'; // Can handle all types of files (image, video, raw)
-
-    // Optionally, you can organize uploads into different folders
-    if (file.mimetype.startsWith('image/')) {
-      folder = 'uploads/images';
-    } else {
-      folder = 'uploads/files';
-    }
-
-    return {
-      folder: folder,
-      resource_type: resource_type,
-      allowed_formats: ['jpeg', 'png', 'jpg', 'pdf', 'doc', 'mp4'], // Allow images, docs, and videos
-    };
+  params: {
+    folder: 'uploads', // Cloudinary folder where files will be stored
+    allowed_formats: ['jpg', 'png', 'jpeg', 'gif'], // Allowed file types
   },
 });
 
-// Multer middleware
-const upload = multer({ storage: storage });
+// Multer middleware for handling file upload
+const uploadc = multer({ storage: storage });
 
-module.exports = upload;
+module.exports = uploadc;
