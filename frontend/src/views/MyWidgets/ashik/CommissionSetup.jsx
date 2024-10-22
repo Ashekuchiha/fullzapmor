@@ -25,7 +25,8 @@ export default function CommissionSetup() {
     const fetchServices = async () => {
         try {
             const response = await axios.get('https://fullzapmor-api.vercel.app/api/services');
-            setServices(response.data); // Assuming the data is an array of service objects
+            setServices(response.data.data.data); // Assuming the data is an array of service objects
+            console.log(response.data.data.data)
         } catch (error) {
             console.error('Error fetching services:', error);
         }
@@ -33,6 +34,7 @@ export default function CommissionSetup() {
 
     fetchServices();
 }, []);
+console.log(services)
     const formik = useFormik({
         initialValues: {
             amount:'',
