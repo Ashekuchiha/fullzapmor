@@ -21,7 +21,7 @@ const ServicesLocationAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="http://localhost:5000/api/service-locations/"
+        apiUrl="https://fullzapmor-api.vercel.app/api/service-locations/"
         enableSearch={true}
         enableSort={true}
         >

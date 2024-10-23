@@ -29,7 +29,7 @@ const ProviderAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://my-pos.sohabagcluster.com/api/products"
+        apiUrl="https://fullzapmor-api.vercel.app/api/providers"
         enableSearch={true}
         enableSort={true}
         >

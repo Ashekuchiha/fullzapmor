@@ -28,6 +28,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddStateForm() {
+  const basic = "https://fullzapmor-api.vercel.app";
+  const mainBasic = "http://localhost:5000";
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false); // Loading state for fetching data
@@ -42,8 +44,8 @@ export default function AddStateForm() {
     onSubmit: async (values) => {
       try {
         const url = id
-          ? `http://localhost:5000/api/states/${id}`
-          : `http://localhost:5000/api/states`;
+          ? `${basic}/api/states/${id}`
+          : `${basic}/api/states`;
         const method = id ? 'PUT' : 'POST';
 
         // Send JSON instead of FormData
@@ -80,7 +82,7 @@ export default function AddStateForm() {
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
-      fetch(`http://localhost:5000/api/states/${id}`)
+      fetch(`${basic}/api/states/${id}`)
         .then((response) => response.json())
         .then((data) => {console.log("fetchdata",data)
           formik.setValues({

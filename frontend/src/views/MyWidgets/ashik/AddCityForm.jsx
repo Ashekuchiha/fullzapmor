@@ -35,6 +35,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddCityForm() {
+  const basic = "https://fullzapmor-api.vercel.app";
+  const mainBasic = "http://localhost:5000";
     const [StateNames, setStateNames] = useState([]);
 
   const navigate = useNavigate();
@@ -52,8 +54,8 @@ export default function AddCityForm() {
     onSubmit: async (values) => {
       try {
         const url = id
-          ? `http://localhost:5000/api/cities/${id}`
-          : `http://localhost:5000/api/cities`;
+          ? `${basic}/api/cities/${id}`
+          : `${basic}/api/cities`;
         const method = id ? 'PUT' : 'POST';
 
         // Send JSON instead of FormData
@@ -91,7 +93,7 @@ export default function AddCityForm() {
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
-      fetch(`http://localhost:5000/api/cities/${id}`)
+      fetch(`${basic}/api/cities/${id}`)
         .then((response) => response.json())
         .then((data) => {console.log("fetchdata",data)
           formik.setValues({
@@ -113,7 +115,7 @@ export default function AddCityForm() {
     // Fetch the service options from the API
     const fetchStateName = async () => {
         try {
-            const response = await axios.get('http://localhost:5000/api/states/all');
+            const response = await axios.get(`${basic}/api/states/all`);
             setStateNames(response.data.data.data); // Assuming the data is an array of service objects
             console.log(response)
         } catch (error) {

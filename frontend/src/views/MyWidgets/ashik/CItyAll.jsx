@@ -23,7 +23,7 @@ const ServicesLocationAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="http://localhost:5000/api/cities"
+        apiUrl="https://fullzapmor-api.vercel.app/api/cities"
         enableSearch={true}
         enableSort={true}
         >
@@ -34,7 +34,7 @@ const ServicesLocationAll = () => (
                 to= '/admin/addCityform'
                 type="submit"
             >
-                Add State
+                Add City
             </Button>
         </ReusablePaginationTable>
     </div>

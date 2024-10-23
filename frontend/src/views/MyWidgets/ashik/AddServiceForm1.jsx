@@ -17,7 +17,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddServiceForm() {
-
+    const basic = "https://fullzapmor-api.vercel.app";
+    const mainBasic = "http://localhost:5000";
     const formik = useFormik({
         initialValues: {
             name:'',
@@ -34,7 +35,7 @@ export default function AddServiceForm() {
         onSubmit: async (values) => {
             console.log(JSON.stringify(values));
             try {
-              const response = await fetch('http://127.0.0.1:8000/api/services', {
+              const response = await fetch(`${basic}/api/services`, {
                 method: 'POST',
                 headers: {
                   'Content-Type': 'application/json',

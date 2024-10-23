@@ -12,6 +12,7 @@ import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
 import MyCheckBox from './checkbox/MyCheckBox.jsx';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import { useNavigate } from 'react-router';
 
 const validationSchema = yup.object({
     name: yup.string().required('Name is required'),
@@ -23,10 +24,13 @@ const validationSchema = yup.object({
     email: yup.string().email('Enter a valid email').required('Email is required'),
     password: yup.string().min(6, 'Password must be at least 6 characters long').required('Password is required'),
     status: yup.string().required('Status is required'),
-    certificate: yup.mixed().required('Certificate is required'),
-    profileImage: yup.mixed().required('Profile image is required'),
+    certificate: yup.mixed(),
+    profileImage: yup.mixed(),
   });
 export default function AddProviderForm() {
+    const basic = "https://fullzapmor-api.vercel.app";
+    const mainBasic = "http://localhost:5000";
+    const navigate = useNavigate();
 
     const formik = useFormik({
         initialValues: {
@@ -68,7 +72,7 @@ export default function AddProviderForm() {
             console.log('form == ',formData)
 
             try {
-                const response = await fetch('http://localhost:5000/api/services-providers', {
+                const response = await fetch(`${basic}/api/services-providers`, {
                   method: 'POST',
                   headers:{
                     'Accept':'application/json'
@@ -82,6 +86,7 @@ export default function AddProviderForm() {
                 const data = await response.json();
                 console.log('Success:', data);
                 alert('Form submitted successfully!');
+                navigate(`/admin/providers/all`);
               } catch (error) {
                 console.error('Error:', error);
                 alert('Failed to submit the form.');

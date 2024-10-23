@@ -10,6 +10,7 @@ import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
+import { useNavigate } from 'react-router';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -22,7 +23,9 @@ const validationSchema = yup.object({
 });
 
 export default function AddUserForm() {
-
+  const basic = "https://fullzapmor-api.vercel.app";
+  const mainBasic = "http://localhost:5000";
+  const navigate = useNavigate();
     const formik = useFormik({
         initialValues: {
             name: '',
@@ -45,7 +48,7 @@ export default function AddUserForm() {
           formData.append('profile', values.profile);
           formData.append('password', values.password);
           try {
-            const response = await fetch('https://fullzapmor-api.vercel.app/api/appusers', {
+            const response = await fetch(`${basic}/api/appusers`, {
               method: 'POST',
               headers:{
                 'Accept':'application/json'
@@ -58,6 +61,7 @@ export default function AddUserForm() {
             const data = await response.json();
             console.log('Success:', data);
             alert('Form submitted successfully!');
+            navigate(`/admin/user/all`);
           } catch (error) {
             console.error('Error:', error);
             alert('Failed to submit the form.');

@@ -30,6 +30,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddServicesLocationForm() {
+  const basic = "https://fullzapmor-api.vercel.app";
+  const mainBasic = "http://localhost:5000";
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false); // Loading state for fetching data
@@ -44,8 +46,8 @@ export default function AddServicesLocationForm() {
     onSubmit: async (values) => {
       try {
         const url = id
-          ? `https://fullzapmor-api.vercel.app/api/service-locations/${id}`
-          : 'https://fullzapmor-api.vercel.app/api/service-locations/';
+          ? `${basic}/api/service-locations/${id}`
+          : `${basic}/api/service-locations/`;
         const method = id ? 'PUT' : 'POST';
 
         // Send JSON instead of FormData
@@ -82,7 +84,7 @@ export default function AddServicesLocationForm() {
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
-      fetch(`http://localhost:5000/api/service-locations/${id}`)
+      fetch(`${basic}/api/service-locations/${id}`)
         .then((response) => response.json())
         .then((data) => {console.log("fetchdata",data)
           formik.setValues({

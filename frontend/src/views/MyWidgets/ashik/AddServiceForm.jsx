@@ -18,6 +18,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddServiceForm() {
+  const basic = "https://fullzapmor-api.vercel.app";
+  const mainBasic = "http://localhost:5000";
   const navigate = useNavigate(); // Initialize useNavigate
   const { id } = useParams();  // Get id from URL (if available)
   const [loading, setLoading] = useState(false);  // Add loading state for fetching data
@@ -39,8 +41,8 @@ export default function AddServiceForm() {
 
       try {
         const url = id
-          ? `https://fullzapmor-api.vercel.app/api/services/${id}` // Update service if id exists
-          : 'https://fullzapmor-api.vercel.app/api/services/'; // Add new service otherwise
+          ? `${basic}/api/services/${id}` // Update service if id exists
+          : `${basic}/api/services`; // Add new service otherwise
 
         const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
 
@@ -72,7 +74,7 @@ export default function AddServiceForm() {
   useEffect(() => {
     if (id) {
       setLoading(true);  // Set loading state while fetching data
-      fetch(`https://fullzapmor-api.vercel.app/api/services/${id}`)
+      fetch(`${basic}/api/services/${id}`)
         .then((response) => response.json())
         .then((data) => {
           formik.setValues({

@@ -1,4 +1,5 @@
 const City = require('../models/cities');
+const mongoose = require('mongoose'); 
 
 // Get all cities
 // exports.getAllCities = async (req, res) => {
@@ -108,12 +109,51 @@ exports.updateCity = async (req, res) => {
 // Delete a city by ID
 exports.deleteCity = async (req, res) => {
     try {
-        const city = await City.findById(req.params.id);
+        const city = await City.findByIdAndDelete(req.params.id);
         if (!city) return res.status(404).json({ message: 'City not found' });
-
-        await city.remove();
-        res.json({ message: 'City deleted' });
+        res.status(200).json({ message: 'City deleted' });
     } catch (err) {
         res.status(500).json({ message: err.message });
+    }
+};
+
+//Delet multiple services by ID
+
+exports.deleteMultipleCitys = async (req, res) => {
+    try {
+        const { ids } = req.body; // Expecting an array of service IDs in the request body
+
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ success: false, error: 'No service IDs provided' });
+        }
+
+        // Validate that each id is a valid ObjectId
+        const validIds = ids.filter(id => mongoose.Types.ObjectId.isValid(id));
+        if (validIds.length !== ids.length) {
+            return res.status(400).json({ success: false, error: 'One or more IDs are invalid' });
+        }
+
+        // Find the services to get the icon file paths before deletion
+        const Citys = await City.find({ _id: { $in: validIds } });
+        
+        // Delete the associated icon files
+        Citys.forEach(City => {
+            if (City.icon) {
+                const iconPath = path.join(__dirname, '..', City.icon);
+                fs.unlink(iconPath, (err) => {
+                    if (err) console.log(`Error deleting icon file for City ${City._id}:`, err);
+                });
+            }
+        });
+
+        // Delete Citys by their IDs
+        const result = await City.deleteMany({ _id: { $in: validIds } });
+
+        res.status(200).json({
+            success: true,
+            message: `${result.deletedCount} Citys deleted successfully`
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 };
