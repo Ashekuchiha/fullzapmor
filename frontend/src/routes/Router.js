@@ -8,6 +8,8 @@ import AddServiceForm from "../views/MyWidgets/ashik/AddServiceForm";
 import AddProviderForm from "src/views/MyWidgets/ashik/AddProviderForm";
 import AddUserForm from "src/views/MyWidgets/ashik/AddUserForm";
 import AddServicesLocationForm from "src/views/MyWidgets/ashik/AddServicesLocationForm";
+import StateAll from "src/views/MyWidgets/ashik/StateAll"
+import CityAll from "src/views/MyWidgets/ashik/CItyAll"
 
 import  ServiceCategory from  "../views/MyWidgets/ashik/ServiceCategory"
 //formm end
@@ -18,6 +20,8 @@ import CommissionSetup from "src/views/MyWidgets/ashik/CommissionSetup";
 import ProviderAll from "src/views/MyWidgets/ashik/ProviderAll";
 import UserAll from "src/views/MyWidgets/ashik/UserAlll";
 import ServicesLocationAll from "src/views/MyWidgets/ashik/ServicesLocationAll";
+import AddStateForm from "src/views/MyWidgets/ashik/AddStateForm";
+import AddCityForm from "src/views/MyWidgets/ashik/AddCityForm";
 //page end
 
 const FullLayout = Loadable(lazy(() => import('../layouts/full/FullLayout')));
@@ -38,6 +42,8 @@ const Router = [
         { path: '/admin/adduserform', element: <AddUserForm /> },
         { path: '/admin/adduserform', element: <AddUserForm /> },
         { path: '/admin/addserviceslocationform', element: <AddServicesLocationForm /> },
+        { path: '/admin/addStateform', element: <AddStateForm /> },
+        { path: '/admin/addCityform', element: <AddCityForm /> },
 
         //page
         { path: '/admin/home', element: <Home /> },
@@ -46,11 +52,15 @@ const Router = [
         { path: '/admin/providers/all', element: <ProviderAll /> },
         { path: '/admin/user/all', element: <UserAll /> },
         { path: '/admin/serviceslocation/all', element: <ServicesLocationAll /> },
+        { path: '/admin/location/state/all', element: <StateAll /> },
+        { path: '/admin/location/city/all', element: <CityAll /> },
 
         //edit
         {path:'admin/user/all/edit/:id' , element:<AddUserForm/>},
         {path:'admin/services/all/edit/:id' , element:<AddServiceForm/>},
         {path:'admin/serviceslocation/all/edit/:id' , element:<AddServicesLocationForm/>},
+        {path:'admin/location/state/all/edit/:id' , element:<AddStateForm/>},
+        {path:'admin/location/city/all/edit/:id' , element:<AddCityForm/>},
       ]
     }
   ]

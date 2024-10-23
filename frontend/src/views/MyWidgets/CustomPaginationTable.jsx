@@ -19,7 +19,7 @@ import 'jspdf-autotable';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
 
 function ReusablePaginationTable({
-    children,columns, apiUrl, rowsPerPageOptions = [5, 10, 25], defaultRowsPerPage = 5,
+    children,columns, apiUrl, rowsPerPageOptions = [10, 15, 25], defaultRowsPerPage = 20,
     title, enableSearch = true, enableSort = true, bulkActions = []
 }) {
     const [page, setPage] = useState(0);

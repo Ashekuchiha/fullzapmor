@@ -11,6 +11,8 @@ const serviceProviderRoutes = require('./routes/serviceProviderRoutes');
 const appUserRoutes = require('./routes/appuserRoutes');
 const commissionSetupRoutes = require('./routes/commissionSetupRoutes');
 const serviceLocationRoutes = require('./routes/serviceLocationRoutes');
+const stateRoutes = require('./routes/stateRoutes')
+const citiesRoutes = require('./routes/citiesRoutes')
 
 const errorHandler = require('./middlewares/errorHandler');
 const path = require('path');
@@ -44,6 +46,8 @@ app.use('/api/services-providers', serviceProviderRoutes);
 app.use('/api/appusers', appUserRoutes);
 app.use('/api/commission-setups', commissionSetupRoutes);
 app.use('/api/service-locations', serviceLocationRoutes);
+app.use('/api/states', stateRoutes);
+app.use('/api/cities', citiesRoutes);
 
 // Global error handling middleware
 app.use(errorHandler);

@@ -12,40 +12,38 @@ import { useNavigate, useParams } from 'react-router';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
-  locname: yup
+  StateName: yup
     .string()
     .min(2, 'Too Short!')
     .max(80, 'Too Long!')
     .required('Location name is required'),
-  address: yup
+  longitude: yup
     .string()
     .min(2, 'Too Short!')
-    .max(500, 'Too Long!')
-    .required('Address is required'),
-  location: yup
-    .array()
-    .of(yup.number().required('Coordinates are required'))
-    .length(2, 'Location must include both latitude and longitude')
-    .required('Location is required'),
+    .max(500, 'Too Long!'),
+  latitude: yup
+    .string()
+    .min(2, 'Too Short!')
+    .max(500, 'Too Long!'),
 });
 
-export default function AddServicesLocationForm() {
+export default function AddStateForm() {
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false); // Loading state for fetching data
 
   const formik = useFormik({
     initialValues: {
-      locname: '',
-      location: [], // Expecting [latitude, longitude]
-      address: '',
+      StateName: '',
+      longitude: '',
+      latitude:'',
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       try {
         const url = id
-          ? `https://fullzapmor-api.vercel.app/api/service-locations/${id}`
-          : 'https://fullzapmor-api.vercel.app/api/service-locations/';
+          ? `http://localhost:5000/api/states/${id}`
+          : `http://localhost:5000/api/states`;
         const method = id ? 'PUT' : 'POST';
 
         // Send JSON instead of FormData
@@ -56,9 +54,9 @@ export default function AddServicesLocationForm() {
             'Content-Type': 'application/json', // Set Content-Type to JSON
           },
           body: JSON.stringify({
-            locname: values.locname,
-            location: values.location, // Assuming it's an array of [latitude, longitude]
-            address: values.address,
+            StateName: values.StateName,
+            latitude: values.latitude, // Assuming it's an array of [latitude, longitude]
+            longitude: values.longitude,
           }),
         });
 
@@ -70,7 +68,7 @@ export default function AddServicesLocationForm() {
         console.log('Success:', data);
         alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
         formik.resetForm(); // Reset form after successful submission
-        navigate(`/admin/serviceslocation/all`);
+        navigate(`/admin/location/state/all`);
       } catch (error) {
         console.error('Error:', error);
         alert('Failed to submit the form.');
@@ -82,13 +80,13 @@ export default function AddServicesLocationForm() {
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
-      fetch(`http://localhost:5000/api/service-locations/${id}`)
+      fetch(`http://localhost:5000/api/states/${id}`)
         .then((response) => response.json())
         .then((data) => {console.log("fetchdata",data)
           formik.setValues({
-            locname: data.locname || '',
-            location: data.location || [],
-            address: data.address || '',
+            StateName: data.StateName || '',
+            latitude: data.latitude || '',
+            longitude: data.longitude || '',
           });
           setLoading(false);
         })
@@ -112,32 +110,37 @@ export default function AddServicesLocationForm() {
                 <CustomFormLabel>Location Name</CustomFormLabel>
                 <CustomTextField
                   fullWidth
-                  id="locname"
-                  name="locname"
-                  value={formik.values.locname}
+                  id="StateName"
+                  name="StateName"
+                  value={formik.values.StateName}
                   onChange={formik.handleChange}
-                  error={formik.touched.locname && Boolean(formik.errors.locname)}
-                  helperText={formik.touched.locname && formik.errors.locname}
+                  error={formik.touched.StateName && Boolean(formik.errors.StateName)}
+                  helperText={formik.touched.StateName && formik.errors.StateName}
                 />
               </Grid>
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Address</CustomFormLabel>
+                <CustomFormLabel>longitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth
-                  id="address"
-                  name="address"
-                  value={formik.values.address}
+                  id="longitude"
+                  name="longitude"
+                  value={formik.values.longitude}
                   onChange={formik.handleChange}
-                  error={formik.touched.address && Boolean(formik.errors.address)}
-                  helperText={formik.touched.address && formik.errors.address}
+                  error={formik.touched.longitude && Boolean(formik.errors.longitude)}
+                  helperText={formik.touched.longitude && formik.errors.longitude}
                 />
               </Grid>
               <Grid item xs={12}>
-                <CustomFormLabel>Location</CustomFormLabel>
-                <LocationInput setFieldValue={formik.setFieldValue} />
-                {formik.touched.location && formik.errors.location && (
-                  <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.location}</div>
-                )}
+                <CustomFormLabel>Latitude</CustomFormLabel>
+                <CustomTextField
+                  fullWidth
+                  id="latitude"
+                  name="latitude"
+                  value={formik.values.latitude}
+                  onChange={formik.handleChange}
+                  error={formik.touched.latitude && Boolean(formik.errors.latitude)}
+                  helperText={formik.touched.latitude && formik.errors.latitude}
+                />
               </Grid>
             </Grid>
             <Button color="primary" variant="contained" type="submit" disabled={formik.isSubmitting}>

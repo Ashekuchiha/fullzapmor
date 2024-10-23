@@ -69,6 +69,42 @@ const Menuitems = [
       href: '/admin/commissionsetup',
     },
     {
+      id:uniqueId(),
+      title:'Location',
+      icon: MiscellaneousServices,
+      href: '/admin/location/',
+      children :[
+        {
+          id: uniqueId(),
+          title: 'State',
+          icon: MiscellaneousServices,
+          href: '/admin/location/state/',
+          children:[
+            {
+              id: uniqueId(),
+              title: 'All',
+              icon: MiscellaneousServices,
+              href: '/admin/location/state/all',
+            },
+          ]
+        },
+        {
+          id: uniqueId(),
+          title: 'City',
+          icon: MiscellaneousServices,
+          href: '/admin/location/city/',
+          children:[
+            {
+              id: uniqueId(),
+              title: 'all',
+              icon: MiscellaneousServices,
+              href: '/admin/location/city/all',
+            },
+          ]
+        },
+      ]
+    },
+    {
       id: uniqueId(),
       title: 'Services Location',
       icon: MiscellaneousServices,

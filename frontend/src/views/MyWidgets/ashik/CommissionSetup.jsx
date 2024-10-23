@@ -34,7 +34,6 @@ export default function CommissionSetup() {
 
     fetchServices();
 }, []);
-console.log(services)
     const formik = useFormik({
         initialValues: {
             amount:'',
