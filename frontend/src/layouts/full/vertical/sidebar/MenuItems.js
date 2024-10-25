@@ -78,29 +78,13 @@ const Menuitems = [
           id: uniqueId(),
           title: 'State',
           icon: MiscellaneousServices,
-          href: '/admin/location/state/',
-          children:[
-            {
-              id: uniqueId(),
-              title: 'All',
-              icon: MiscellaneousServices,
-              href: '/admin/location/state/all',
-            },
-          ]
+          href: '/admin/location/state/all',
         },
         {
           id: uniqueId(),
           title: 'City',
           icon: MiscellaneousServices,
-          href: '/admin/location/city/',
-          children:[
-            {
-              id: uniqueId(),
-              title: 'all',
-              icon: MiscellaneousServices,
-              href: '/admin/location/city/all',
-            },
-          ]
+          href: '/admin/location/city/all',
         },
       ]
     },

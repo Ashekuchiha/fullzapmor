@@ -44,7 +44,7 @@ export default function CommissionSetup() {
         onSubmit: async (values) => {
 
             try {
-                const response = await fetch('http://localhost:5000/api/commission-setups', {
+                const response = await fetch('https://fullzapmor-api.vercel.app/api/commission-setups', {
                   method: 'POST',
                   headers: {
                     'Content-Type': 'application/json',

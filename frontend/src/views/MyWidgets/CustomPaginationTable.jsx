@@ -5,7 +5,8 @@ import {
     Table, TableBody, TableCell, TableHead, TableRow,
     TablePagination, IconButton, InputBase, Paper, Box,
     Stack, Typography, Button, Checkbox, Menu, MenuItem,
-    useMediaQuery, useTheme, MenuButton
+    useMediaQuery, useTheme, MenuButton,
+    Avatar
 } from '@mui/material';
 import { Search as SearchIcon, Download as DownloadIcon, Delete as DeleteIcon, Edit as EditIcon, MoreHoriz } from '@mui/icons-material';
 import axios from 'axios';
@@ -17,6 +18,8 @@ import * as XLSX from 'xlsx';
 import jsPDF from 'jspdf';
 import 'jspdf-autotable';
 import { Link, useNavigate } from 'react-router-dom'; // Import useNavigate
+
+import defaultImage from './bus.png';
 
 function ReusablePaginationTable({
     children,columns, apiUrl, rowsPerPageOptions = [10, 15, 25], defaultRowsPerPage = 20,
@@ -36,7 +39,6 @@ function ReusablePaginationTable({
     const [actionMenuAnchorEl, setActionMenuAnchorEl] = useState(null);
     const [currentId, setCurrentId] = useState(null);
     const location = useLocation();
-
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
     const navigate = useNavigate(); // Initialize useNavigate
@@ -236,7 +238,6 @@ console.log("data find after fetch",data)
     }, [data, searchTerm, sortConfig, enableSearch, enableSort]);
 
     const showExportOptions = selectedIds.length > 0;
-
     return (
         <>
             <ParentCard title={title}>
@@ -366,7 +367,7 @@ console.log("data find after fetch",data)
                                             </TableHead>
                                             <TableBody>{console.log("filteredData",filteredData)}
                                                 {filteredData.map((row) => (
-                                                    <TableRow key={row.id}>{console.log(row)}
+                                                    <TableRow key={row.id}>
                                                         <TableCell padding="checkbox">
                                                             <Checkbox
                                                                 checked={selectedIds.includes(row.id)}
@@ -374,7 +375,16 @@ console.log("data find after fetch",data)
                                                             />
                                                         </TableCell>
                                                         {columns.map((column) => (
+                                                            column.field === 'icon' ? 
+                                                            <Avatar src= {defaultImage} alt='bus.png' width="35"  sx={{ marginTop: 2}}/> 
+                                                            // <img 
+                                                            //     src={ defaultImage} 
+                                                            //     alt='no' 
+                                                            //     width="35" 
+                                                            // />
+                                                            : 
                                                             <TableCell key={column.field}>
+                                                                {console.log('cc',column.field)}
                                                                 {column.renderCell ? column.renderCell(row[column.field], row) : row[column.field]}
                                                             </TableCell>
                                                         ))}

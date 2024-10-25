@@ -147,8 +147,6 @@ exports.getAppUsers = async (req, res) => {
     }
 };
 
-
-
 // Get a single app user by ID
 exports.getAppUserById = async (req, res) => {
     try {

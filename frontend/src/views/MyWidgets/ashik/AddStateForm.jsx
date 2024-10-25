@@ -100,14 +100,14 @@ export default function AddStateForm() {
   }, [id]); // Fetch data on mount if there's an ID
 
   return (
-    <PageContainer title="Service" description="This is the Custom Form page">
-      <Breadcrumb title={id ? 'Edit location' : 'Add location'} subtitle="" />
-      <ParentCard title={id ? 'Edit the Following Form' : 'Fill up the Following Form'}>
+    <PageContainer title="State Location" description="This is the Custom Form page">
+      <Breadcrumb title={id ? 'Edit state location' : 'Add state location'} subtitle="" />
+      <ParentCard title={id ? 'Edit the state Form' : 'Fill up the state Form'}>
         {loading ? (
           <div>Loading...</div>
         ) : (
           <form onSubmit={formik.handleSubmit}>
-            <Grid container spacing={2} mb={3}>
+            <Grid container spacing={2}>
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Location Name</CustomFormLabel>
                 <CustomTextField
@@ -120,6 +120,8 @@ export default function AddStateForm() {
                   helperText={formik.touched.StateName && formik.errors.StateName}
                 />
               </Grid>
+            </Grid>
+              <Grid container spacing={2} mb={3}>
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>longitude</CustomFormLabel>
                 <CustomTextField
@@ -132,7 +134,7 @@ export default function AddStateForm() {
                   helperText={formik.touched.longitude && formik.errors.longitude}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Latitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth
@@ -144,7 +146,7 @@ export default function AddStateForm() {
                   helperText={formik.touched.latitude && formik.errors.latitude}
                 />
               </Grid>
-            </Grid>
+              </Grid>
             <Button color="primary" variant="contained" type="submit" disabled={formik.isSubmitting}>
               {formik.isSubmitting ? 'Submitting...' : id ? 'Update' : 'Submit'}
             </Button>

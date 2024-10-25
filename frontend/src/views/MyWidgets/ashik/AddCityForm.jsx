@@ -127,14 +127,26 @@ export default function AddCityForm() {
 }, []);
 
   return (
-    <PageContainer title="Service" description="This is the Custom Form page">
-      <Breadcrumb title={id ? 'Edit location' : 'Add location'} subtitle="" />
-      <ParentCard title={id ? 'Edit the Following Form' : 'Fill up the Following Form'}>
+    <PageContainer title="City Location" description="This is the Custom Form page">
+      <Breadcrumb title={id ? 'Edit city location' : 'Add city location'} subtitle="" />
+      <ParentCard title={id ? 'Edit the city location form' : 'Fill up the city location Form'}>
         {loading ? (
           <div>Loading...</div>
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2} mb={3}>
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>City Name</CustomFormLabel>
+                <CustomTextField
+                  fullWidth
+                  id="cityName"
+                  name="cityName"
+                  value={formik.values.cityName}
+                  onChange={formik.handleChange}
+                  error={formik.touched.cityName && Boolean(formik.errors.cityName)}
+                  helperText={formik.touched.cityName && formik.errors.cityName}
+                />
+              </Grid>
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>State Name</CustomFormLabel>
                 <CustomSelect
@@ -159,18 +171,6 @@ export default function AddCityForm() {
                     )}
               </Grid>
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>City Name</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  id="cityName"
-                  name="cityName"
-                  value={formik.values.cityName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.cityName && Boolean(formik.errors.cityName)}
-                  helperText={formik.touched.cityName && formik.errors.cityName}
-                />
-              </Grid>
-              <Grid item xs={12} lg={6}>
                 <CustomFormLabel>longitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth
@@ -182,7 +182,7 @@ export default function AddCityForm() {
                   helperText={formik.touched.longitude && formik.errors.longitude}
                 />
               </Grid>
-              <Grid item xs={12}>
+              <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Latitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth

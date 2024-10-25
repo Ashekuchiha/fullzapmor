@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import PageContainer from 'src/components/container/PageContainer'
 import ParentCard from 'src/components/shared/ParentCard'
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb'
@@ -10,7 +10,7 @@ import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -26,7 +26,10 @@ export default function AddUserForm() {
   const basic = "https://fullzapmor-api.vercel.app";
   const mainBasic = "http://localhost:5000";
   const navigate = useNavigate();
-    const formik = useFormik({
+  const {id} = useParams();
+  const [loading,setLoading] = useState(false);
+
+    const formik = useFormik({ 
         initialValues: {
             name: '',
             email: '',
@@ -37,9 +40,6 @@ export default function AddUserForm() {
           },
         validationSchema: validationSchema,
         onSubmit: async(values) => {
-          // alert(JSON.stringify(values, null, 2));
-          console.log("values",values)
-
           const formData = new FormData();
           formData.append('name', values.name);
           formData.append('email', values.email);
@@ -48,8 +48,10 @@ export default function AddUserForm() {
           formData.append('profile', values.profile);
           formData.append('password', values.password);
           try {
-            const response = await fetch(`${basic}/api/appusers`, {
-              method: 'POST',
+          const url = id ? `${basic}/api/appusers/${id}`:`${basic}/api/appusers`;
+          const method = id ? `PUT` : `POST`;
+            const response = await fetch(url, {
+              method: method,
               headers:{
                 'Accept':'application/json'
               },
@@ -60,7 +62,7 @@ export default function AddUserForm() {
             }
             const data = await response.json();
             console.log('Success:', data);
-            alert('Form submitted successfully!');
+            alert(id?`form updated successfully`:'Form submitted successfully!');
             navigate(`/admin/user/all`);
           } catch (error) {
             console.error('Error:', error);
@@ -69,11 +71,37 @@ export default function AddUserForm() {
         },
       });
 
+     useEffect(() => {
+    if (id) {
+      setLoading(true); // Loading while fetching data
+      fetch(`${basic}/api/appusers/${id}`)
+        .then((response) => response.json())
+        .then((data) =>{
+          formik.setValues({
+            name: data.name || '',
+            email: data.email || '',
+            phone: data.phone || '',
+            address: data.address || '',
+            profile: data.profile || '',
+            password: data.password || '',
+          });
+          setLoading(false);
+        })
+        .catch((error) => {
+          console.error('Error fetching data:', error);
+          setLoading(false);
+        });
+    }
+  }, [id]);
+
   return (
     <PageContainer title="Service" description="this is Custom Form page">
-        <Breadcrumb title="Service" subtitle="" />
-        <ParentCard title="Fill up the Following from">
-        <form onSubmit={formik.handleSubmit}>
+        <Breadcrumb title={id ? 'Edit User' : 'Addd User'} subtitle="" />
+        <ParentCard title={id ? 'Edit the following form':'Fill up the following form'}>
+        {loading ? (
+          <div>Loading...</div>  
+        ) : (
+           <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} mb={3}>
                     <Grid container spacing={2} mb={3}>
                         <Grid item xs={12} sm={12} lg={6} order={{ xs: 1, lg: 1 }}>
@@ -157,8 +185,10 @@ export default function AddUserForm() {
                     </Grid>
                 </Grid>
                 <Button color="primary" variant="contained" type="submit" disabled={formik.isSubmitting}>
-            {formik.isSubmitting ? 'Submitting...' : 'Submit'}
-          </Button>            </form>
+              {formik.isSubmitting ? 'Submitting...' : id ? 'Update' : 'Submit'}  {/* Dynamic button label */}
+            </Button>
+          </form>
+        )}
         </ParentCard>
     </PageContainer>
   )
