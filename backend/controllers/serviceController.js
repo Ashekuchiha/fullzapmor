@@ -29,7 +29,7 @@ exports.getAllServices = async (req, res) => {
             id: service._id,
             name: service.name,
             description: service.description,
-            featured: service.featured === true ? 'ON': 'OFF',
+            featured: service.featured === true ? 'Yes': 'No',
             icon: service.icon,
             createdAt: service.createdAt,
             updatedAt: service.updatedAt

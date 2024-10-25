@@ -62,12 +62,12 @@ const Menuitems = [
         },
       ]
     },
-    {
-      id: uniqueId(),
-      title: 'Commission Setup',
-      icon: MiscellaneousServices,
-      href: '/admin/commissionsetup',
-    },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Commission Setup',
+    //   icon: MiscellaneousServices,
+    //   href: '/admin/commissionsetup',
+    // },
     {
       id:uniqueId(),
       title:'Location',
@@ -90,7 +90,7 @@ const Menuitems = [
     },
     {
       id: uniqueId(),
-      title: 'Services Location',
+      title: 'Services Organization',
       icon: MiscellaneousServices,
       href: '/admin/serviceslocation/',
       children :[

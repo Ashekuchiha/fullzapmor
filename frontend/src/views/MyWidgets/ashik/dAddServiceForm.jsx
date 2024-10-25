@@ -5,17 +5,16 @@ import ParentCard from 'src/components/shared/ParentCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Box, Button, FormHelperText, Grid, MenuItem } from '@mui/material';
+import { Box, Button, Grid } from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import LiveSwitch from './switch/LiveSwitch';
 import { useNavigate, useParams } from 'react-router-dom'; // Import useParams and useNavigate
 import CommissionSetup from './CommissionSetup';
-import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 const validationSchema = yup.object({
   name: yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
-  amount:yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
   description: yup.string().min(2, 'Too Short!').max(500, 'Too Long!').required('required'),
+  icon: yup.mixed(),
 });
 
 export default function AddServiceForm() {
@@ -31,51 +30,43 @@ export default function AddServiceForm() {
       description: '',
       icon: null,
       featured: false,
-      status:false,
-      amount:'',
-      type:"",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append('name', values.name);
+      formData.append('description', values.description);
       formData.append('icon', values.icon);
       formData.append('featured', values.featured);
-      formData.append('status', values.status);
-      formData.append('amount', values.amount);
-      formData.append('type', values.type);
-      formData.append('description', values.description);
-      alert(JSON.stringify(values),)
-      console.log(JSON.stringify(values))
-      navigate(`/admin/services/all`);
-      // try {
-      //   const url = id
-      //     ? `${basic}/api/services/${id}` // Update service if id exists
-      //     : `${basic}/api/services`; // Add new service otherwise
 
-      //   const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
+      try {
+        const url = id
+          ? `${basic}/api/services/${id}` // Update service if id exists
+          : `${basic}/api/services`; // Add new service otherwise
 
-      //   const response = await fetch(url, {
-      //     method: method,
-      //     headers: {
-      //       Accept: 'application/json',
-      //     },
-      //     body: formData, // Let the browser handle the multipart/form-data
-      //   });
+        const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
 
-      //   if (!response.ok) {
-      //     throw new Error('Failed to submit form');
-      //   }
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            Accept: 'application/json',
+          },
+          body: formData, // Let the browser handle the multipart/form-data
+        });
 
-      //   const data = await response.json();
-      //   console.log('Success:', data);
-      //   alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
-      //   formik.resetForm(); // Reset form after successful submission
-      //   navigate(`/admin/services/all`);
-      // } catch (error) {
-      //   console.error('Error:', error);
-      //   alert('Failed to submit the form.');
-      // }
+        if (!response.ok) {
+          throw new Error('Failed to submit form');
+        }
+
+        const data = await response.json();
+        console.log('Success:', data);
+        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        formik.resetForm(); // Reset form after successful submission
+        navigate(`/admin/services/all`);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to submit the form.');
+      }
     },
   });
 
@@ -123,6 +114,20 @@ export default function AddServiceForm() {
                     helperText={formik.touched.name && formik.errors.name}
                   />
                 </Grid>
+
+                <Grid item xs={12} sm={12} lg={6}>
+                  <CustomFormLabel>Description</CustomFormLabel>
+                  <CustomTextField
+                    fullWidth
+                    id="description"
+                    name="description"
+                    value={formik.values.description}
+                    onChange={formik.handleChange}
+                    error={formik.touched.description && Boolean(formik.errors.description)}
+                    helperText={formik.touched.description && formik.errors.description}
+                  />
+                </Grid>
+
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Icon</CustomFormLabel>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
@@ -148,61 +153,12 @@ export default function AddServiceForm() {
                     <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.icon}</div>
                   )}
                 </Grid>
+
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Featured</CustomFormLabel>
                   <LiveSwitch
                     initialChecked={formik.values.featured}
                     onSwitchChange={(value) => formik.setFieldValue('featured', value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
-                  <CustomFormLabel>Status</CustomFormLabel>
-                  <LiveSwitch
-                    initialChecked={formik.values.status}
-                    onSwitchChange={(value) => formik.setFieldValue('status', value)}
-                  />
-                </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
-                            <CustomFormLabel>amount</CustomFormLabel>
-                            <CustomTextField
-                            fullWidth
-                            id="amount"
-                            name="amount"
-                            value={formik.values.amount}
-                            onChange={formik.handleChange}
-                            error={formik.touched.amount && Boolean(formik.errors.amount)}
-                            helperText={formik.touched.amount && formik.errors.amount}
-                            />
-                </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel>type</CustomFormLabel>
-                    <CustomSelect
-                    labelId="gender-select"
-                    id="type" 
-                    name="type"
-                    value={formik.values.type}
-                    onChange={formik.handleChange}
-                    >
-                    <MenuItem value='percent'>Percent</MenuItem>
-                    <MenuItem value='flat'>Flat</MenuItem>
-                    </CustomSelect>
-                    {formik.errors.type && (
-                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                            {' '}
-                            {formik.errors.type}{' '}
-                        </FormHelperText>
-                    )}
-                </Grid>
-                <Grid item xs={12} sm={12} lg={12}>
-                  <CustomFormLabel>Description</CustomFormLabel>
-                  <CustomTextField
-                    fullWidth
-                    id="description"
-                    name="description"
-                    value={formik.values.description}
-                    onChange={formik.handleChange}
-                    error={formik.touched.description && Boolean(formik.errors.description)}
-                    helperText={formik.touched.description && formik.errors.description}
                   />
                 </Grid>
               </Grid>
