@@ -4,6 +4,7 @@ const citiesController = require('../controllers/citiesController');
 
 // Get all cities
 router.get('/', citiesController.getAllCities);
+router.get('/all',citiesController.getAllcitiesAll);
 
 // Get a city by ID
 router.get('/:id', citiesController.getCityById);

@@ -49,7 +49,7 @@ const validationSchema = Yup.object({
 
 export default function AddProviderForm() {
     const basic = "https://fullzapmor-api.vercel.app";
-    const mainBasic = "http://localhost:5000";
+    const cbasic = "http://localhost:5000";
     const navigate = useNavigate();
 
     const formik = useFormik({
@@ -94,26 +94,26 @@ export default function AddProviderForm() {
             console.log(JSON.stringify(values))
             navigate(`/admin/providers/all`);
 
-            // try {
-            //     const response = await fetch(`${basic}/api/services-providers`, {
-            //       method: 'POST',
-            //       headers:{
-            //         'Accept':'application/json'
-            //       },
-            //       body: formData, // Let the browser handle the multipart/form-data
-            //     });
-            //     if (!response.ok) {
-            //       throw new Error('Failed to submit form');
-            //     }
+            try {
+                const response = await fetch(`${basic}/api/services-providers`, {
+                  method: 'POST',
+                  headers:{
+                    'Accept':'application/json'
+                  },
+                  body: formData, // Let the browser handle the multipart/form-data
+                });
+                if (!response.ok) {
+                  throw new Error('Failed to submit form');
+                }
               
-            //     const data = await response.json();
-            //     console.log('Success:', data);
-            //     alert('Form submitted successfully!');
-            //     navigate(`/admin/providers/all`);
-            //   } catch (error) {
-            //     console.error('Error:', error);
-            //     alert('Failed to submit the form.');
-            //   }
+                const data = await response.json();
+                console.log('Success:', data);
+                alert('Form submitted successfully!');
+                navigate(`/admin/providers/all`);
+              } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to submit the form.');
+              }
         },
       });
 

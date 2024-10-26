@@ -48,34 +48,34 @@ export default function AddServiceForm() {
       alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
       navigate(`/admin/services/all`);
-      // try {
-      //   const url = id
-      //     ? `${basic}/api/services/${id}` // Update service if id exists
-      //     : `${basic}/api/services`; // Add new service otherwise
+      try {
+        const url = id
+          ? `${basic}/api/services/${id}` // Update service if id exists
+          : `${basic}/api/services`; // Add new service otherwise
 
-      //   const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
+        const method = id ? 'PUT' : 'POST';  // Change method based on the presence of id
 
-      //   const response = await fetch(url, {
-      //     method: method,
-      //     headers: {
-      //       Accept: 'application/json',
-      //     },
-      //     body: formData, // Let the browser handle the multipart/form-data
-      //   });
+        const response = await fetch(url, {
+          method: method,
+          headers: {
+            Accept: 'application/json',
+          },
+          body: formData, // Let the browser handle the multipart/form-data
+        });
 
-      //   if (!response.ok) {
-      //     throw new Error('Failed to submit form');
-      //   }
+        if (!response.ok) {
+          throw new Error('Failed to submit form');
+        }
 
-      //   const data = await response.json();
-      //   console.log('Success:', data);
-      //   alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
-      //   formik.resetForm(); // Reset form after successful submission
-      //   navigate(`/admin/services/all`);
-      // } catch (error) {
-      //   console.error('Error:', error);
-      //   alert('Failed to submit the form.');
-      // }
+        const data = await response.json();
+        console.log('Success:', data);
+        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        formik.resetForm(); // Reset form after successful submission
+        navigate(`/admin/services/all`);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to submit the form.');
+      }
     },
   });
 
@@ -91,6 +91,9 @@ export default function AddServiceForm() {
             description: data.description || '',
             icon: data.icon,  // Assuming the icon is fetched as a URL, handling of this would depend on the API response
             featured: data.featured || false,
+            status: data.status || '',
+            amount: data.amount || '',
+            type: data.type || '',
           });
           setLoading(false);
         })
@@ -101,6 +104,13 @@ export default function AddServiceForm() {
     }
   }, [id]);  // Dependency on id to fetch data when it changes
 
+  const statuss = [
+    { id: 1, name: "Active" },
+    { id: 2, name: "Pending" },
+    { id: 3, name: "Completed" },
+    { id: 4, name: "Cancelled" },
+    { id: 4, name: "Banned" },
+];
   return (
     <PageContainer title="Service" description="this is Custom Form page">
       <Breadcrumb title={id ? 'Edit Service' : 'Add Service'} subtitle="" />  {/* Dynamic title */}
@@ -157,10 +167,26 @@ export default function AddServiceForm() {
                 </Grid>
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Status</CustomFormLabel>
-                  <LiveSwitch
-                    initialChecked={formik.values.status}
-                    onSwitchChange={(value) => formik.setFieldValue('status', value)}
-                  />
+                  <CustomSelect
+                    labelId="status-select"
+                    fullWidth
+                    id="status" 
+                    name="status"
+                    value={formik.values.status}
+                    onChange={formik.handleChange}
+                    >
+                       {statuss.map(status => (
+                    <MenuItem key={status.id} value={status.name}>
+                        {status.name}
+                    </MenuItem>
+                ))}
+                    </CustomSelect>
+                    {formik.errors.status && (
+                        <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {' '}
+                            {formik.errors.status}{' '}
+                        </FormHelperText>
+                    )}
                 </Grid>
                 <Grid item xs={12} sm={12} lg={6}>
                             <CustomFormLabel>amount</CustomFormLabel>

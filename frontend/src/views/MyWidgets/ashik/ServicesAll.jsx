@@ -10,6 +10,9 @@ const columns = [
     { field: 'name', headerName: 'Name' },
     { field: 'description', headerName: 'Description' },
     { field: 'featured', headerName: 'Featured' },
+    { field: 'status', headerName: 'Status' },
+    { field: 'amount', headerName: 'Amount' },
+    { field: 'type', headerName: 'type' },
     { field: 'icon', headerName: 'Icon' },
 ];
 

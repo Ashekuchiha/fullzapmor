@@ -4,11 +4,14 @@ import ParentCard from 'src/components/shared/ParentCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, Grid } from '@mui/material';
+import { Button, FormHelperText, Grid, MenuItem } from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import LocationInput from './locationInput/LocationInput';
 import { useNavigate, useParams } from 'react-router';
+import { values } from 'lodash';
+import axios from 'axios';
+import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -16,10 +19,10 @@ const validationSchema = yup.object({
   ownerName: yup.string(),
   state: yup.string(),
   city: yup.string(),
-  address: yup.string().required('Address is required'),
-  organizationBio: yup.string().required('Organization Bio is required'),
-  organizationDescription: yup.string().required('Organization Description is required'),
-  organizationWebsite: yup.string().url('Invalid URL format'),
+  address: yup.string(),
+  organizationBio: yup.string(),
+  organizationDescription: yup.string(),
+  organizationWebsite: yup.string(),
   phoneNumber: yup.string().matches(/^[0-9]+$/, 'Phone Number must be only digits'),  
   emergencyPhoneNumber: yup.string().matches(/^[0-9]+$/, 'Emergency Phone Number must be only digits'), 
   employeeNumbers: yup.number().integer('Employee Numbers must be an integer').positive('Employee Numbers must be a positive number')
@@ -27,10 +30,12 @@ const validationSchema = yup.object({
 
 export default function AddServicesLocationForm() {
   const basic = "https://fullzapmor-api.vercel.app";
-  const mainBasic = "http://localhost:5000";
+  const cbasic = "http://localhost:5000";
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false); // Loading state for fetching data
+  const [StateNames, setStateNames] = useState([]);
+  const [CityNames, setCityNames] = useState([]);
 
   const formik = useFormik({
     initialValues: {
@@ -49,11 +54,13 @@ export default function AddServicesLocationForm() {
       organizationLogo: null, // For file uploads, initialize as null
       organizationBanner: null, // For file uploads, initialize as null
       tradeLicense: null, // For file uploads, initialize as null
-      organizationDocuments: [], // For multiple file uploads, initialize as an empty array
+      organizationDocuments: null, // For multiple file uploads, initialize as an empty array
     },
     
     validationSchema: validationSchema,
     onSubmit: async (values) => {
+      console.log("what map return",values.mapSelection)
+      console.log("what map return2",JSON.stringify(values.mapSelection))
       const formData = new FormData();
     
       // Append each field to the FormData
@@ -83,63 +90,65 @@ export default function AddServicesLocationForm() {
       if (values.tradeLicense) {
         formData.append('tradeLicense', values.tradeLicense);
       }
+      if (values.organizationDocuments) {
+        formData.append('organizationDocuments', values.organizationDocuments);
+      }
     
-      // Append each document in organizationDocuments array
-      values.organizationDocuments.forEach((file, index) => {
-        formData.append(`organizationDocuments[${index}]`, file);
-      });
       console.log(formData)
       console.log(JSON.stringify(values))
       alert(JSON.stringify(values))
-      navigate(`/admin/serviceslocation/all`);
-      // try {
-      //   const url = id
-      //     ? `${basic}/api/service-locations/${id}`
-      //     : `${basic}/api/service-locations/`;
-      //   const method = id ? 'PUT' : 'POST';
+      try {
+        const url = id
+          ? `${basic}/api/service-organization/${id}`
+          : `${basic}/api/service-organization`;
+        const method = id ? 'PUT' : 'POST';
 
-      //   // Send JSON instead of FormData
-      //   const response = await fetch(url, {
-      //     method: method,
-      //     headers: {
-      //       Accept: 'application/json',
-      //       'Content-Type': 'application/json', // Set Content-Type to JSON
-      //     },
-      //     body: JSON.stringify({
-      //       locname: values.locname,
-      //       location: values.location, // Assuming it's an array of [latitude, longitude]
-      //       address: values.address,
-      //     }),
-      //   });
+        // Send JSON instead of FormData
+        const response = await fetch(url, {
+          method: method,
+          body: formData,
+        });
 
-      //   if (!response.ok) {
-      //     throw new Error('Failed to submit form');
-      //   }
+        if (!response.ok) {
+          throw new Error('Failed to submit form');
+        }
 
-      //   const data = await response.json();
-      //   console.log('Success:', data);
-      //   alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
-      //   formik.resetForm(); // Reset form after successful submission
-      //   navigate(`/admin/serviceslocation/all`);
-      // } catch (error) {
-      //   console.error('Error:', error);
-      //   alert('Failed to submit the form.');
-      // }
+        const data = await response.json();
+        console.log('Success:', data);
+        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        formik.resetForm(); // Reset form after successful submission
+        navigate(`/admin/serviceslocation/all`);
+      } catch (error) {
+        console.error('Error:', error);
+        alert('Failed to submit the form.');
+      }
     },
 
   });
-
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
-      fetch(`${basic}/api/service-locations/${id}`)
+      fetch(`${basic}/api/service-organization/${id}`)
         .then((response) => response.json())
-        .then((data) => {console.log("fetchdata",data)
+        .then((data) => {
           formik.setValues({
-            locname: data.locname || '',
-            location: data.location || [],
-            address: data.address || '',
-          });
+            organizationName: data.data.organizationName || '',
+            ownerName: data.data.ownerName || '',
+            state: data.data.state || '',
+            city: data.data.city || '',
+            address: data.data.address || '',
+            mapSelection: data.data.mapSelection || [], // Expecting [latitude, longitude]
+            organizationBio: data.data.organizationBio || '',
+            organizationDescription: data.data.organizationDescription || '',
+            organizationWebsite: data.data.organizationWebsite || '',
+            phoneNumber: data.data.phoneNumber || '',
+            emergencyPhoneNumber: data.data.emergencyPhoneNumber || '',
+            employeeNumbers: data.data.employeeNumbers || '',
+            organizationLogo: data.data.organizationLogo || null, // For file uploads, initialize as null
+            organizationBanner: data.data.organizationBanner || null, // For file uploads, initialize as null
+            tradeLicense: data.data.tradeLicense || null, // For file uploads, initialize as null
+            organizationDocuments: data.data.organizationDocuments || [], // For multiple file uploads, initialize as an empty array
+        });        
           setLoading(false);
         })
         .catch((error) => {
@@ -148,6 +157,38 @@ export default function AddServicesLocationForm() {
         });
     }
   }, [id]); // Fetch data on mount if there's an ID
+
+  //state
+  useEffect(() => {
+    // Fetch the service options from the API
+    const fetchStateName = async () => {
+        try {
+            const response = await axios.get(`${basic}/api/states/all`);
+            setStateNames(response.data.data.data); // Assuming the data is an array of service objects
+            console.log(response)
+        } catch (error) {
+            console.error('Error fetching StateName:', error);
+        }
+    };
+
+    fetchStateName();
+}, []);
+
+  //city
+  useEffect(() => {
+    // Fetch the service options from the API
+    const fetchStateName = async () => {
+        try {
+            const response = await axios.get(`${basic}/api/cities/all`);
+            setCityNames(response.data.data.data); // Assuming the data is an array of service objects
+            console.log(response)
+        } catch (error) {
+            console.error('Error fetching StateName:', error);
+        }
+    };
+
+    fetchStateName();
+}, []);
 
   return (
     <PageContainer title="Service organization" description="This is the Custom Form page">
@@ -186,28 +227,50 @@ export default function AddServicesLocationForm() {
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>State</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  id="state"
-                  name="state"
-                  value={formik.values.state}
-                  onChange={formik.handleChange}
-                  error={formik.touched.state && Boolean(formik.errors.state)}
-                  helperText={formik.touched.state && formik.errors.state}
-                />
+                <CustomSelect
+                    labelId="state-select"
+                    fullWidth
+                    id="state" 
+                    name="state"
+                    value={formik.values.state}
+                    onChange={formik.handleChange}
+                    >
+                       {StateNames.map(state => (
+                    <MenuItem key={state.id} value={state.StateName}>
+                        {state.StateName}
+                    </MenuItem>
+                ))}
+                    </CustomSelect>
+                    {formik.errors.state && (
+                        <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {' '}
+                            {formik.errors.state}{' '}
+                        </FormHelperText>
+                    )}
               </Grid>
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>City</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  id="city"
-                  name="city"
-                  value={formik.values.city}
-                  onChange={formik.handleChange}
-                  error={formik.touched.city && Boolean(formik.errors.city)}
-                  helperText={formik.touched.city && formik.errors.city}
-                />
+                <CustomSelect
+                    labelId="city-select"
+                    fullWidth
+                    id="city" 
+                    name="city"
+                    value={formik.values.city}
+                    onChange={formik.handleChange}
+                    >
+                       {CityNames.map(city => (
+                    <MenuItem key={city.id} value={city.cityName}>
+                        {city.cityName}
+                    </MenuItem>
+                ))}
+                    </CustomSelect>
+                    {formik.errors.city && (
+                        <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {' '}
+                            {formik.errors.city}{' '}
+                        </FormHelperText>
+                    )}
               </Grid>
 
               <Grid item xs={12} lg={12}>
@@ -225,10 +288,11 @@ export default function AddServicesLocationForm() {
 
               <Grid item xs={12} lg={12}>
                 <CustomFormLabel>Map Selection</CustomFormLabel>
-                <LocationInput setFieldValue={formik.setFieldValue} />
+                <LocationInput setFieldValue={formik.setFieldValue}  mapSelection={formik.values.mapSelection}/>
                 {formik.touched.mapSelection && formik.errors.mapSelection && (
-                  <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.mapSelection}</div>
-                )}
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.mapSelection}</div>
+                  )
+                }
               </Grid>
 
               <Grid item xs={12} lg={12}>

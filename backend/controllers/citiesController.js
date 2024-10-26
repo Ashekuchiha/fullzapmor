@@ -11,6 +11,35 @@ const mongoose = require('mongoose');
 //     }
 // };
 
+exports.getAllcitiesAll = async (req, res) => {
+    try {
+        const cities = await City.find(); // Fetch all service locations
+
+        const formattedcities = cities.map(city => ({
+            id: city._id,
+            cityName: city.cityName,
+            StateName: city.StateName,
+            longitude: city.longitude,
+            latitude: city.latitude,
+            createdAt: city.createdAt,
+            updatedAt: city.updatedAt
+        }));
+console.log(formattedcities)
+        const response = {
+            success: true,
+            data: {
+                data: formattedcities,
+                total: formattedcities.length
+            },
+            message: "city locations retrieved successfully."
+        };
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ messagej: error.message });
+    }
+};
+
 exports.getAllCities = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
