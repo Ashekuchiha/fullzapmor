@@ -31,9 +31,9 @@ export default function AddServiceForm() {
       description: '',
       icon: null,
       featured: false,
-      status:false,
+      status:'Pending',
       amount:'',
-      type:"",
+      type:"percent",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -124,6 +124,7 @@ export default function AddServiceForm() {
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Name</CustomFormLabel>
                   <CustomTextField
+                    placeholder="Enter your name" // Set placeholder text here
                     fullWidth
                     id="name"
                     name="name"
@@ -203,6 +204,7 @@ export default function AddServiceForm() {
                 <Grid item xs={12} sm={12} lg={6}>
                     <CustomFormLabel>type</CustomFormLabel>
                     <CustomSelect
+                                        style={{ width: '50%' }} 
                     labelId="gender-select"
                     id="type" 
                     name="type"

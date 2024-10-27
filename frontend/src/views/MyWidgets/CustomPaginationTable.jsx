@@ -174,6 +174,7 @@ console.log("data find after fetch",data)
         try {
             // Send DELETE request with selected IDs
             await axios.delete(`${apiUrl}/delete-multiple`, { data: { ids: selectedIds } });
+
             
             // Filter out the deleted items from the local state
             setData(prevData => prevData.filter(item => !selectedIds.includes(item.id)));

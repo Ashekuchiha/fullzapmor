@@ -58,11 +58,75 @@ export default function AddServicesLocationForm() {
     },
     
     validationSchema: validationSchema,
-    onSubmit: async (values) => {
-      console.log("what map return",values.mapSelection)
-      console.log("what map return2",JSON.stringify(values.mapSelection))
-      const formData = new FormData();
+    // onSubmit: async (values) => {
+    //   const formData = new FormData();
     
+    //   // Append each field to the FormData
+    //   formData.append('organizationName', values.organizationName);
+    //   formData.append('ownerName', values.ownerName);
+    //   formData.append('state', values.state);
+    //   formData.append('city', values.city);
+    //   formData.append('address', values.address);
+    
+    //   // Append arrays like mapSelection by converting them to JSON
+    //   formData.append('mapSelection', JSON.stringify(values.mapSelection));
+    
+    //   formData.append('organizationBio', values.organizationBio);
+    //   formData.append('organizationDescription', values.organizationDescription);
+    //   formData.append('organizationWebsite', values.organizationWebsite);
+    //   formData.append('phoneNumber', values.phoneNumber);
+    //   formData.append('emergencyPhoneNumber', values.emergencyPhoneNumber);
+    //   formData.append('employeeNumbers', values.employeeNumbers);
+    
+    //   // Append file inputs if they are provided
+    //   if (values.organizationLogo) {
+    //     formData.append('organizationLogo', values.organizationLogo);
+    //   }
+    //   if (values.organizationBanner) {
+    //     formData.append('organizationBanner', values.organizationBanner);
+    //   }
+    //   if (values.tradeLicense) {
+    //     formData.append('tradeLicense', values.tradeLicense);
+    //   }
+    //   if (values.organizationDocuments) {
+    //     formData.append('organizationDocuments', values.organizationDocuments);
+    //   }
+    
+    //   console.log(formData)
+    //   console.log(JSON.stringify(values))
+    //   alert(JSON.stringify(values))
+    //   try {
+    //     const url = id
+    //       ? `${basic}/api/service-organization/${id}`
+    //       : `${basic}/api/service-organization`;
+    //     const method = id ? 'PUT' : 'POST';
+
+    //     // Send JSON instead of FormData
+    //     const response = await fetch(url, {
+    //       method: method,
+    //       headers:{
+    //         'Content-Type':'multipart/form-data'
+    //       },
+    //       body: formData,
+    //     });
+
+    //     if (!response.ok) {
+    //       throw new Error('Failed to submit form');
+    //     }
+
+    //     const data = await response.json();
+    //     console.log('Success:', data);
+    //     alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+    //     formik.resetForm(); // Reset form after successful submission
+    //     navigate(`/admin/serviceslocation/all`);
+    //   } catch (error) {
+    //     console.error('Error:', error);
+    //     alert('Failed to submit the form.');
+    //   }
+    // },
+    onSubmit: async (values) => {
+      const formData = new FormData();
+      
       // Append each field to the FormData
       formData.append('organizationName', values.organizationName);
       formData.append('ownerName', values.ownerName);
@@ -94,25 +158,23 @@ export default function AddServicesLocationForm() {
         formData.append('organizationDocuments', values.organizationDocuments);
       }
     
-      console.log(formData)
-      console.log(JSON.stringify(values))
-      alert(JSON.stringify(values))
+      console.log('FormData:', formData);
       try {
         const url = id
           ? `${basic}/api/service-organization/${id}`
           : `${basic}/api/service-organization`;
         const method = id ? 'PUT' : 'POST';
-
-        // Send JSON instead of FormData
+    
+        // Send FormData without manually setting headers
         const response = await fetch(url, {
           method: method,
           body: formData,
         });
-
+    
         if (!response.ok) {
           throw new Error('Failed to submit form');
         }
-
+    
         const data = await response.json();
         console.log('Success:', data);
         alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
@@ -123,6 +185,7 @@ export default function AddServicesLocationForm() {
         alert('Failed to submit the form.');
       }
     },
+    
 
   });
   useEffect(() => {
