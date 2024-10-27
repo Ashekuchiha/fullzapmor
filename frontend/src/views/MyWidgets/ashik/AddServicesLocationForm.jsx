@@ -4,7 +4,7 @@ import ParentCard from 'src/components/shared/ParentCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Button, FormHelperText, Grid, MenuItem } from '@mui/material';
+import { Box, Button, FormHelperText, Grid, MenuItem } from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import LocationInput from './locationInput/LocationInput';
@@ -143,22 +143,26 @@ export default function AddServicesLocationForm() {
       formData.append('phoneNumber', values.phoneNumber);
       formData.append('emergencyPhoneNumber', values.emergencyPhoneNumber);
       formData.append('employeeNumbers', values.employeeNumbers);
-    
+      formData.append('organizationLogo', values.organizationLogo);
+      formData.append('organizationBanner', values.organizationBanner);
+      formData.append('tradeLicense', values.tradeLicense);
+      formData.append('organizationDocuments', values.organizationDocuments);
+
       // Append file inputs if they are provided
-      if (values.organizationLogo) {
-        formData.append('organizationLogo', values.organizationLogo);
-      }
-      if (values.organizationBanner) {
-        formData.append('organizationBanner', values.organizationBanner);
-      }
-      if (values.tradeLicense) {
-        formData.append('tradeLicense', values.tradeLicense);
-      }
-      if (values.organizationDocuments) {
-        formData.append('organizationDocuments', values.organizationDocuments);
-      }
-    
-      console.log('FormData:', formData);
+      // if (values.organizationLogo) {
+      //   formData.append('organizationLogo', values.organizationLogo);
+      // }
+      // if (values.organizationBanner) {
+      //   formData.append('organizationBanner', values.organizationBanner);
+      // }
+      // if (values.tradeLicense) {
+      //   formData.append('tradeLicense', values.tradeLicense);
+      // }
+      // if (values.organizationDocuments) {
+      //   formData.append('organizationDocuments', values.organizationDocuments);
+      // }
+      alert(JSON.stringify(values),)
+      console.log(JSON.stringify(values))
       try {
         const url = id
           ? `${basic}/api/service-organization/${id}`
@@ -442,55 +446,106 @@ export default function AddServicesLocationForm() {
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Logo</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  type="file"
-                  id="organizationLogo"
-                  name="organizationLogo"
-                  onChange={formik.handleChange}
-                  error={formik.touched.organizationLogo && Boolean(formik.errors.organizationLogo)}
-                  helperText={formik.touched.organizationLogo && formik.errors.organizationLogo}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload organizationLogo Image
+                      <input
+                        type="file"
+                        hidden
+                        onChange={(event) => formik.setFieldValue('organizationLogo', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.organizationLogo && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationLogo === 'object' ? (
+                        formik.values.organizationLogo.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.organizationLogo} target="_blank" rel="noopener noreferrer">
+                          {formik.values.organizationLogo.split('/').pop()} {/* Display the fetched organizationLogo name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.organizationLogo && formik.errors.organizationLogo && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.organizationLogo}</div>
+                  )}
               </Grid>
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Banner/Cover Photo</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  type="file"
-                  id="organizationBanner"
-                  name="organizationBanner"
-                  onChange={formik.handleChange}
-                  error={formik.touched.organizationBanner && Boolean(formik.errors.organizationBanner)}
-                  helperText={formik.touched.organizationBanner && formik.errors.organizationBanner}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload organizationBanner Image
+                      <input
+                        type="file"
+                        hidden
+                        onChange={(event) => formik.setFieldValue('organizationBanner', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.organizationBanner && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationBanner === 'object' ? (
+                        formik.values.organizationBanner.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.organizationBanner} target="_blank" rel="noopener noreferrer">
+                          {formik.values.organizationBanner.split('/').pop()} {/* Display the fetched organizationBanner name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.organizationBanner && formik.errors.organizationBanner && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.organizationBanner}</div>
+                  )}
               </Grid>
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Trade License</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  type="file"
-                  id="tradeLicense"
-                  name="tradeLicense"
-                  onChange={formik.handleChange}
-                  error={formik.touched.tradeLicense && Boolean(formik.errors.tradeLicense)}
-                  helperText={formik.touched.tradeLicense && formik.errors.tradeLicense}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload tradeLicense Image
+                      <input
+                        type="file"
+                        hidden
+                        onChange={(event) => formik.setFieldValue('tradeLicense', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.tradeLicense && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.tradeLicense === 'object' ? (
+                        formik.values.tradeLicense.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.tradeLicense} target="_blank" rel="noopener noreferrer">
+                          {formik.values.tradeLicense.split('/').pop()} {/* Display the fetched tradeLicense name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.tradeLicense && formik.errors.tradeLicense && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.tradeLicense}</div>
+                  )}
               </Grid>
 
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Documents (PDF/Image/Word)</CustomFormLabel>
-                <CustomTextField
-                  fullWidth
-                  type="file"
-                  inputProps={{ multiple: true }}
-                  id="organizationDocuments"
-                  name="organizationDocuments"
-                  onChange={formik.handleChange}
-                  error={formik.touched.organizationDocuments && Boolean(formik.errors.organizationDocuments)}
-                  helperText={formik.touched.organizationDocuments && formik.errors.organizationDocuments}
-                />
+                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload organizationDocuments Image
+                      <input
+                        type="file"
+                        hidden
+                        onChange={(event) => formik.setFieldValue('organizationDocuments', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.organizationDocuments && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationDocuments === 'object' ? (
+                        formik.values.organizationDocuments.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.organizationDocuments} target="_blank" rel="noopener noreferrer">
+                          {formik.values.organizationDocuments.split('/').pop()} {/* Display the fetched organizationDocuments name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.organizationDocuments && formik.errors.organizationDocuments && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.organizationDocuments}</div>
+                  )}
               </Grid>
 
             </Grid>

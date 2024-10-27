@@ -43,11 +43,11 @@ exports.getAllServices = async (req, res) => {
             id: service._id,
             name: service.name,
             description: service.description,
+            icon: service.icon,
             featured: service.featured ? 'Yes' : 'No',
             status: service.status,
             amount: service.amount,
             type: service.type,
-            icon: service.icon,
             createdAt: service.createdAt,
             updatedAt: service.updatedAt
         }));

@@ -39,15 +39,15 @@ export default function AddServiceForm() {
     onSubmit: async (values) => {
       const formData = new FormData();
       formData.append('name', values.name);
+      formData.append('description', values.description);
       formData.append('icon', values.icon);
       formData.append('featured', values.featured);
       formData.append('status', values.status);
       formData.append('amount', values.amount);
       formData.append('type', values.type);
-      formData.append('description', values.description);
       alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
-      navigate(`/admin/services/all`);
+      // navigate(`/admin/services/all`);
       try {
         const url = id
           ? `${basic}/api/services/${id}` // Update service if id exists
