@@ -1,5 +1,5 @@
 
-const Service = require('../models/service');
+const Service = require('../models/Service');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose');
