@@ -1,5 +1,5 @@
 // controllers/serviceController.js
-const Service = require('../models/Service');
+const Service = require('../models/dService');
 const fs = require('fs');
 const path = require('path');
 const mongoose = require('mongoose'); 

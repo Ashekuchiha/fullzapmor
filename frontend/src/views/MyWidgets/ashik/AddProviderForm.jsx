@@ -411,11 +411,18 @@ onChange={(newValue) => formik.setFieldValue('location', newValue)}
                         helperText={formik.touched.status && formik.errors.status}
                     />
                     </Grid>
+                    <Grid item xs={12} lg={6}>
+                    <CustomFormLabel>Individual Commission</CustomFormLabel>
+                    <LiveSwitch/>
+                    </Grid>
                 </Grid>
                 <Button color="primary" variant="contained" type="submit" disabled={formik.isSubmitting}>
             {formik.isSubmitting ? 'Submitting...' : 'Submit'}
-          </Button>            </form>
+          </Button>            
+          </form>
+          
         </ParentCard>
+
     </PageContainer>
   )
 }
