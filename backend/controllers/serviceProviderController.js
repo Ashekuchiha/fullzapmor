@@ -2,6 +2,8 @@ const ServiceProvider = require('../models/ServiceProvider');
 const bcrypt = require('bcrypt');
 const fs = require('fs');
 const mongoose = require('mongoose'); 
+const path = require('path');
+
 
 // Get all service providers
 // exports.getAllServiceProviders = async (req, res) => {
@@ -27,12 +29,16 @@ exports.getAllServiceProviders = async (req, res) => {
             id: user._id,
             name: user.name,
             service: user.service,
-            specialization: user.specialization,
+            specialized: user.specialized,
             experience: user.experience,
             location: user.location,
-            phnnumber: user.phnnumber,
+            phoneNumber: user.phoneNumber,
             email: user.email,
             status: user.status,
+            amount:user.amount,
+            type:user.type,
+            certificate:user.certificate,
+            profileImage:user.profileImage,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt
         }));
@@ -81,23 +87,30 @@ exports.getServiceProviderById = async (req, res) => {
 // Create a new service provider
 exports.createServiceProvider = async (req, res) => {
     try {
-        const { name, service, specialization, experience, location, phnnumber, email, password, status } = req.body;
+        const { name,email, phoneNumber, password, service, specialized, experience, serviceOrganization, status,amount,type } = req.body;
         
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
-
+        const certificate = req.files['certificate']
+            ? req.files['certificate'][0].path
+            : null;
+        const profileImage = req.files['profileImage']
+        ? req.files['profileImage'][0].path
+        : null;
         const serviceProvider = new ServiceProvider({
             name,
-            service,
-            specialization,
-            experience,
-            location,
-            phnnumber,
             email,
+            phoneNumber,
             password: hashedPassword,
+            service,
+            specialized,
+            experience,
+            serviceOrganization,
             status,
-            certificate: req.files?.certificate?.path,
-            profileImage: req.files?.profileImage?.path
+            amount,
+            type,
+            certificate,
+            profileImage
         });
 
         await serviceProvider.save();
@@ -143,5 +156,50 @@ exports.deleteServiceProvider = async (req, res) => {
         res.status(200).json({ message: 'Service provider deleted' });
     } catch (err) {
         res.status(500).json({ error: err.message });
+    }
+};
+
+exports.deleteMultipleServiceProviders = async (req, res) => {
+    try {
+        const { ids } = req.body; // Expecting an array of service provider IDs in the request body
+
+        if (!Array.isArray(ids) || ids.length === 0) {
+            return res.status(400).json({ success: false, error: 'No service provider IDs provided' });
+        }
+
+        // Validate that each ID is a valid ObjectId
+        const validIds = ids.filter(id => mongoose.Types.ObjectId.isValid(id));
+        if (validIds.length !== ids.length) {
+            return res.status(400).json({ success: false, error: 'One or more IDs are invalid' });
+        }
+
+        // Find the service providers to get the file paths before deletion
+        const serviceProviders = await ServiceProvider.find({ _id: { $in: validIds } });
+
+        // Delete the associated files (certificate and profileImage)
+        serviceProviders.forEach(provider => {
+            if (provider.certificate) {
+                const certificatePath = path.join(__dirname, '..', provider.certificate);
+                fs.unlink(certificatePath, (err) => {
+                    if (err) console.log(`Error deleting certificate file for provider ${provider._id}:`, err);
+                });
+            }
+            if (provider.profileImage) {
+                const profileImagePath = path.join(__dirname, '..', provider.profileImage);
+                fs.unlink(profileImagePath, (err) => {
+                    if (err) console.log(`Error deleting profile image for provider ${provider._id}:`, err);
+                });
+            }
+        });
+
+        // Delete service providers by their IDs
+        const result = await ServiceProvider.deleteMany({ _id: { $in: validIds } });
+
+        res.status(200).json({
+            success: true,
+            message: `${result.deletedCount} service providers deleted successfully`
+        });
+    } catch (error) {
+        res.status(500).json({ success: false, error: error.message });
     }
 };

@@ -1,15 +1,17 @@
 const mongoose = require('mongoose');
 
 const serviceProviderSchema = new mongoose.Schema({
-    name: { type: String, required: true },
-    service: { type: String, required: true },
-    specialization: { type: String, required: true },
-    experience: { type: Number, required: true },
-    location: { type: [String], required: true }, // array of multiple values
-    phnnumber: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    status: { type: String, enum: ['good', 'bad'], default: 'good' },
+    name: { type: String, required: false },
+    email: { type: String, required: false },
+    phoneNumber: { type: String, required: false },
+    password: { type: String, required: false },
+    service: { type: String, required: false }, // array of multiple values
+    specialized: { type: String, required: false },
+    experience: { type: String, required: false, unique: false },
+    serviceOrganization: { type: String, required: false },
+    status: { type: String },
+    amount:{type: String},
+    type:{type:String},
     certificate: { type: String }, // store image file path or URL
     profileImage: { type: String }, // store image file path or URL
 }, { timestamps: true });

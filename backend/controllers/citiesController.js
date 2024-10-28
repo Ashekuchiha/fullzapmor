@@ -24,7 +24,6 @@ exports.getAllcitiesAll = async (req, res) => {
             createdAt: city.createdAt,
             updatedAt: city.updatedAt
         }));
-console.log(formattedcities)
         const response = {
             success: true,
             data: {

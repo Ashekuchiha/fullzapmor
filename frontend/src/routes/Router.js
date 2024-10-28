@@ -61,6 +61,7 @@ const Router = [
         {path:'admin/serviceslocation/all/edit/:id' , element:<AddServicesLocationForm/>},
         {path:'admin/location/state/all/edit/:id' , element:<AddStateForm/>},
         {path:'admin/location/city/all/edit/:id' , element:<AddCityForm/>},
+        {path:'admin/providers/all/edit/:id' , element:<AddProviderForm/>},
       ]
     }
   ]

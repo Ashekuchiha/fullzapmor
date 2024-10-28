@@ -5,7 +5,8 @@ const {
     getServiceProviderById,
     createServiceProvider,
     updateServiceProvider,
-    deleteServiceProvider 
+    deleteServiceProvider,
+    deleteMultipleServiceProviders,
 } = require('../controllers/serviceProviderController');
 
 const router = express.Router();
@@ -13,7 +14,7 @@ const router = express.Router();
 // File upload configuration
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, 'uploads/');
+        cb(null, 'uploads/provider');
     },
     filename: function (req, file, cb) {
         cb(null, Date.now() + '-' + file.originalname);
@@ -26,6 +27,7 @@ router.get('/', getAllServiceProviders);
 router.get('/:id', getServiceProviderById);
 router.post('/', upload.fields([{ name: 'certificate' }, { name: 'profileImage' }]), createServiceProvider);
 router.put('/:id', upload.fields([{ name: 'certificate' }, { name: 'profileImage' }]), updateServiceProvider);
+router.delete('/delete-multiple',deleteMultipleServiceProviders)
 router.delete('/:id', deleteServiceProvider);
 
 module.exports = router;

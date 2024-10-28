@@ -121,6 +121,14 @@ exports.deleteService = async (req, res) => {
     try {
         const service = await Service.findByIdAndDelete(req.params.id);
         if (!service) return res.status(404).json({ message: "Service not found" });
+
+        if (service.icon) {
+            const iconPath = path.join(__dirname, '..', service.icon);
+            fs.unlink(iconPath, (err) => {
+                if (err) console.log(`Error deleting icon file for service ${service._id}:`, err);
+            });
+        }
+        
         res.status(200).json({ message: "Service deleted successfully" });
     } catch (error) {
         res.status(500).json({ message: error.message });

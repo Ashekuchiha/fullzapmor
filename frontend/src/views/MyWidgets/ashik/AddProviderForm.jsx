@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PageContainer from 'src/components/container/PageContainer'
 import ParentCard from 'src/components/shared/ParentCard'
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb'
@@ -12,7 +12,7 @@ import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
 import MyCheckBox from './checkbox/MyCheckBox.jsx';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
-import { useNavigate } from 'react-router';
+import { useNavigate, useParams } from 'react-router';
 import CommissionSetup from './CommissionSetup';
 
 const validationSchema = Yup.object({
@@ -36,6 +36,11 @@ const validationSchema = Yup.object({
 
 
 export default function AddProviderForm() {
+  const { id } = useParams();
+  const [loading, setLoading] = useState(false); // Loading state for fetching data
+  const [StateNames, setStateNames] = useState([]);
+  const [CityNames, setCityNames] = useState([]);
+
     const Call =()=>{
         return(
             <>
@@ -77,8 +82,8 @@ export default function AddProviderForm() {
             </>
         )
       }
-    const basic = "https://fullzapmor-api.vercel.app";
-    const cbasic = "http://localhost:5000";
+    const cbasic = "https://fullzapmor-api.vercel.app";
+    const basic = "http://localhost:5000";
     const navigate = useNavigate();
     const [switchs, setswitchs] = useState(false); 
     const formik = useFormik({
@@ -91,12 +96,14 @@ export default function AddProviderForm() {
             specialized: '',
             experience: '',
             serviceOrganization: '',
+            status:'',
             amount: '',
             type:'',
             profileImage: null,       // For single file upload (not required)
-            certificates: null,         // For multiple file uploads (not required)
+            certificate: null,         // For multiple file uploads (not required)
           },          
-        validationSchema: validationSchema,
+
+        // validationSchema: validationSchema,
         onSubmit: async (values) => {
             const formData = new FormData();
           
@@ -110,34 +117,38 @@ export default function AddProviderForm() {
             formData.append('experience', values.experience);
             formData.append('serviceOrganization', values.serviceOrganization);
             formData.append('profileImage', values.profileImage);
-            formData.append('certificates', values.certificates);
-            formData.append('serviceOrganization', values.serviceOrganization);
+            formData.append('certificate', values.certificate);
             formData.append('status', values.status);
             formData.append('amount', values.amount);
             formData.append('type', values.type);
             
             // Append files (if they are provided)
-            if (values.profileImage) {
-              formData.append('profileImage', values.profileImage);
-            }
+            // if (values.profileImage) {
+            //   formData.append('profileImage', values.profileImage);
+            // }
 
-            if (values.certificates) {
-                formData.append('certificates', values.certificates);
-              }
+            // if (values.certificate) {
+            //     formData.append('certificate', values.certificate);
+            //   }
           
-            // // Append multiple files for certificates
-            // values.certificates.forEach((file, index) => {
-            //   formData.append(`certificates[${index}]`, file);
+            // // Append multiple files for certificate
+            // values.certificate.forEach((file, index) => {
+            //   formData.append(`certificate[${index}]`, file);
             // });
 
             alert(JSON.stringify(values),)
             console.log(JSON.stringify(values))
             try {
-                const response = await fetch(`${basic}/api/services-providers`, {
-                  method: 'POST',
-                  headers:{
-                    'Accept':'application/json'
-                  },
+              const url = id
+                ? `${basic}/api/services-providers/${id}`
+                : `${basic}/api/services-providers`;
+              const method = id ? 'PUT' : 'POST';
+
+                const response = await fetch(url, {
+                  method: method,
+                  // headers:{
+                  //   'Accept':'application/json'
+                  // },
                   body: formData, // Let the browser handle the multipart/form-data
                 });
                 if (!response.ok) {
@@ -146,7 +157,8 @@ export default function AddProviderForm() {
               
                 const data = await response.json();
                 console.log('Success:', data);
-                alert('Form submitted successfully!');
+                alert(id?'provider updated successfully':'Form submitted successfully!');
+                formik.resetForm(); 
                 navigate(`/admin/providers/all`);
               } catch (error) {
                 console.error('Error:', error);
@@ -155,10 +167,34 @@ export default function AddProviderForm() {
         },
       });
 
-      const data = [
-        { title: 'Dhaka ' },
-        { title: 'Cumilla' },
-      ];
+      useEffect(() => {
+        if (id) {
+          setLoading(true); // Loading while fetching data
+          fetch(`${basic}/api/services-providers/${id}`)
+            .then((response) => response.json())
+            .then((data) => {
+              formik.setValues({
+                name: data.name || '',
+                email: data.email || '',
+                phoneNumber: data.phoneNumber || '',
+                service: data.service || '',
+                specialized: data.specialized || '',
+                experience: data.experience || [], // Expecting [latitude, longitude]
+                serviceOrganization: data.serviceOrganization || '',
+                status: data.status || '',
+                certificate: data.certificate || null,
+                profileImage: data.profileImage || null,
+                amount: data.amount || '',
+                type: data.type || '', // For file uploads, initialize as null
+                });        
+              setLoading(false);
+            })
+            .catch((error) => {
+              console.error('Error fetching data:', error);
+              setLoading(false);
+            });
+        }
+      }, [id]);
 
       const statuss = [
         { id: 1, name: "Active" },
@@ -169,9 +205,12 @@ export default function AddProviderForm() {
     ];
   return (
     <PageContainer title="Service Providers" description="this is Custom Form page">
-        <Breadcrumb title="Service Providers" subtitle="" />
-        <ParentCard title="Fill up the Following from">
-        <form onSubmit={formik.handleSubmit}>
+        <Breadcrumb title={id? 'Edit service providers':'Add service provider'} subtitle="" />
+        <ParentCard title={id? 'Edit the following form':'Fill up the following form'}>
+          {loading ?(
+            <div>loading ...</div>
+          ):(
+            <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} mb={3}>
                     <Grid item xs={12} lg={6}>
                     <CustomFormLabel>Name</CustomFormLabel>
@@ -281,28 +320,54 @@ export default function AddProviderForm() {
 
                     <Grid item xs={12} lg={6}>
                     <CustomFormLabel>Profile Image</CustomFormLabel>
-                    <CustomTextField
-                        fullWidth
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload profileImage Image
+                      <input
                         type="file"
-                        id="profileImage"
-                        name="profileImage"
-                        onChange={(event) => formik.setFieldValue("profileImage", event.currentTarget.files[0])}
-                        error={formik.touched.profileImage && Boolean(formik.errors.profileImage)}
-                        helperText={formik.touched.profileImage && formik.errors.profileImage}
-                    />
+                        hidden
+                        onChange={(event) => formik.setFieldValue('profileImage', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.profileImage && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.profileImage === 'object' ? (
+                        formik.values.profileImage.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.profileImage} target="_blank" rel="noopener noreferrer">
+                          {formik.values.profileImage.split('/').pop()} {/* Display the fetched profileImage name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.profileImage && formik.errors.profileImage && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.profileImage}</div>
+                  )}
                     </Grid>
 
                     <Grid item xs={12} lg={6}>
-                    <CustomFormLabel>Certificates</CustomFormLabel>
-                    <CustomTextField
-                        fullWidth
+                    <CustomFormLabel>Certificate</CustomFormLabel>
+                    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload certificate Image
+                      <input
                         type="file"
-                        id="certificates"
-                        name="certificates"
-                        onChange={(event) => formik.setFieldValue("certificates", event.currentTarget.files)}
-                        error={formik.touched.certificates && Boolean(formik.errors.certificates)}
-                        helperText={formik.touched.certificates && formik.errors.certificates}
-                    />
+                        hidden
+                        onChange={(event) => formik.setFieldValue('certificate', event.currentTarget.files[0])}
+                      />
+                    </Button>
+                    {formik.values.certificate && (
+                      <Box sx={{ ml: 2 }}>{typeof formik.values.certificate === 'object' ? (
+                        formik.values.certificate.name // Display the uploaded file name
+                      ) : (
+                        <a href={formik.values.certificate} target="_blank" rel="noopener noreferrer">
+                          {formik.values.certificate.split('/').pop()} {/* Display the fetched certificate name */}
+                        </a>
+                      )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.certificate && formik.errors.certificate && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.certificate}</div>
+                  )}
                     </Grid>
 
                     <Grid item xs={12} lg={12}>
@@ -340,10 +405,10 @@ export default function AddProviderForm() {
 
                 </Grid>
                 <Button color="primary" variant="contained" type="submit" disabled={formik.isSubmitting}>
-            {formik.isSubmitting ? 'Submitting...' : 'Submit'}
-          </Button>            
+              {formik.isSubmitting ? 'Submitting...' : id ? 'Update' : 'Submit'}
+            </Button>         
           </form>
-          
+          )}  
         </ParentCard>
 
     </PageContainer>

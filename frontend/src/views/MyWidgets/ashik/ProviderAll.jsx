@@ -8,15 +8,17 @@ import { Link } from 'react-router-dom';
 
 const columns = [
     { field: 'name', headerName: 'Name' },
-    { field: 'service', headerName: 'service' },
-    { field: 'specialization', headerName: 'specialization' },
-    { field: 'experience', headerName: 'experience', renderCell: (value) => `$${value}` },
-    { field: 'location', headerName: 'location', renderCell: (value) => `$${value}` },
-    { field: 'phnnumber', headerName: 'phnnumber' },
-    { field: 'email', headerName: 'email', renderCell: (value) => `$${value}` },
+    { field: 'email', headerName: 'email' },
+    { field: 'phoneNumber', headerName: 'phoneNumber' },
+    { field: 'service', headerName: 'service', renderCell: (value) => `$${value}` },
+    { field: 'specialized', headerName: 'specialized', renderCell: (value) => `$${value}` },
+    { field: 'experience', headerName: 'experience' },
+    { field: 'serviceOrganization', headerName: 'serviceOrganization', renderCell: (value) => `$${value}` },
     { field: 'status', headerName: 'status', renderCell: (value) => `$${value}` },
     { field: 'certificate', headerName: 'certificate', renderCell: (value) => `$${value}` },
     { field: 'profileImage', headerName: 'profileImage', renderCell: (value) => `$${value}` },
+    { field: 'amount', headerName: 'amount', renderCell: (value) => `$${value}` },
+    { field: 'type', headerName: 'type', renderCell: (value) => `$${value}` },
 ];
 
 const handleCustomAction = (id) => {
@@ -30,7 +32,8 @@ const ProviderAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://fullzapmor-api.vercel.app/api/services-providers"
+        // apiUrl="https://fullzapmor-api.vercel.app/api/services-providers"
+        apiUrl="http://localhost:5000/api/services-providers"
         enableSearch={true}
         enableSort={true}
         >
