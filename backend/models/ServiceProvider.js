@@ -7,7 +7,7 @@ const serviceProviderSchema = new mongoose.Schema({
     password: { type: String, required: false },
     service: { type: String, required: false }, // array of multiple values
     specialized: { type: String, required: false },
-    experience: { type: String, required: false, unique: false },
+    experience: { type: String, required: false},
     serviceOrganization: { type: String, required: false },
     status: { type: String },
     amount:{type: String},

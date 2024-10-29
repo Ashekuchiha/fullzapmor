@@ -31,7 +31,6 @@ exports.getAllServiceProviders = async (req, res) => {
             service: user.service,
             specialized: user.specialized,
             experience: user.experience,
-            location: user.location,
             phoneNumber: user.phoneNumber,
             email: user.email,
             status: user.status,

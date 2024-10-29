@@ -12,15 +12,17 @@ const {
 const router = express.Router();
 
 // File upload configuration
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/provider');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
-const upload = multer({ storage: storage });
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/provider');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + '-' + file.originalname);
+//     }
+// });
+// const upload = multer({ storage: storage });
+// const upload = require('../middlewares/fileUpload'); // Adjust path as needed
+const upload = require('../middlewares/cloudinaryMiddleware');
 
 // Routes
 router.get('/', getAllServiceProviders);
