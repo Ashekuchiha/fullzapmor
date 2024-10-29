@@ -82,8 +82,8 @@ export default function AddProviderForm() {
             </>
         )
       }
-    const cbasic = "https://fullzapmor-api.vercel.app";
-    const basic = "http://localhost:5000";
+    const basic = "https://fullzapmor-api.vercel.app";
+    const cbasic = "http://localhost:5000";
     const navigate = useNavigate();
     const [switchs, setswitchs] = useState(false); 
     const formik = useFormik({
