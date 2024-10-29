@@ -148,8 +148,8 @@ exports.deleteServiceProvider = async (req, res) => {
         if (!serviceProvider) return res.status(404).json({ message: 'Service provider not found' });
 
         // Optionally delete files if needed
-        if (serviceProvider.certificate) fs.unlinkSync(serviceProvider.certificate);
-        if (serviceProvider.profileImage) fs.unlinkSync(serviceProvider.profileImage);
+        // if (serviceProvider.certificate) fs.unlinkSync(serviceProvider.certificate);
+        // if (serviceProvider.profileImage) fs.unlinkSync(serviceProvider.profileImage);
 
         await serviceProvider.deleteOne();
         res.status(200).json({ message: 'Service provider deleted' });
@@ -176,20 +176,20 @@ exports.deleteMultipleServiceProviders = async (req, res) => {
         const serviceProviders = await ServiceProvider.find({ _id: { $in: validIds } });
 
         // Delete the associated files (certificate and profileImage)
-        serviceProviders.forEach(provider => {
-            if (provider.certificate) {
-                const certificatePath = path.join(__dirname, '..', provider.certificate);
-                fs.unlink(certificatePath, (err) => {
-                    if (err) console.log(`Error deleting certificate file for provider ${provider._id}:`, err);
-                });
-            }
-            if (provider.profileImage) {
-                const profileImagePath = path.join(__dirname, '..', provider.profileImage);
-                fs.unlink(profileImagePath, (err) => {
-                    if (err) console.log(`Error deleting profile image for provider ${provider._id}:`, err);
-                });
-            }
-        });
+        // serviceProviders.forEach(provider => {
+        //     if (provider.certificate) {
+        //         const certificatePath = path.join(__dirname, '..', provider.certificate);
+        //         fs.unlink(certificatePath, (err) => {
+        //             if (err) console.log(`Error deleting certificate file for provider ${provider._id}:`, err);
+        //         });
+        //     }
+        //     if (provider.profileImage) {
+        //         const profileImagePath = path.join(__dirname, '..', provider.profileImage);
+        //         fs.unlink(profileImagePath, (err) => {
+        //             if (err) console.log(`Error deleting profile image for provider ${provider._id}:`, err);
+        //         });
+        //     }
+        // });
 
         // Delete service providers by their IDs
         const result = await ServiceProvider.deleteMany({ _id: { $in: validIds } });
