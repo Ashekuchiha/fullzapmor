@@ -118,7 +118,7 @@ exports.createServiceOrganization = async (req, res) => {
 
 //get all without pagination
 
-//get all with pagination
+//get all data with structure
 
 // Get all Service Organizations with pagination
 exports.getAllServiceOrganizations = async (req, res) => {

@@ -3,15 +3,16 @@ const mongoose = require('mongoose');
 
 // Get all states
 
-// exports.getAllStates = async (req, res) => {
-//     try {
-//         const states = await State.find();
-//         res.status(200).json(states);
-//     } catch (error) {
-//         res.status(500).json({ message: error.message });
-//     }
-// };
+    // exports.getAllStates = async (req, res) => {
+    //     try {
+    //         const states = await State.find();
+    //         res.status(200).json(states);
+    //     } catch (error) {
+    //         res.status(500).json({ message: error.message });
+    //     }
+    // };
 
+//get all data with structure
 exports.getAllStatesAll = async (req, res) => {
     try {
         const States = await State.find(); // Fetch all service locations
