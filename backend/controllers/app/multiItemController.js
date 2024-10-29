@@ -1,4 +1,4 @@
-const MultiItem = require('../../models/app/multiItemModel');
+const MultiItem = require('../../models/app/MultiItemModel');
 const path = require('path');
 const fs = require('fs');
 

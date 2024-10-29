@@ -16,7 +16,7 @@ const stateRoutes = require('./routes/stateRoutes')
 const citiesRoutes = require('./routes/citiesRoutes')
 const serviceOrganizationRoutes = require('./routes/serviceOrganizationRoutes')
 
-//web
+//app
 const servicesController = require('./controllers/app/home')
 const multiItemRoutes = require('./routes/app/multiItemRoutes')
 const { getVendorsByService , getVendorsByOrganization,getVendorsByCityAndOrganization } = require('./controllers/app/wiseController');
