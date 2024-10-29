@@ -19,6 +19,7 @@ const columns = [
     { field: 'profileImage', headerName: 'profileImage', renderCell: (value) => `$${value}` },
     { field: 'amount', headerName: 'amount', renderCell: (value) => `$${value}` },
     { field: 'type', headerName: 'type', renderCell: (value) => `$${value}` },
+    { field: 'featured', headerName: 'featured', renderCell: (value) => `$${value}` },
 ];
 
 const handleCustomAction = (id) => {

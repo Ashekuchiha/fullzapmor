@@ -23,6 +23,7 @@ router.post(
 );
 // Get all organizations with pagination
 router.get('/', serviceOrganizationController.getAllServiceOrganizations);
+router.get('/all', serviceOrganizationController.getAllOrganizationNames);
 
 // Get an organization by ID
 router.get('/:id', serviceOrganizationController.getServiceOrganizationById);

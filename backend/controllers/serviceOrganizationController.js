@@ -119,6 +119,20 @@ exports.createServiceOrganization = async (req, res) => {
 //get all without pagination
 
 //get all data with structure
+exports.getAllOrganizationNames = async (req, res) => {
+    try {
+        // Fetch all service organizations from the database, but only select the `organizationName` field
+        const organizations = await ServiceOrganization.find({}, 'organizationName'); // Only fetch the 'organizationName' field
+
+        // Extract only the organizationName field for each organization
+        const names = organizations.map(org => org.organizationName);
+
+        // Send the response as an array of organization names
+        res.status(200).json(names);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
 
 // Get all Service Organizations with pagination
 exports.getAllServiceOrganizations = async (req, res) => {

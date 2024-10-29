@@ -85,6 +85,59 @@ exports.getAllServices = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+//only data
+// exports.getAllServicesAll = async (req, res) => {
+//     try {
+//         // Fetch all services from the database
+//         const services = await Service.find();
+
+//         // Format each service record
+//         const formattedServices = services.map(service => ({
+//             id: service._id,
+//             name: service.name,
+//             description: service.description,
+//             featured: service.featured ? 'Yes' : 'No', // Format boolean as "Yes" or "No"
+//             icon: service.icon, // Assumes the icon is stored as a path or URL
+//             status: service.status,
+//             amount: service.amount,
+//             type: service.type,
+//             createdAt: service.createdAt,
+//             updatedAt: service.updatedAt
+//         }));
+
+//         // Build the response structure
+//         const response = {
+//             data: formattedServices,
+//             // success: true,
+//             // data: {
+//             //     data: formattedServices,
+//             //     total: formattedServices.length
+//             // },
+//             // message: "Services retrieved successfully."
+//         };
+
+//         // Send the response
+//         res.status(200).json(response);
+//     } catch (error) {
+//         res.status(500).json({ message: error.message });
+//     }
+// };
+exports.getAllServicesAll = async (req, res) => {
+    try {
+        // Fetch all services from the database, but only select the `name` field
+        const services = await Service.find({}, 'name'); // Only fetch the 'name' field for each service
+
+        // Extract only the name field for each service
+        const names = services.map(service => service.name);
+
+        // Send the response as an array of names
+        res.status(200).json(names);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+
 
 // Get a service by ID
 exports.getServiceById = async (req, res) => {

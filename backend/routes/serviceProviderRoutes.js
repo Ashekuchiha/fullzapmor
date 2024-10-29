@@ -7,6 +7,7 @@ const {
     updateServiceProvider,
     deleteServiceProvider,
     deleteMultipleServiceProviders,
+    getAllServiceProvidersAll
 } = require('../controllers/serviceProviderController');
 
 const router = express.Router();
@@ -26,6 +27,7 @@ const upload = require('../middlewares/cloudinaryMiddleware');
 
 // Routes
 router.get('/', getAllServiceProviders);
+router.get('/all', getAllServiceProvidersAll);
 router.get('/:id', getServiceProviderById);
 router.post('/', upload.fields([{ name: 'certificate' }, { name: 'profileImage' }]), createServiceProvider);
 router.put('/:id', upload.fields([{ name: 'certificate' }, { name: 'profileImage' }]), updateServiceProvider);

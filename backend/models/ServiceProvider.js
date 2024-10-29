@@ -8,10 +8,11 @@ const serviceProviderSchema = new mongoose.Schema({
     service: { type: String, required: false }, // array of multiple values
     specialized: { type: String, required: false },
     experience: { type: String, required: false},
-    serviceOrganization: { type: String, required: false },
+    serviceOrganization: { type: [String], required: false },
     status: { type: String },
     amount:{type: String},
     type:{type:String},
+    featured: { type: Boolean, default: false },
     certificate: { type: String }, // store image file path or URL
     profileImage: { type: String }, // store image file path or URL
 }, { timestamps: true });

@@ -21,6 +21,7 @@ router.post('/', upload.single('icon'), serviceController.createService);
 
 // GET: Get all services
 router.get('/', serviceController.getAllServices);
+router.get('/all', serviceController.getAllServicesAll);
 
 // GET: Get a service by ID
 router.get('/:id', serviceController.getServiceById);

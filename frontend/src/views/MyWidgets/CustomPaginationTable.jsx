@@ -56,7 +56,6 @@ function ReusablePaginationTable({
             setLoading(false);
         }
     };
-console.log("data find after fetch",data)
     useEffect(() => {
         fetchData(page + 1);
     }, [page, rowsPerPage]);
@@ -366,7 +365,7 @@ console.log("data find after fetch",data)
                                                     <TableCell>Action</TableCell> {/* Action Column */}
                                                 </TableRow>
                                             </TableHead>
-                                            <TableBody>{console.log("filteredData",filteredData)}
+                                            <TableBody>
                                                 {filteredData.map((row) => (
                                                     <TableRow key={row.id}>
                                                         <TableCell padding="checkbox">
@@ -396,7 +395,7 @@ console.log("data find after fetch",data)
                                                                     setCurrentId(row.id);
                                                                     setActionMenuAnchorEl(event.currentTarget);
                                                                 }}
-                                                            >{console.log(row.id,currentId)}
+                                                            >
                                                                 <MoreHoriz />
                                                             </IconButton>
                                                             <Menu

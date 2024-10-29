@@ -14,6 +14,47 @@ const path = require('path');
 //         res.status(500).json({ error: err.message });
 //     }
 // };
+
+//customized
+exports.getAllServiceProvidersAll = async (req, res) => {
+    try {
+        const providers = await ServiceProvider.find(); // Fetch all service providers
+
+        const formattedProviders = providers.map(provider => ({
+            id: provider._id,
+            email: provider.email,
+            phoneNumber: provider.phoneNumber,
+            password: provider.password,
+            service: provider.service,
+            specialized: provider.specialized,
+            experience: provider.experience,
+            serviceOrganization: provider.serviceOrganization,
+            status: provider.status,
+            amount: provider.amount,
+            type: provider.type,
+            featured: provider.featured,
+            certificate: provider.certificate,
+            profileImage: provider.profileImage,
+            createdAt: provider.createdAt,
+            updatedAt: provider.updatedAt
+        }));
+
+        const response = {
+            data: formattedProviders,
+            // success: true,
+            // data: {
+            //     data: formattedProviders,
+            //     total: formattedProviders.length
+            // },
+            // message: "Service providers retrieved successfully."
+        };
+
+        res.status(200).json(response);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+//pagi
 exports.getAllServiceProviders = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; // Default to page 1 if not provided
@@ -28,14 +69,17 @@ exports.getAllServiceProviders = async (req, res) => {
         const formattedserviceProvider = serviceProvider.map(user => ({
             id: user._id,
             name: user.name,
+            email: user.email,
+            phoneNumber: user.phoneNumber,
+            password: user.password,
             service: user.service,
             specialized: user.specialized,
             experience: user.experience,
-            phoneNumber: user.phoneNumber,
-            email: user.email,
-            status: user.status,
+            serviceOrganization:user.serviceOrganization,
+            status:user.status,
             amount:user.amount,
             type:user.type,
+            featured:user.featured ? 'Yes': 'No',
             certificate:user.certificate,
             profileImage:user.profileImage,
             createdAt: user.createdAt,
@@ -86,7 +130,7 @@ exports.getServiceProviderById = async (req, res) => {
 // Create a new service provider
 exports.createServiceProvider = async (req, res) => {
     try {
-        const { name,email, phoneNumber, password, service, specialized, experience, serviceOrganization, status,amount,type } = req.body;
+        const { name,email, phoneNumber, password, service, specialized, experience,  serviceOrganization = [], status,amount,type, featured = false  } = req.body;
         
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -109,7 +153,8 @@ exports.createServiceProvider = async (req, res) => {
             amount,
             type,
             certificate,
-            profileImage
+            profileImage,
+            featured,
         });
 
         await serviceProvider.save();
