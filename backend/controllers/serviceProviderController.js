@@ -120,6 +120,26 @@ exports.createServiceProvider = async (req, res) => {
 };
 
 // Update service provider by ID
+// exports.updateServiceProvider = async (req, res) => {
+//     try {
+//         const updates = { ...req.body };
+        
+//         // Update password if provided
+//         if (req.body.password) {
+//             updates.password = await bcrypt.hash(req.body.password, 10);
+//         }
+
+//         if (req.files?.certificate) updates.certificate = req.files.certificate.path;
+//         if (req.files?.profileImage) updates.profileImage = req.files.profileImage.path;
+
+//         const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, updates, { new: true });
+//         if (!serviceProvider) return res.status(404).json({ message: 'Service provider not found' });
+
+//         res.status(200).json(serviceProvider);
+//     } catch (err) {
+//         res.status(500).json({ error: err.message });
+//     }
+// };
 exports.updateServiceProvider = async (req, res) => {
     try {
         const updates = { ...req.body };
@@ -129,9 +149,15 @@ exports.updateServiceProvider = async (req, res) => {
             updates.password = await bcrypt.hash(req.body.password, 10);
         }
 
-        if (req.files?.certificate) updates.certificate = req.files.certificate.path;
-        if (req.files?.profileImage) updates.profileImage = req.files.profileImage.path;
+        // Check if files were uploaded and update their paths
+        if (req.files?.certificate) {
+            updates.certificate = req.files.certificate[0].path;
+        }
+        if (req.files?.profileImage) {
+            updates.profileImage = req.files.profileImage[0].path;
+        }
 
+        // Update the service provider in the database
         const serviceProvider = await ServiceProvider.findByIdAndUpdate(req.params.id, updates, { new: true });
         if (!serviceProvider) return res.status(404).json({ message: 'Service provider not found' });
 
