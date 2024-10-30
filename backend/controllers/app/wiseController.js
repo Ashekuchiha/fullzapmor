@@ -121,4 +121,51 @@ const getVendorsByCityAndOrganization = async (req, res) => {
   }
 };
 
-  module.exports = { getVendorsByService, getVendorsByOrganization, getVendorsByCityAndOrganization };
+  // Controller to get vendors by featured
+  const getFeaturedVendors = async (req, res) => {
+    try {
+        // Fetch vendors with `featured` set to true
+        const featuredVendors = await ServiceProvider.find({ featured: true });
+
+        // Format each vendor to include only `id`, `name`, and `pic`
+        const formattedVendors = featuredVendors.map(vendor => ({
+            id: vendor._id,
+            name: vendor.name,
+            pic: vendor.profileImage || ""  // Assuming profileImage is the URL for the vendor's picture
+        }));
+
+        // Structure the response
+        const response = {
+            success: true,
+            data: formattedVendors,
+            message: "Featured vendors retrieved successfully."
+        };
+
+        res.status(200).json(formattedVendors);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+//get featured organization
+const getFeaturedOrganizations = async (req, res) => {
+  try {
+      // Fetch organizations where featured is true, selecting only the necessary fields
+      const featuredOrganizations = await ServiceOrganization.find({ featured: true }, 'organizationLogo organizationName _id');
+
+      // Map the result to match the requested format
+      const response = featuredOrganizations.map(org => ({
+          pic: org.organizationLogo,
+          name: org.organizationName,
+          id: org._id
+      }));
+
+      // Send the formatted response
+      res.status(200).json(response);
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+};
+
+
+  module.exports = { getVendorsByService, getVendorsByOrganization, getVendorsByCityAndOrganization , getFeaturedVendors,getFeaturedOrganizations };

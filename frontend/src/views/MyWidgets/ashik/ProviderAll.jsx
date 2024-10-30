@@ -9,17 +9,17 @@ import { Link } from 'react-router-dom';
 const columns = [
     { field: 'name', headerName: 'Name' },
     { field: 'email', headerName: 'email' },
-    { field: 'phoneNumber', headerName: 'phoneNumber' },
-    { field: 'service', headerName: 'service', renderCell: (value) => `$${value}` },
-    { field: 'specialized', headerName: 'specialized', renderCell: (value) => `$${value}` },
-    { field: 'experience', headerName: 'experience' },
-    { field: 'serviceOrganization', headerName: 'serviceOrganization', renderCell: (value) => `$${value}` },
-    { field: 'status', headerName: 'status', renderCell: (value) => `$${value}` },
-    { field: 'certificate', headerName: 'certificate', renderCell: (value) => `$${value}` },
-    { field: 'profileImage', headerName: 'profileImage', renderCell: (value) => `$${value}` },
-    { field: 'amount', headerName: 'amount', renderCell: (value) => `$${value}` },
-    { field: 'type', headerName: 'type', renderCell: (value) => `$${value}` },
-    { field: 'featured', headerName: 'featured', renderCell: (value) => `$${value}` },
+    { field: 'phoneNumber', headerName: 'Phone Number' },
+    { field: 'service', headerName: 'Service'},
+    { field: 'specialized', headerName: 'Exparties'},
+    { field: 'experience', headerName: 'Experience' },
+    { field: 'serviceOrganization', headerName: 'Service Organization'},
+    { field: 'status', headerName: 'Status'},
+    { field: 'certificate', headerName: 'Certificate', renderCell: (value) => (<img src={value} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
+    { field: 'profileImage', headerName: 'Profile Image', renderCell: (value) => (<img src={value} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
+    { field: 'amount', headerName: 'Amount'},
+    { field: 'type', headerName: 'Type'},
+    { field: 'featured', headerName: 'Featured'},
 ];
 
 const handleCustomAction = (id) => {

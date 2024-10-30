@@ -18,8 +18,10 @@ const storage = new CloudinaryStorage({
         // Determine folder based on route or other conditions
         if (req.baseUrl.includes('services-providers')) {
             folder = 'services_provider';
-        } else if (req.baseUrl.includes('user')) {
-            folder = 'users';
+        } else if (req.baseUrl.includes('service-organization')) {
+            folder = 'service organization';
+        }else if (req.baseUrl.includes('services')) {
+            folder = 'services';
         }
 
         return {

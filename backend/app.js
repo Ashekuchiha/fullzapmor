@@ -19,7 +19,7 @@ const serviceOrganizationRoutes = require('./routes/serviceOrganizationRoutes')
 //app
 const servicesController = require('./controllers/app/home')
 const multiItemRoutes = require('./routes/app/multiItemRoutes')
-const { getVendorsByService , getVendorsByOrganization,getVendorsByCityAndOrganization } = require('./controllers/app/wiseController');
+const { getVendorsByService , getVendorsByOrganization,getVendorsByCityAndOrganization,getFeaturedVendors,getFeaturedOrganizations } = require('./controllers/app/wiseController');
 
 const errorHandler = require('./middlewares/errorHandler');
 const path = require('path');
@@ -49,10 +49,14 @@ app.get('/', (req, res) => {
 
 //app
 app.get('/getFormattedData', servicesController.getDataInCustomFormat);
+
 app.use('/api/app/multi_item',multiItemRoutes);
+
 app.get('/api/app/service_wise_vendor/:serviceType',getVendorsByService)
 app.get('/api/app/organisation_wise_vendor/:organizationName', getVendorsByOrganization);
 app.get('/api/app/vendors/:city/:organizationId', getVendorsByCityAndOrganization);
+app.get('/api/app/vendors/featured', getFeaturedVendors);
+app.get('/api/app/serviceOrganization/featured', getFeaturedOrganizations);
 
 
 //web

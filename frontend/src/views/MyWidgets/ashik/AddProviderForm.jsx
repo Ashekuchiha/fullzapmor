@@ -14,7 +14,7 @@ import MyCheckBox from './checkbox/MyCheckBox.jsx';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
-
+import Swal from 'sweetalert2';
 const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email format').required('Email is required'),
@@ -59,7 +59,7 @@ export default function AddProviderForm() {
               </Grid>
               
               <Grid item xs={12} sm={12} lg={6}>
-                  <CustomFormLabel>type</CustomFormLabel>
+                  <CustomFormLabel>Type</CustomFormLabel>
                   <CustomSelect
                   style={{ width: '50%' }} 
                   labelId="type-select"
@@ -128,21 +128,7 @@ export default function AddProviderForm() {
           formData.append('type', values.type);
           formData.append('featured', values.featured);
 
-          // Append files (if they are provided)
-          // if (values.profileImage) {
-          //   formData.append('profileImage', values.profileImage);
-          // }
-
-          // if (values.certificate) {
-          //     formData.append('certificate', values.certificate);
-          //   }
-        
-          // // Append multiple files for certificate
-          // values.certificate.forEach((file, index) => {
-          //   formData.append(`certificate[${index}]`, file);
-          // });
-
-          alert(JSON.stringify(values),)
+          // <Alert severity="error">{JSON.stringify(values)}</Alert>
           console.log(JSON.stringify(values))
           try {
             const url = id
@@ -163,12 +149,22 @@ export default function AddProviderForm() {
             
               const data = await response.json();
               console.log('Success:', data);
-              alert(id?'provider updated successfully':'Form submitted successfully!');
+              Swal.fire({
+                icon: 'success',
+                title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+                showConfirmButton: false,
+                timer: 3000,  // Automatically close after 3 seconds
+              });
               formik.resetForm(); 
               navigate(`/admin/providers/all`);
             } catch (error) {
               console.error('Error:', error);
-              alert('Failed to submit the form.');
+              Swal.fire({
+                icon: 'error',
+                title: error,
+                showConfirmButton: false,
+                timer: 3000,  // Automatically close after 3 seconds
+              });
             }
       },
     });
@@ -330,6 +326,7 @@ useEffect(() => {
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Expertise</CustomFormLabel>
               <CustomTextField
+                  placeholder='What you good at'
                   fullWidth
                   id="specialized"
                   name="specialized"
@@ -343,6 +340,7 @@ useEffect(() => {
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Experience</CustomFormLabel>
               <CustomTextField
+                  placeholder='Enter your experience'
                   fullWidth
                   id="experience"
                   name="experience"

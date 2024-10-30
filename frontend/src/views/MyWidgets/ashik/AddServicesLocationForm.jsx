@@ -4,7 +4,7 @@ import ParentCard from 'src/components/shared/ParentCard';
 import Breadcrumb from 'src/layouts/full/shared/breadcrumb/Breadcrumb';
 import { useFormik } from 'formik';
 import * as yup from 'yup';
-import { Box, Button, FormHelperText, Grid, MenuItem } from '@mui/material';
+import { Alert, Box, Button, FormHelperText, Grid, MenuItem } from '@mui/material';
 import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel';
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import LocationInput from './locationInput/LocationInput';
@@ -12,6 +12,7 @@ import { useNavigate, useParams } from 'react-router';
 import { values } from 'lodash';
 import axios from 'axios';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import LiveSwitch from './switch/LiveSwitch';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -55,75 +56,11 @@ export default function AddServicesLocationForm() {
       organizationBanner: null, // For file uploads, initialize as null
       tradeLicense: null, // For file uploads, initialize as null
       organizationDocuments: null, // For multiple file uploads, initialize as an empty array
+      featured:false,
     },
     
-    validationSchema: validationSchema,
-    // onSubmit: async (values) => {
-    //   const formData = new FormData();
-    
-    //   // Append each field to the FormData
-    //   formData.append('organizationName', values.organizationName);
-    //   formData.append('ownerName', values.ownerName);
-    //   formData.append('state', values.state);
-    //   formData.append('city', values.city);
-    //   formData.append('address', values.address);
-    
-    //   // Append arrays like mapSelection by converting them to JSON
-    //   formData.append('mapSelection', JSON.stringify(values.mapSelection));
-    
-    //   formData.append('organizationBio', values.organizationBio);
-    //   formData.append('organizationDescription', values.organizationDescription);
-    //   formData.append('organizationWebsite', values.organizationWebsite);
-    //   formData.append('phoneNumber', values.phoneNumber);
-    //   formData.append('emergencyPhoneNumber', values.emergencyPhoneNumber);
-    //   formData.append('employeeNumbers', values.employeeNumbers);
-    
-    //   // Append file inputs if they are provided
-    //   if (values.organizationLogo) {
-    //     formData.append('organizationLogo', values.organizationLogo);
-    //   }
-    //   if (values.organizationBanner) {
-    //     formData.append('organizationBanner', values.organizationBanner);
-    //   }
-    //   if (values.tradeLicense) {
-    //     formData.append('tradeLicense', values.tradeLicense);
-    //   }
-    //   if (values.organizationDocuments) {
-    //     formData.append('organizationDocuments', values.organizationDocuments);
-    //   }
-    
-    //   console.log(formData)
-    //   console.log(JSON.stringify(values))
-    //   alert(JSON.stringify(values))
-    //   try {
-    //     const url = id
-    //       ? `${basic}/api/service-organization/${id}`
-    //       : `${basic}/api/service-organization`;
-    //     const method = id ? 'PUT' : 'POST';
+    // validationSchema: validationSchema,
 
-    //     // Send JSON instead of FormData
-    //     const response = await fetch(url, {
-    //       method: method,
-    //       headers:{
-    //         'Content-Type':'multipart/form-data'
-    //       },
-    //       body: formData,
-    //     });
-
-    //     if (!response.ok) {
-    //       throw new Error('Failed to submit form');
-    //     }
-
-    //     const data = await response.json();
-    //     console.log('Success:', data);
-    //     alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
-    //     formik.resetForm(); // Reset form after successful submission
-    //     navigate(`/admin/serviceslocation/all`);
-    //   } catch (error) {
-    //     console.error('Error:', error);
-    //     alert('Failed to submit the form.');
-    //   }
-    // },
     onSubmit: async (values) => {
       const formData = new FormData();
       
@@ -147,20 +84,8 @@ export default function AddServicesLocationForm() {
       formData.append('organizationBanner', values.organizationBanner);
       formData.append('tradeLicense', values.tradeLicense);
       formData.append('organizationDocuments', values.organizationDocuments);
+      formData.append('featured', values.featured);
 
-      // Append file inputs if they are provided
-      // if (values.organizationLogo) {
-      //   formData.append('organizationLogo', values.organizationLogo);
-      // }
-      // if (values.organizationBanner) {
-      //   formData.append('organizationBanner', values.organizationBanner);
-      // }
-      // if (values.tradeLicense) {
-      //   formData.append('tradeLicense', values.tradeLicense);
-      // }
-      // if (values.organizationDocuments) {
-      //   formData.append('organizationDocuments', values.organizationDocuments);
-      // }
       alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
       try {
@@ -181,12 +106,13 @@ export default function AddServicesLocationForm() {
     
         const data = await response.json();
         console.log('Success:', data);
-        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        // alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
         formik.resetForm(); // Reset form after successful submission
         navigate(`/admin/serviceslocation/all`);
       } catch (error) {
         console.error('Error:', error);
-        alert('Failed to submit the form.');
+        // alert(id?'Faild to update the form':'Failed to submit the form.');
+        // <Alert>{id?'Faild to update the form':'Failed to submit the form.'}</Alert>
       }
     },
     
@@ -214,7 +140,8 @@ export default function AddServicesLocationForm() {
             organizationLogo: data.data.organizationLogo || null, // For file uploads, initialize as null
             organizationBanner: data.data.organizationBanner || null, // For file uploads, initialize as null
             tradeLicense: data.data.tradeLicense || null, // For file uploads, initialize as null
-            organizationDocuments: data.data.organizationDocuments || [], // For multiple file uploads, initialize as an empty array
+            organizationDocuments: data.data.organizationDocuments || null, // For multiple file uploads, initialize as an empty array
+            featured: data.data.featured || false,
         });        
           setLoading(false);
         })
@@ -526,7 +453,7 @@ export default function AddServicesLocationForm() {
                 <CustomFormLabel>Organization Documents (PDF/Image/Word)</CustomFormLabel>
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button component="label">
-                      Upload organizationDocuments Image
+                      Upload organization Documents files
                       <input
                         type="file"
                         hidden
@@ -546,6 +473,14 @@ export default function AddServicesLocationForm() {
                   {formik.touched.organizationDocuments && formik.errors.organizationDocuments && (
                     <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.organizationDocuments}</div>
                   )}
+              </Grid>
+
+              <Grid item xs={12} sm={12} lg={6}>
+                  <CustomFormLabel>Featured</CustomFormLabel>
+                  <LiveSwitch
+                    initialChecked={formik.values.featured}
+                    onSwitchChange={(value) => formik.setFieldValue('featured', value)}
+                  />
               </Grid>
 
             </Grid>

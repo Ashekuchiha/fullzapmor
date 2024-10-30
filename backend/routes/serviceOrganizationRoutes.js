@@ -2,13 +2,16 @@ const express = require('express');
 const router = express.Router();
 const multer = require('multer');
 const serviceOrganizationController = require('../controllers/serviceOrganizationController');
+
 // const upload = multer({ dest: 'uploads/serviceOrganization' });  // Configure multer for image upload
 
-const storage = multer.diskStorage({
-    destination: (req, file, cb) => cb(null, 'uploads/serviceOrganization'), // Set your upload directory
-    filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
-});
-const upload = multer({ storage });
+// const storage = multer.diskStorage({
+//     destination: (req, file, cb) => cb(null, 'uploads/serviceOrganization'), // Set your upload directory
+//     filename: (req, file, cb) => cb(null, `${Date.now()}-${file.originalname}`)
+// });
+// const upload = multer({ storage });
+const upload = require('../middlewares/cloudinaryMiddleware');
+
 
 // Create a new organization
 router.post(

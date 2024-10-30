@@ -17,6 +17,7 @@ const ServiceOrganizationSchema = new mongoose.Schema({
     organizationBanner: { type: String },  // path to banner image
     tradeLicense: { type: String },  // path to trade license image
     organizationDocuments: { type: String },  // path to documents image
+    featured: { type: Boolean, default: false },
 });
 
 module.exports = mongoose.model('ServiceOrganization', ServiceOrganizationSchema);

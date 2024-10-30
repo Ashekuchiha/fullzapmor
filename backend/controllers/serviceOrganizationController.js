@@ -4,41 +4,6 @@ const path = require('path');
 const fs = require('fs');
 const mongoose = require('mongoose');
 
-// Create a new Service Organization
-// exports.createServiceOrganization = async (req, res) => {
-//     try {
-//         const { organizationName, ownerName, state, city, address, organizationBio, organizationDescription, organizationWebsite, phoneNumber, emergencyPhoneNumber, employeeNumbers, mapSelection } = req.body;
-//         if (typeof mapSelection === 'string') {
-//             req.body.mapSelection = JSON.parse(mapSelection);
-//         }
-//         const newOrganization = new ServiceOrganization({
-//             organizationName,
-//             ownerName,
-//             state,
-//             city,
-//             address,
-//             organizationBio,
-//             organizationDescription,
-//             organizationWebsite,
-//             phoneNumber,
-//             emergencyPhoneNumber,
-//             employeeNumbers,
-//             mapSelection,
-//             organizationLogo: req.files.organizationLogo ? req.files.organizationLogo[0].path : null,
-//             organizationBanner: req.files.organizationBanner ? req.files.organizationBanner[0].path : null,
-//             tradeLicense: req.files.tradeLicense ? req.files.tradeLicense[0].path : null,
-//             organizationDocuments: req.files.organizationDocuments ? req.files.organizationDocuments[0].path : null
-//         });
-
-//         await newOrganization.save();
-
-//         res.status(201).json({ success: true, message: 'Service organization created successfully', data: newOrganization });
-//     } catch (error) {
-//         res.status(500).json({ success: false, error: error.message });
-//     }
-// };
-
-
 exports.createServiceOrganization = async (req, res) => {
     try {
         // Extract fields from the request body
@@ -53,7 +18,8 @@ exports.createServiceOrganization = async (req, res) => {
             organizationWebsite,
             phoneNumber,
             emergencyPhoneNumber,
-            employeeNumbers
+            employeeNumbers,
+            featured = false ,
         } = req.body;
 
         // Parse mapSelection as an array if it’s received as a string
@@ -96,7 +62,8 @@ exports.createServiceOrganization = async (req, res) => {
             organizationLogo,
             organizationBanner,
             tradeLicense,
-            organizationDocuments
+            organizationDocuments,
+            featured,
         });
 
         // Save to database
@@ -116,9 +83,7 @@ exports.createServiceOrganization = async (req, res) => {
     }
 };
 
-//get all without pagination
-
-//get all data with structure
+//get all organization name
 exports.getAllOrganizationNames = async (req, res) => {
     try {
         // Fetch all service organizations from the database, but only select the `organizationName` field
@@ -134,7 +99,7 @@ exports.getAllOrganizationNames = async (req, res) => {
     }
 };
 
-// Get all Service Organizations with pagination
+// Get all Service Organizations data with pagination
 exports.getAllServiceOrganizations = async (req, res) => {
     try {
         const page = parseInt(req.query.page) || 1; 
@@ -163,7 +128,7 @@ exports.getAllServiceOrganizations = async (req, res) => {
             organizationBanner: organization.organizationBanner,
             tradeLicense: organization.tradeLicense,
             organizationDocuments: organization.organizationDocuments,
-            location: organization.location,
+            featured:organization.featured ? 'Yes': 'No',
             createdAt: organization.createdAt,
             updatedAt: organization.updatedAt
         }));
@@ -290,7 +255,6 @@ exports.deleteOrganization = async (req, res) => {
     }
 };
 
-
 // Delete multiple Service Organizations
 exports.deleteMultipleServiceOrganizations = async (req, res) => {
     try {
@@ -339,3 +303,4 @@ exports.deleteMultipleServiceOrganizations = async (req, res) => {
         res.status(500).json({ success: false, error: error.message });
     }
 };
+
