@@ -11,6 +11,7 @@ import LocationInput from './locationInput/LocationInput';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import Swal from 'sweetalert2';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -79,12 +80,24 @@ export default function AddCityForm() {
 
         const data = await response.json();
         console.log('Success:', data);
-        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        // alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
         formik.resetForm(); // Reset form after successful submission
         navigate(`/admin/location/city/all`);
       } catch (error) {
         console.error('Error:', error);
-        alert('Failed to submit the form.');
+        // alert('Failed to submit the form.');
+        Swal.fire({
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
       }
     },
 
@@ -138,6 +151,7 @@ export default function AddCityForm() {
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>City Name</CustomFormLabel>
                 <CustomTextField
+                placeholder = 'Enter City Name'
                   fullWidth
                   id="cityName"
                   name="cityName"
@@ -150,6 +164,7 @@ export default function AddCityForm() {
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>State Name</CustomFormLabel>
                 <CustomSelect
+                  placeholder='Choose a state'
                     labelId="StateName-select"
                     fullWidth
                     id="StateName" 
@@ -171,7 +186,7 @@ export default function AddCityForm() {
                     )}
               </Grid>
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>longitude</CustomFormLabel>
+                <CustomFormLabel>Longitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth
                   id="longitude"

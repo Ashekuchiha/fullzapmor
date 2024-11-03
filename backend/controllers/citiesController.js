@@ -11,6 +11,23 @@ const mongoose = require('mongoose');
 //     }
 // };
 
+// Get all cities for a specific state
+exports.getCitiesByStateName = async (req, res) => {
+    try {
+        const stateName = req.params.stateName;
+        const cities = await City.find({ StateName: stateName });
+        
+        res.json({
+            success: true,
+            data: {
+                data: cities
+            }
+        });
+    } catch (err) {
+        res.status(500).json({ success: false, message: err.message });
+    }
+};
+
 exports.getAllcitiesAll = async (req, res) => {
     try {
         const cities = await City.find(); // Fetch all service locations

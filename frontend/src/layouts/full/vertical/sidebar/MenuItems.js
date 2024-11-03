@@ -1,9 +1,8 @@
 
 
-import { MiscellaneousServices } from '@mui/icons-material';
-import { IconAperture } from '@tabler/icons';
-
+import { AccountBalance, BookmarkAdd, DeleteForever, GradingSharp, HourglassTop, LocalAtmSharp, LocationCity, MapOutlined, MapsHomeWorkOutlined, MiscellaneousServices, NotInterested, PaidSharp, Pending, PermIdentity, RotateLeftSharp, Soap, TableRows } from '@mui/icons-material';
 import { uniqueId } from 'lodash';
+import SaveAsIcon from '@mui/icons-material/SaveAs';
 
 const Menuitems = [
     {
@@ -14,7 +13,7 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Dashboard',
-      icon: IconAperture,
+      icon: AccountBalance,
       href: '/admin',
       chipColor: 'secondary',
     },
@@ -36,12 +35,12 @@ const Menuitems = [
     //   icon: MiscellaneousServices,
     //   href: '/admin/servicecategory',
     // },
-    {
-      id: uniqueId(),
-      title: 'Home',
-      icon: MiscellaneousServices,
-      href: '/admin/home',
-    },
+    // {
+    //   id: uniqueId(),
+    //   title: 'Home',
+    //   icon: MiscellaneousServices,
+    //   href: '/admin/home',
+    // },
     {
       id: uniqueId(),
       title: 'Services',
@@ -51,13 +50,13 @@ const Menuitems = [
         {
           id: uniqueId(),
           title: 'All',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/services/all',
         },
         {
           id: uniqueId(),
           title: 'Drafts',
-          icon: MiscellaneousServices,
+          icon:SaveAsIcon,
           href: '/admin/services/drafts',
         },
       ]
@@ -71,19 +70,19 @@ const Menuitems = [
     {
       id:uniqueId(),
       title:'Location',
-      icon: MiscellaneousServices,
+      icon: MapOutlined,
       href: '/admin/location/',
       children :[
         {
           id: uniqueId(),
           title: 'State',
-          icon: MiscellaneousServices,
+          icon: LocationCity,
           href: '/admin/location/state/all',
         },
         {
           id: uniqueId(),
           title: 'City',
-          icon: MiscellaneousServices,
+          icon: LocationCity,
           href: '/admin/location/city/all',
         },
       ]
@@ -91,19 +90,19 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Services Organization',
-      icon: MiscellaneousServices,
+      icon: MapsHomeWorkOutlined,
       href: '/admin/serviceslocation/',
       children :[
         {
           id: uniqueId(),
           title: 'All',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/serviceslocation/all',
         },
         {
           id: uniqueId(),
           title: 'Drafts',
-          icon: MiscellaneousServices,
+          icon:SaveAsIcon,
           href: '/admin/serviceslocation/drafts',
         },
       ]
@@ -111,37 +110,37 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Bookings',
-      icon: MiscellaneousServices,
+      icon: BookmarkAdd,
       href: '/admin/booking/',
       children :[
         {
           id: uniqueId(),
           title: 'All',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/booking/all',
         },
         {
           id: uniqueId(),
           title: 'Completed',
-          icon: MiscellaneousServices,
+          icon: GradingSharp,
           href: '/admin/booking/completed',
         },
         {
           id: uniqueId(),
           title: 'On Going',
-          icon: MiscellaneousServices,
+          icon: RotateLeftSharp,
           href: '/admin/booking/ongoing',
         },
         {
           id: uniqueId(),
           title: 'Waiting',
-          icon: MiscellaneousServices,
+          icon: HourglassTop,
           href: '/admin/booking/waiting',
         },
         {
           id: uniqueId(),
           title: 'Canceled',
-          icon: MiscellaneousServices,
+          icon: DeleteForever,
           href: '/admin/booking/canceled',
         },
       ]
@@ -149,31 +148,31 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Transactions',
-      icon: MiscellaneousServices,
+      icon: AccountBalance,
       href: '/admin/Transactions/',
       children :[
         {
           id: uniqueId(),
           title: 'All Transactions',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/Transactions/Alltransactions',
         },
         {
           id: uniqueId(),
           title: 'Due Transactions',
-          icon: MiscellaneousServices,
+          icon: HourglassTop,
           href: '/admin/Transactions/Duetransactions',
         },
         {
           id: uniqueId(),
           title: 'Paid Transactions',
-          icon: MiscellaneousServices,
+          icon: PaidSharp,
           href: '/admin/Transactions/Paidtransactions',
         },
         {
           id: uniqueId(),
           title: 'Commission Transactions',
-          icon: MiscellaneousServices,
+          icon: LocalAtmSharp,
           href: '/admin/Transactions/Commissiontransactions',
         },
       ]
@@ -181,31 +180,31 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Providers/Vendors',
-      icon: MiscellaneousServices,
+      icon: Soap,
       href: '/admin/providers/',
       children :[
         {
           id: uniqueId(),
           title: 'All',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/providers/all',
         },
         {
           id: uniqueId(),
           title: 'Drafts',
-          icon: MiscellaneousServices,
+          icon:SaveAsIcon,
           href: '/admin/Providers/drafts',
         },
         {
           id: uniqueId(),
           title: 'Holds',
-          icon: MiscellaneousServices,
+          icon: Pending,
           href: '/admin/Providers/Holds',
         },
         {
           id: uniqueId(),
           title: 'Banned',
-          icon: MiscellaneousServices,
+          icon: NotInterested,
           href: '/admin/Providers/Banned',
         },
       ]
@@ -213,31 +212,31 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Users',
-      icon: MiscellaneousServices,
+      icon: PermIdentity,
       href: '/admin/user/',
       children :[
         {
           id: uniqueId(),
           title: 'All',
-          icon: MiscellaneousServices,
+          icon: TableRows,
           href: '/admin/user/all',
         },
         {
           id: uniqueId(),
           title: 'Drafts',
-          icon: MiscellaneousServices,
+          icon:SaveAsIcon,
           href: '/admin/user/drafts',
         },
         {
           id: uniqueId(),
           title: 'Holds',
-          icon: MiscellaneousServices,
+          icon: Pending,
           href: '/admin/user/Holds',
         },
         {
           id: uniqueId(),
           title: 'Banned',
-          icon: MiscellaneousServices,
+          icon: NotInterested,
           href: '/admin/user/Banned',
         },
       ]

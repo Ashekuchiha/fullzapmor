@@ -13,6 +13,7 @@ import { values } from 'lodash';
 import axios from 'axios';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import LiveSwitch from './switch/LiveSwitch';
+import Swal from 'sweetalert2';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -30,13 +31,14 @@ const validationSchema = yup.object({
 ,});
 
 export default function AddServicesLocationForm() {
-  const basic = "https://fullzapmor-api.vercel.app";
-  const cbasic = "http://localhost:5000";
+  const cbasic = "https://fullzapmor-api.vercel.app";
+  const basic = "http://localhost:5000";
   const navigate = useNavigate();
   const { id } = useParams();
   const [loading, setLoading] = useState(false); // Loading state for fetching data
   const [StateNames, setStateNames] = useState([]);
   const [CityNames, setCityNames] = useState([]);
+  const [selectedState, setSelectedState] = useState('');
 
   const formik = useFormik({
     initialValues: {
@@ -86,7 +88,7 @@ export default function AddServicesLocationForm() {
       formData.append('organizationDocuments', values.organizationDocuments);
       formData.append('featured', values.featured);
 
-      alert(JSON.stringify(values),)
+      // alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
       try {
         const url = id
@@ -107,17 +109,30 @@ export default function AddServicesLocationForm() {
         const data = await response.json();
         console.log('Success:', data);
         // alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
         formik.resetForm(); // Reset form after successful submission
         navigate(`/admin/serviceslocation/all`);
       } catch (error) {
         console.error('Error:', error);
         // alert(id?'Faild to update the form':'Failed to submit the form.');
         // <Alert>{id?'Faild to update the form':'Failed to submit the form.'}</Alert>
+        Swal.fire({
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
       }
     },
     
 
   });
+  //edit
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
@@ -173,17 +188,26 @@ export default function AddServicesLocationForm() {
     // Fetch the service options from the API
     const fetchStateName = async () => {
         try {
-            const response = await axios.get(`${basic}/api/cities/all`);
+            const response = await axios.get(`${basic}/api/cities/${selectedState?selectedState:'all'}`);
             setCityNames(response.data.data.data); // Assuming the data is an array of service objects
             console.log(response)
+            console.log(response.data)
+            console.log(response.data.data)
+            console.log(response.data.data.data)
         } catch (error) {
             console.error('Error fetching StateName:', error);
         }
     };
 
     fetchStateName();
-}, []);
+}, [selectedState]);
 
+const handleStateChange = (event) => {
+  const newValue = event.target.value;
+  formik.setFieldValue('state', newValue);
+  setSelectedState(newValue); // Update selectedState variable
+};
+console.log(selectedState)
   return (
     <PageContainer title="Service organization" description="This is the Custom Form page">
       <Breadcrumb title={id ? 'Edit service organization' : 'Add service organization'} subtitle="" />
@@ -196,6 +220,7 @@ export default function AddServicesLocationForm() {
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Name</CustomFormLabel>
                 <CustomTextField
+                placeholder='Enter the organization name'
                   fullWidth
                   id="organizationName"
                   name="organizationName"
@@ -209,6 +234,7 @@ export default function AddServicesLocationForm() {
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Owner Name</CustomFormLabel>
                 <CustomTextField
+                placeholder='Enter the owner name'
                   fullWidth
                   id="ownerName"
                   name="ownerName"
@@ -227,7 +253,7 @@ export default function AddServicesLocationForm() {
                     id="state" 
                     name="state"
                     value={formik.values.state}
-                    onChange={formik.handleChange}
+                    onChange={handleStateChange}
                     >
                        {StateNames.map(state => (
                     <MenuItem key={state.id} value={state.StateName}>
@@ -270,6 +296,7 @@ export default function AddServicesLocationForm() {
               <Grid item xs={12} lg={12}>
                 <CustomFormLabel>Address</CustomFormLabel>
                 <CustomTextField
+                placeholder='Enter the organization address'
                   fullWidth
                   id="address"
                   name="address"
@@ -307,6 +334,7 @@ export default function AddServicesLocationForm() {
               <Grid item xs={12} lg={12}>
                 <CustomFormLabel>Organization Description</CustomFormLabel>
                 <CustomTextField
+                
                   fullWidth
                   multiline
                   rows={2}

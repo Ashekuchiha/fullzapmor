@@ -61,7 +61,7 @@ export default function AddProviderForm() {
               <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Type</CustomFormLabel>
                   <CustomSelect
-                  style={{ width: '50%' }} 
+                  fullWidth
                   labelId="type-select"
                   id="type" 
                   name="type"
@@ -308,7 +308,8 @@ useEffect(() => {
                 disablePortal
                 id="services"
                 options={services} // Here, servicess = ['Doctors', 'Clinic']
-                sx={{ width: 300 }}
+                // sx={{ width: 300 }}
+                lg={{width:300}}
                 value={formik.values.service}
                 onChange={(event, newValue) => {
                     formik.setFieldValue('service', newValue || '');

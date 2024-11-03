@@ -12,7 +12,7 @@ const columns = [
     { field: 'featured', headerName: 'Featured' },
     { field: 'status', headerName: 'Status' },
     { field: 'amount', headerName: 'Amount' },
-    { field: 'type', headerName: 'type' },
+    { field: 'type', headerName: 'Type' },
     { field: 'icon', headerName: 'Icon' },
 ];
 

@@ -12,9 +12,11 @@ import LiveSwitch from './switch/LiveSwitch';
 import { useNavigate, useParams } from 'react-router-dom'; // Import useParams and useNavigate
 import CommissionSetup from './CommissionSetup';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
+import Swal from 'sweetalert2';
+import Spinner from 'src/views/spinner/Spinner';
+
 const validationSchema = yup.object({
   name: yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
-  amount:yup.string().min(2, 'Too Short!').max(80, 'Too Long!').required('required'),
   description: yup.string().min(2, 'Too Short!').max(500, 'Too Long!').required('required'),
 });
 
@@ -69,12 +71,24 @@ export default function AddServiceForm() {
 
         const data = await response.json();
         console.log('Success:', data);
-        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        // alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
         formik.resetForm(); // Reset form after successful submission
         navigate(`/admin/services/all`);
       } catch (error) {
         console.error('Error:', error);
-        alert('Failed to submit the form.');
+        // alert('Failed to submit the form.');
+        Swal.fire({
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
       }
     },
   });
@@ -116,7 +130,8 @@ export default function AddServiceForm() {
       <Breadcrumb title={id ? 'Edit Service' : 'Add Service'} subtitle="" />  {/* Dynamic title */}
       <ParentCard title={id ? 'Edit the Following Form' : 'Fill up the Following Form'}>
         {loading ? (
-          <div>Loading...</div>  
+          // <div>Loading...</div>  
+          <Spinner/>
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2} mb={3}>
@@ -124,7 +139,7 @@ export default function AddServiceForm() {
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Name</CustomFormLabel>
                   <CustomTextField
-                    placeholder="Enter your name" // Set placeholder text here
+                    placeholder="Enter your service name" // Set placeholder text here
                     fullWidth
                     id="name"
                     name="name"
@@ -190,7 +205,7 @@ export default function AddServiceForm() {
                     )}
                 </Grid>
                 <Grid item xs={12} sm={12} lg={6}>
-                            <CustomFormLabel>amount</CustomFormLabel>
+                            <CustomFormLabel>Amount</CustomFormLabel>
                             <CustomTextField
                             fullWidth
                             id="amount"
@@ -202,9 +217,10 @@ export default function AddServiceForm() {
                             />
                 </Grid>
                 <Grid item xs={12} sm={12} lg={6}>
-                    <CustomFormLabel>type</CustomFormLabel>
+                    <CustomFormLabel>Type</CustomFormLabel>
                     <CustomSelect
-                                        style={{ width: '50%' }} 
+                    // style={{ width: '50%' }} 
+                    fullWidth
                     labelId="gender-select"
                     id="type" 
                     name="type"

@@ -2,10 +2,12 @@ const express = require('express');
 const router = express.Router();
 const citiesController = require('../controllers/citiesController');
 
+
 // Get all cities
 router.get('/', citiesController.getAllCities);
 router.get('/all',citiesController.getAllcitiesAll);
-
+//get city by state
+router.get('/:stateName',citiesController.getCitiesByStateName)
 // Get a city by ID
 router.get('/:id', citiesController.getCityById);
 

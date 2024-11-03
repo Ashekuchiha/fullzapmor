@@ -9,6 +9,7 @@ import CustomFormLabel from 'src/components/forms/theme-elements/CustomFormLabel
 import CustomTextField from 'src/components/forms/theme-elements/CustomTextField';
 import LocationInput from './locationInput/LocationInput';
 import { useNavigate, useParams } from 'react-router';
+import Swal from 'sweetalert2';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -68,12 +69,24 @@ export default function AddStateForm() {
 
         const data = await response.json();
         console.log('Success:', data);
-        alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        // alert(id ? 'Service updated successfully!' : 'Form submitted successfully!');
+        Swal.fire({
+          icon: 'success',
+          title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
         formik.resetForm(); // Reset form after successful submission
         navigate(`/admin/location/state/all`);
       } catch (error) {
         console.error('Error:', error);
-        alert('Failed to submit the form.');
+        // alert('Failed to submit the form.');
+        Swal.fire({
+          icon: 'error',
+          title: error,
+          showConfirmButton: false,
+          timer: 3000,  // Automatically close after 3 seconds
+        });
       }
     },
 
@@ -109,8 +122,9 @@ export default function AddStateForm() {
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Location Name</CustomFormLabel>
+                <CustomFormLabel>State Name</CustomFormLabel>
                 <CustomTextField
+                  placeholder='Enter the State Name'
                   fullWidth
                   id="StateName"
                   name="StateName"
@@ -123,7 +137,7 @@ export default function AddStateForm() {
             </Grid>
               <Grid container spacing={2} mb={3}>
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>longitude</CustomFormLabel>
+                <CustomFormLabel>Longitude</CustomFormLabel>
                 <CustomTextField
                   fullWidth
                   id="longitude"
