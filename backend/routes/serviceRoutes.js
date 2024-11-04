@@ -5,16 +5,18 @@ const multer = require('multer');
 
 const serviceController = require('../controllers/serviceController');
 
-const storage = multer.diskStorage({
-    destination: function (req, file, cb) {
-        cb(null, 'uploads/servicesIcons');
-    },
-    filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + file.originalname);
-    }
-});
+// const storage = multer.diskStorage({
+//     destination: function (req, file, cb) {
+//         cb(null, 'uploads/servicesIcons');
+//     },
+//     filename: function (req, file, cb) {
+//         cb(null, Date.now() + '-' + file.originalname);
+//     }
+// });
 
-const upload = multer({ storage: storage });
+// const upload = multer({ storage: storage });
+const upload = require('../middlewares/cloudinaryMiddleware');
+
 
 // POST: Create a new service
 router.post('/', upload.single('icon'), serviceController.createService);
