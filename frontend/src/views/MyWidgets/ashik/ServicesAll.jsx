@@ -13,7 +13,7 @@ const columns = [
     { field: 'status', headerName: 'Status' },
     { field: 'amount', headerName: 'Amount' },
     { field: 'type', headerName: 'Type' },
-    { field: 'icon', headerName: 'Icon' },
+    { field: 'icon', headerName: 'Icon' ,renderCell: (value) => (<img src={value} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
 ];
 
 const handleCustomAction = (id) => {
