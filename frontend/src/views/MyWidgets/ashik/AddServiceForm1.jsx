@@ -50,7 +50,7 @@ export default function AddServiceForm() {
       
               const data = await response.json();
               console.log('Success:', data);
-              alert('Form submitted successfully!');
+            //   alert('Form submitted successfully!');
             } catch (error) {
               console.error('Error:', error);
               alert('Failed to submit the form.');

@@ -47,7 +47,7 @@ export default function AddServiceForm() {
       formData.append('status', values.status);
       formData.append('amount', values.amount);
       formData.append('type', values.type);
-      alert(JSON.stringify(values),)
+      // alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
       // navigate(`/admin/services/all`);
       try {

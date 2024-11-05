@@ -22,6 +22,8 @@ const storage = new CloudinaryStorage({
             folder = 'service organization';
         }else if (req.baseUrl.includes('services')) {
             folder = 'services';
+        }else if(req.baseUrl.includes('appusers')){
+            folder = 'appUsersProfile'
         }
 
         return {

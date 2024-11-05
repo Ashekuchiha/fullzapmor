@@ -11,6 +11,8 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import CustomSwitch from 'src/components/forms/theme-elements/CustomSwitch';
 import LiveSwitch from './switch/LiveSwitch';
 import { useNavigate, useParams } from 'react-router';
+import Swal from 'sweetalert2';
+import Spinner from 'src/views/spinner/Spinner';
 
 const validationSchema = yup.object({
   name: yup.string().required('Name is required'),
@@ -62,11 +64,23 @@ export default function AddUserForm() {
             }
             const data = await response.json();
             console.log('Success:', data);
-            alert(id?`form updated successfully`:'Form submitted successfully!');
+            // alert(id?`form updated successfully`:'Form submitted successfully!');
+            Swal.fire({
+              icon: 'success',
+              title: id ? 'Service updated successfully!' : 'Form submitted successfully!',
+              showConfirmButton: false,
+              timer: 3000,  // Automatically close after 3 seconds
+            });
             navigate(`/admin/user/all`);
           } catch (error) {
             console.error('Error:', error);
-            alert('Failed to submit the form.');
+            // alert('Failed to submit the form.');
+            Swal.fire({
+              icon: 'error',
+              title: error,
+              showConfirmButton: false,
+              timer: 3000,  // Automatically close after 3 seconds
+            });
           }
         },
       });
@@ -99,7 +113,7 @@ export default function AddUserForm() {
         <Breadcrumb title={id ? 'Edit User' : 'Addd User'} subtitle="" />
         <ParentCard title={id ? 'Edit the following form':'Fill up the following form'}>
         {loading ? (
-          <div>Loading...</div>  
+          <Spinner/>
         ) : (
            <form onSubmit={formik.handleSubmit}>
                 <Grid container spacing={2} mb={3}>
@@ -162,13 +176,38 @@ export default function AddUserForm() {
                                 <input
                                 type="file"
                                 hidden
-                                onChange={(event) => formik.setFieldValue('profile', event.currentTarget.files[0])}
+                                onChange={(event) => {
+                                  const file = event.currentTarget.files[0];
+                                  formik.setFieldValue('profile', file);
+                                  if (file) {
+                                    formik.setFieldValue('profilePreview', URL.createObjectURL(file)); // Set a preview URL
+                                  }
+                                }}
                                 />
                             </Button>
                             {formik.values.profile && (
-                                <Box sx={{ ml: 2 }}>{formik.values.profile.name}</Box>
+                              <Box sx={{ ml: 2 }}>
+                                {typeof formik.values.profile === 'object' ? (
+                                  // Display the preview of the uploaded image
+                                  <img
+                                    src={formik.values.profilePreview}
+                                    alt="profile Preview"
+                                    style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                                  />
+                                ) : (
+                                  // Display the fetched profile if already available as a URL
+                                  <img
+                                    src={formik.values.profile}
+                                    alt="profile Preview"
+                                    style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                                  />
+                                )}
+                              </Box>
                             )}
                             </Box>
+                            {formik.touched.profile && formik.errors.profile && (
+                              <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.profile}</div>
+                            )}
                         </Grid>
                         <Grid item xs={12} sm={12} lg={6} order={{ xs: 4, lg: 4 }}>
                             <CustomFormLabel>Password</CustomFormLabel>

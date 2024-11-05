@@ -5,13 +5,14 @@ import { Avatar, Button, Chip, Stack, Typography } from '@mui/material';
 import ReusablePaginationTable from '../CustomPaginationTable';
 import { Link } from 'react-router-dom';
 // import ReusablePaginationTable from './CustomPaginationTable';
+import iconn from '../../../../src/assets/icons/deafult.png'
 
 const columns = [
     { field: 'name', headerName: 'Name' },
     { field: 'email', headerName: 'Email' },
     { field: 'phone', headerName: 'Phone' },
     { field: 'address', headerName: 'Address'},
-    { field: 'profile', headerName: 'Profile'},
+    { field: 'profile', headerName: 'Profile', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
 ];
 
 const handleCustomAction = (id) => {
@@ -24,8 +25,8 @@ const UserAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        // apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
-        apiUrl="http://localhost:5000/api/service-organization"
+        apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
+        // apiUrl="http://localhost:5000/api/service-organization"
         enableSearch={true}
         enableSort={true}
         >

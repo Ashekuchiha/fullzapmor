@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const upload =require('../middlewares/uploadMiddleware')
+// const upload =require('../middlewares/uploadMiddleware')
 const appUserController = require('../controllers/appuserController');
 
 // Set up multer for file uploads (profile images)
@@ -14,6 +14,7 @@ const appUserController = require('../controllers/appuserController');
 // });
 
 // const upload = multer({ storage });
+const upload = require('../middlewares/cloudinaryMiddleware');
 
 // Routes
 router.post('/', upload.single('profile'), appUserController.createAppUser);
