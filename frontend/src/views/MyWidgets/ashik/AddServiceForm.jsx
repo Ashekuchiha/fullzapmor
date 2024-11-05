@@ -139,7 +139,7 @@ export default function AddServiceForm() {
                 <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Name</CustomFormLabel>
                   <CustomTextField
-                    placeholder="Enter your service name" // Set placeholder text here
+                    placeholder="Enter your service name" 
                     fullWidth
                     id="name"
                     name="name"
@@ -149,7 +149,7 @@ export default function AddServiceForm() {
                     helperText={formik.touched.name && formik.errors.name}
                   />
                 </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
+                {/* <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Icon</CustomFormLabel>
                   <Box sx={{ display: 'flex', alignItems: 'center' }}>
                     <Button component="label">
@@ -165,9 +165,51 @@ export default function AddServiceForm() {
                         formik.values.icon.name // Display the uploaded file name
                       ) : (
                         <a href={formik.values.icon} target="_blank" rel="noopener noreferrer">
-                          {formik.values.icon.split('/').pop()} {/* Display the fetched icon name */}
+                          {formik.values.icon.split('/').pop()} 
                         </a>
                       )}</Box>
+                    )}
+                  </Box>
+                  {formik.touched.icon && formik.errors.icon && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.icon}</div>
+                  )}
+                </Grid> */}
+                <Grid item xs={12} sm={12} lg={6}>
+                  <CustomFormLabel>Icon</CustomFormLabel>
+                  <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                    <Button component="label">
+                      Upload Icon Image
+                      <input
+                        type="file"
+                        hidden
+                        accept="image/*" // Only accept image files
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+                          formik.setFieldValue('icon', file);
+                          if (file) {
+                            formik.setFieldValue('iconPreview', URL.createObjectURL(file)); // Set a preview URL
+                          }
+                        }}
+                      />
+                    </Button>
+                    {formik.values.icon && (
+                      <Box sx={{ ml: 2 }}>
+                        {typeof formik.values.icon === 'object' ? (
+                          // Display the preview of the uploaded image
+                          <img
+                            src={formik.values.iconPreview}
+                            alt="Icon Preview"
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                          />
+                        ) : (
+                          // Display the fetched icon if already available as a URL
+                          <img
+                            src={formik.values.icon}
+                            alt="Icon Preview"
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                          />
+                        )}
+                      </Box>
                     )}
                   </Box>
                   {formik.touched.icon && formik.errors.icon && (
@@ -204,7 +246,7 @@ export default function AddServiceForm() {
                         </FormHelperText>
                     )}
                 </Grid>
-                <Grid item xs={12} sm={12} lg={6}>
+                {/* <Grid item xs={12} sm={12} lg={6}>
                             <CustomFormLabel>Amount</CustomFormLabel>
                             <CustomTextField
                             fullWidth
@@ -236,6 +278,39 @@ export default function AddServiceForm() {
                             {formik.errors.type}{' '}
                         </FormHelperText>
                     )}
+                </Grid> */}
+                <Grid item container spacing={2}>
+                  <Grid item xs={8} sm={6} lg={6}>
+                      <CustomFormLabel>Amount</CustomFormLabel>
+                      <CustomTextField
+                          fullWidth
+                          id="amount"
+                          name="amount"
+                          value={formik.values.amount}
+                          onChange={formik.handleChange}
+                          error={formik.touched.amount && Boolean(formik.errors.amount)}
+                          helperText={formik.touched.amount && formik.errors.amount}
+                      />
+                  </Grid>
+                  <Grid item xs={4} sm={6} lg={6}>
+                      <CustomFormLabel>Type</CustomFormLabel>
+                      <CustomSelect
+                          fullWidth
+                          labelId="gender-select"
+                          id="type"
+                          name="type"
+                          value={formik.values.type}
+                          onChange={formik.handleChange}
+                      >
+                          <MenuItem value='percent'>Percent</MenuItem>
+                          <MenuItem value='flat'>Flat</MenuItem>
+                      </CustomSelect>
+                      {formik.errors.type && (
+                          <FormHelperText error id="standard-weight-helper-text-email-login">
+                              {formik.errors.type}
+                          </FormHelperText>
+                      )}
+                  </Grid>
                 </Grid>
                 <Grid item xs={12} sm={12} lg={12}>
                   <CustomFormLabel>Description</CustomFormLabel>

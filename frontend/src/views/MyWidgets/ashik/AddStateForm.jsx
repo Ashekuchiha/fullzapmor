@@ -10,6 +10,7 @@ import CustomTextField from 'src/components/forms/theme-elements/CustomTextField
 import LocationInput from './locationInput/LocationInput';
 import { useNavigate, useParams } from 'react-router';
 import Swal from 'sweetalert2';
+import Spinner from 'src/views/spinner/Spinner';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -91,7 +92,7 @@ export default function AddStateForm() {
     },
 
   });
-
+//edit
   useEffect(() => {
     if (id) {
       setLoading(true); // Loading while fetching data
@@ -117,7 +118,7 @@ export default function AddStateForm() {
       <Breadcrumb title={id ? 'Edit state location' : 'Add state location'} subtitle="" />
       <ParentCard title={id ? 'Edit the state Form' : 'Fill up the state Form'}>
         {loading ? (
-          <div>Loading...</div>
+          <Spinner/>
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2}>

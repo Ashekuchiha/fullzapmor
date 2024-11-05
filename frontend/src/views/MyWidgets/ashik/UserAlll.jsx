@@ -11,7 +11,7 @@ const columns = [
     { field: 'email', headerName: 'Email' },
     { field: 'phone', headerName: 'Phone' },
     { field: 'address', headerName: 'Address'},
-    
+    { field: 'profile', headerName: 'Profile'},
 ];
 
 const handleCustomAction = (id) => {
@@ -24,7 +24,8 @@ const UserAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
+        // apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
+        apiUrl="http://localhost:5000/api/service-organization"
         enableSearch={true}
         enableSort={true}
         >

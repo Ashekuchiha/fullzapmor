@@ -15,6 +15,7 @@ import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import { useNavigate, useParams } from 'react-router';
 import axios from 'axios';
 import Swal from 'sweetalert2';
+import Spinner from 'src/views/spinner/Spinner';
 const validationSchema = Yup.object({
     name: Yup.string().required('Name is required'),
     email: Yup.string().email('Invalid email format').required('Email is required'),
@@ -48,6 +49,7 @@ export default function AddProviderForm() {
               <Grid item xs={12} lg={6}>
                   <CustomFormLabel>Amount</CustomFormLabel>
                   <CustomTextField
+                  placeholder='Enter the amount'
                       fullWidth
                       id="amount"
                       name="amount"
@@ -61,6 +63,7 @@ export default function AddProviderForm() {
               <Grid item xs={12} sm={12} lg={6}>
                   <CustomFormLabel>Type</CustomFormLabel>
                   <CustomSelect
+                  placeholder='Select'
                   fullWidth
                   labelId="type-select"
                   id="type" 
@@ -68,7 +71,7 @@ export default function AddProviderForm() {
                   value={formik.values.type}
                   onChange={formik.handleChange}
                   >
-                  <MenuItem value='percent'>Percent</MenuItem>
+                  <MenuItem value='percent' placeholder='select'>Percent</MenuItem>
                   <MenuItem value='flat'>Flat</MenuItem>
                   </CustomSelect>
                   {formik.errors.type && (
@@ -239,7 +242,7 @@ useEffect(() => {
       <Breadcrumb title={id? 'Edit service providers':'Add service provider'} subtitle="" />
       <ParentCard title={id? 'Edit the following form':'Fill up the following form'}>
         {loading ?(
-          <div>loading ...</div>
+          <Spinner/>
         ):(
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2} mb={3}>
@@ -393,18 +396,33 @@ useEffect(() => {
                 <input
                   type="file"
                   hidden
-                  onChange={(event) => formik.setFieldValue('profileImage', event.currentTarget.files[0])}
-                />
+                  onChange={(event) => {
+                    const file = event.currentTarget.files[0];
+                    formik.setFieldValue('profileImage', file);
+                    if (file) {
+                      formik.setFieldValue('profileImagePreview', URL.createObjectURL(file)); // Set a preview URL
+                    }
+                  }}                />
               </Button>
               {formik.values.profileImage && (
-                <Box sx={{ ml: 2 }}>{typeof formik.values.profileImage === 'object' ? (
-                  formik.values.profileImage.name // Display the uploaded file name
-                ) : (
-                  <a href={formik.values.profileImage} target="_blank" rel="noopener noreferrer">
-                    {formik.values.profileImage.split('/').pop()} {/* Display the fetched profileImage name */}
-                  </a>
-                )}</Box>
-              )}
+                      <Box sx={{ ml: 2 }}>
+                        {typeof formik.values.profileImage === 'object' ? (
+                          // Display the preview of the uploaded image
+                          <img
+                            src={formik.values.profileImagePreview}
+                            alt="profileImage Preview"
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                          />
+                        ) : (
+                          // Display the fetched profileImage if already available as a URL
+                          <img
+                            src={formik.values.profileImage}
+                            alt="profileImage Preview"
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                          />
+                        )}
+                      </Box>
+                    )}
             </Box>
             {formik.touched.profileImage && formik.errors.profileImage && (
               <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.profileImage}</div>
@@ -419,18 +437,33 @@ useEffect(() => {
                 <input
                   type="file"
                   hidden
-                  onChange={(event) => formik.setFieldValue('certificate', event.currentTarget.files[0])}
-                />
+                  onChange={(event) => {
+                    const file = event.currentTarget.files[0];
+                    formik.setFieldValue('certificate', file);
+                    if (file) {
+                      formik.setFieldValue('certificatePreview', URL.createObjectURL(file)); // Set a preview URL
+                    }
+                  }}                />
               </Button>
               {formik.values.certificate && (
-                <Box sx={{ ml: 2 }}>{typeof formik.values.certificate === 'object' ? (
-                  formik.values.certificate.name // Display the uploaded file name
-                ) : (
-                  <a href={formik.values.certificate} target="_blank" rel="noopener noreferrer">
-                    {formik.values.certificate.split('/').pop()} {/* Display the fetched certificate name */}
-                  </a>
-                )}</Box>
-              )}
+                <Box sx={{ ml: 2 }}>
+                  {typeof formik.values.certificate === 'object' ? (
+                    // Display the preview of the uploaded image
+                    <img
+                      src={formik.values.certificatePreview}
+                      alt="certificate Preview"
+                      style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                    />
+                  ) : (
+                    // Display the fetched certificate if already available as a URL
+                    <img
+                      src={formik.values.certificate}
+                      alt="certificate Preview"
+                      style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                    />
+                  )}
+                </Box>
+                    )}
             </Box>
             {formik.touched.certificate && formik.errors.certificate && (
               <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.certificate}</div>

@@ -5,6 +5,7 @@ import { Avatar, Button, Chip, Stack, Typography } from '@mui/material';
 import ReusablePaginationTable from '../CustomPaginationTable';
 import { Link } from 'react-router-dom';
 // import ReusablePaginationTable from './CustomPaginationTable';
+import iconn from '../../../../src/assets/icons/deafult.png'
 
 const columns = [
     { field: 'name', headerName: 'Name' },
@@ -13,7 +14,7 @@ const columns = [
     { field: 'status', headerName: 'Status' },
     { field: 'amount', headerName: 'Amount' },
     { field: 'type', headerName: 'Type' },
-    { field: 'icon', headerName: 'Icon' ,renderCell: (value) => (<img src={value} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
+    { field: 'icon', headerName: 'Icon' ,renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
 ];
 
 const handleCustomAction = (id) => {

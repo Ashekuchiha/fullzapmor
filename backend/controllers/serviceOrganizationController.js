@@ -193,6 +193,7 @@ exports.updateServiceOrganization = async (req, res) => {
             return res.status(400).json({ success: false, error: 'Invalid organization ID' });
         }
 
+
         const updates = {
             ...req.body,
             organizationLogo: req.files.organizationLogo ? req.files.organizationLogo[0].path : undefined,
@@ -201,6 +202,14 @@ exports.updateServiceOrganization = async (req, res) => {
             organizationDocuments: req.files.organizationDocuments ? req.files.organizationDocuments[0].path : undefined
         };
 
+        if (req.body.mapSelection) {
+            const mapSelectionArray = JSON.parse(req.body.mapSelection);
+            if (Array.isArray(mapSelectionArray)) {
+                updates.mapSelection = mapSelectionArray;
+            } else {
+                updates.mapSelection = []; // or handle invalid format appropriately
+            }
+        }
         const updatedOrganization = await ServiceOrganization.findByIdAndUpdate(id, updates, { new: true });
 
         if (!updatedOrganization) {

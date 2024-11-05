@@ -14,6 +14,7 @@ import axios from 'axios';
 import CustomSelect from 'src/components/forms/theme-elements/CustomSelect';
 import LiveSwitch from './switch/LiveSwitch';
 import Swal from 'sweetalert2';
+import Spinner from 'src/views/spinner/Spinner';
 
 // Validation schema using Yup
 const validationSchema = yup.object({
@@ -207,13 +208,14 @@ const handleStateChange = (event) => {
   formik.setFieldValue('state', newValue);
   setSelectedState(newValue); // Update selectedState variable
 };
+
 console.log(selectedState)
   return (
     <PageContainer title="Service organization" description="This is the Custom Form page">
       <Breadcrumb title={id ? 'Edit service organization' : 'Add service organization'} subtitle="" />
       <ParentCard title={id ? 'Edit the Following Form' : 'Fill up the Following Form'}>
         {loading ? (
-          <div>Loading...</div>
+          <Spinner/>
         ) : (
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2} mb={3}>
@@ -319,6 +321,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={12}>
                 <CustomFormLabel>Organization Bio</CustomFormLabel>
                 <CustomTextField
+                placeholder='Write a Organization Bio ...'
                   fullWidth
                   multiline
                   rows={2}
@@ -334,7 +337,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={12}>
                 <CustomFormLabel>Organization Description</CustomFormLabel>
                 <CustomTextField
-                
+                placeholder="Write a Organization Description ..."
                   fullWidth
                   multiline
                   rows={2}
@@ -350,6 +353,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Employee Numbers</CustomFormLabel>
                 <CustomTextField
+                placeholder='Enter Employee Numbers'
                   fullWidth
                   id="employeeNumbers"
                   name="employeeNumbers"
@@ -363,6 +367,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Website (optional)</CustomFormLabel>
                 <CustomTextField
+                placeholder='Enter your Organization Website'
                   fullWidth
                   id="organizationWebsite"
                   name="organizationWebsite"
@@ -376,6 +381,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Phone Number</CustomFormLabel>
                 <CustomTextField
+                  placeholder='Enter your Phone Number'
                   fullWidth
                   id="phoneNumber"
                   name="phoneNumber"
@@ -389,6 +395,7 @@ console.log(selectedState)
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Emergency Phone Number</CustomFormLabel>
                 <CustomTextField
+                  placeholder='Enter your Emergency Phone Number'
                   fullWidth
                   id="emergencyPhoneNumber"
                   name="emergencyPhoneNumber"
@@ -407,16 +414,33 @@ console.log(selectedState)
                       <input
                         type="file"
                         hidden
-                        onChange={(event) => formik.setFieldValue('organizationLogo', event.currentTarget.files[0])}
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+                          formik.setFieldValue('organizationLogo',file);
+                          if(file){
+                            formik.setFieldValue('organizationLogoPreview',URL.createObjectURL(file));
+                          }
+                        }}
                       />
                     </Button>
                     {formik.values.organizationLogo && (
-                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationLogo === 'object' ? (
-                        formik.values.organizationLogo.name // Display the uploaded file name
+                      <Box sx={{ ml: 2 }}>
+                        {typeof formik.values.organizationLogo === 'object' ? (
+                        // formik.values.organizationLogo.name // Display the uploaded file name
+                        <img
+                          src={formik.values.organizationLogoPreview}
+                          alt='organizationLogo preview'
+                          style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                        />
                       ) : (
-                        <a href={formik.values.organizationLogo} target="_blank" rel="noopener noreferrer">
-                          {formik.values.organizationLogo.split('/').pop()} {/* Display the fetched organizationLogo name */}
-                        </a>
+                        // <a href={formik.values.organizationLogo} target="_blank" rel="noopener noreferrer">
+                        //   {formik.values.organizationLogo.split('/').pop()} {/* Display the fetched organizationLogo name */}
+                        // </a>
+                        <img
+                            src={formik.values.organizationLogo}
+                            alt="Icon Preview"
+                            style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                          />
                       )}</Box>
                     )}
                   </Box>
@@ -433,17 +457,30 @@ console.log(selectedState)
                       <input
                         type="file"
                         hidden
-                        onChange={(event) => formik.setFieldValue('organizationBanner', event.currentTarget.files[0])}
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+                          formik.setFieldValue('organizationBanner',file);
+                          if(file){
+                            formik.setFieldValue('organizationBannerPreview',URL.createObjectURL(file));
+                          }
+                        }}
                       />
                     </Button>
                     {formik.values.organizationBanner && (
-                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationBanner === 'object' ? (
-                        formik.values.organizationBanner.name // Display the uploaded file name
-                      ) : (
-                        <a href={formik.values.organizationBanner} target="_blank" rel="noopener noreferrer">
-                          {formik.values.organizationBanner.split('/').pop()} {/* Display the fetched organizationBanner name */}
-                        </a>
-                      )}</Box>
+                      <Box sx={{ ml: 2 }}>
+                      {typeof formik.values.organizationBanner === 'object' ? (
+                      <img
+                        src={formik.values.organizationBannerPreview}
+                        alt='organizationBanner preview'
+                        style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                      />
+                    ) : (
+                      <img
+                          src={formik.values.organizationBanner}
+                          alt="Icon Preview"
+                          style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                        />
+                    )}</Box>
                     )}
                   </Box>
                   {formik.touched.organizationBanner && formik.errors.organizationBanner && (
@@ -459,17 +496,30 @@ console.log(selectedState)
                       <input
                         type="file"
                         hidden
-                        onChange={(event) => formik.setFieldValue('tradeLicense', event.currentTarget.files[0])}
+                        onChange={(event) => {
+                          const file = event.currentTarget.files[0];
+                          formik.setFieldValue('tradeLicense',file);
+                          if(file){
+                            formik.setFieldValue('tradeLicensePreview',URL.createObjectURL(file));
+                          }
+                        }}
                       />
                     </Button>
                     {formik.values.tradeLicense && (
-                      <Box sx={{ ml: 2 }}>{typeof formik.values.tradeLicense === 'object' ? (
-                        formik.values.tradeLicense.name // Display the uploaded file name
-                      ) : (
-                        <a href={formik.values.tradeLicense} target="_blank" rel="noopener noreferrer">
-                          {formik.values.tradeLicense.split('/').pop()} {/* Display the fetched tradeLicense name */}
-                        </a>
-                      )}</Box>
+                      <Box sx={{ ml: 2 }}>
+                      {typeof formik.values.tradeLicense === 'object' ? (
+                      <img
+                        src={formik.values.tradeLicensePreview}
+                        alt='tradeLicense preview'
+                        style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                      />
+                    ) : (
+                      <img
+                          src={formik.values.tradeLicense}
+                          alt="Icon Preview"
+                          style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                        />
+                    )}</Box>
                     )}
                   </Box>
                   {formik.touched.tradeLicense && formik.errors.tradeLicense && (
@@ -485,17 +535,30 @@ console.log(selectedState)
                       <input
                         type="file"
                         hidden
-                        onChange={(event) => formik.setFieldValue('organizationDocuments', event.currentTarget.files[0])}
+                        onChange={(event)=>{
+                          const file = event.currentTarget.files[0];
+                          formik.setFieldValue('organizationDocuments',file);
+                          if(file){
+                            formik.setFieldValue('organizationDocumentsPreview',URL.createObjectURL(file));
+                          }
+                        }}
                       />
                     </Button>
                     {formik.values.organizationDocuments && (
-                      <Box sx={{ ml: 2 }}>{typeof formik.values.organizationDocuments === 'object' ? (
-                        formik.values.organizationDocuments.name // Display the uploaded file name
-                      ) : (
-                        <a href={formik.values.organizationDocuments} target="_blank" rel="noopener noreferrer">
-                          {formik.values.organizationDocuments.split('/').pop()} {/* Display the fetched organizationDocuments name */}
-                        </a>
-                      )}</Box>
+                      <Box sx={{ ml: 2 }}>
+                      {typeof formik.values.organizationDocuments === 'object' ? (
+                      <img
+                        src={formik.values.organizationDocumentsPreview}
+                        alt='organizationDocuments preview'
+                        style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                      />
+                    ) : (
+                      <img
+                          src={formik.values.organizationDocuments}
+                          alt="Icon Preview"
+                          style={{ width: 50, height: 50, objectFit: 'cover', borderRadius: '5px' }}
+                        />
+                    )}</Box>
                     )}
                   </Box>
                   {formik.touched.organizationDocuments && formik.errors.organizationDocuments && (
