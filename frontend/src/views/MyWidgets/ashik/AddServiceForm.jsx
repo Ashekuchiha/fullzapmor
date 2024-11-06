@@ -21,8 +21,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddServiceForm() {
-  const cbasic = "https://fullzapmor-api.vercel.app";
-  const basic = "http://localhost:5000";
+  const basic = "https://fullzapmor-api.vercel.app";
+  const cbasic = "http://localhost:5000";
   const navigate = useNavigate(); // Initialize useNavigate
   const { id } = useParams();  // Get id from URL (if available)
   const [loading, setLoading] = useState(false);  // Add loading state for fetching data
