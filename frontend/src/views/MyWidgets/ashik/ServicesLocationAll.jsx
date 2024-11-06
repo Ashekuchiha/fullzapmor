@@ -10,18 +10,21 @@ import doc from '../../../../src/assets/icons/DefaultDocuments.png'
 
 const columns = [
     { field: 'organizationName', headerName: 'Organization Name' },
-    { field: 'ownerName', headerName: 'Owner Name' },
-    { field: 'state', headerName: 'State' },
-    { field: 'city', headerName: 'City' },
-    { field: 'mapSelection', headerName: 'Longitude & Latitude', renderCell:(value)=>(<><p>{`Longitude : ${value[0]}`}</p> <p>{`Latitude : ${value[1]}`}</p></>) },
-    { field: 'organizationBio', headerName: 'Organization Bio' },
-    { field: 'organizationDescription', headerName: 'Organization Description' },
     { field: 'organizationWebsite', headerName: 'Organization Website' },
-    { field: 'phoneNumber', headerName: 'Phone Number' },
-    { field: 'emergencyPhoneNumber', headerName: 'Emergency Phone Number' },
-    { field: 'employeeNumbers', headerName: 'Employee Numbers' },
     { field: 'organizationLogo', headerName: 'Organization Logo' , renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
     { field: 'organizationBanner', headerName: 'Organization Banner', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
+    { field: 'organizationBio', headerName: 'Organization Bio' },
+    { field: 'organizationDescription', headerName: 'Organization Description' },
+
+    { field: 'state', headerName: 'State' },
+    { field: 'city', headerName: 'City' },
+    { field: 'address', headerName: 'Address' },
+    { field: 'mapSelection', headerName: 'Longitude & Latitude', renderCell:(value)=>(<><p>{`Longitude : ${value[0]}`}</p> <p>{`Latitude : ${value[1]}`}</p></>) },
+
+    { field: 'ownerName', headerName: 'Owner Name' },
+    { field: 'phoneNumber', headerName: 'Owner Contact Number' },
+    { field: 'emergencyPhoneNumber', headerName: 'Assistant Name' },
+    { field: 'employeeNumbers', headerName: 'Assistant Contact Number' },
     { field: 'tradeLicense', headerName: 'Trade License', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
     { field: 'organizationDocuments', headerName: 'Organization Documents', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
     { field: 'featured', headerName: 'Featured' },
@@ -34,7 +37,7 @@ const ServicesLocationAll = () => (
 
     <div>
         <ReusablePaginationTable
-        title="Services List"
+        title="Services Organization list"
         columns={columns}
         apiUrl="https://fullzapmor-api.vercel.app/api/service-organization"
         // apiUrl="http://localhost:5000/api/service-organization"
@@ -42,13 +45,14 @@ const ServicesLocationAll = () => (
         enableSort={true}
         >
             <Button
+            style={{marginBottom:'10px'}}
                 color="primary"
                 variant="contained"
                 component={Link}
                 to= '/admin/addserviceslocationform'
                 type="submit"
             >
-                Add Services Location
+                Add Services Organization
             </Button>
         </ReusablePaginationTable>
     </div>

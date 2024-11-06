@@ -21,8 +21,8 @@ const validationSchema = yup.object({
 });
 
 export default function AddServiceForm() {
-  const basic = "https://fullzapmor-api.vercel.app";
-  const cbasic = "http://localhost:5000";
+  const cbasic = "https://fullzapmor-api.vercel.app";
+  const basic = "http://localhost:5000";
   const navigate = useNavigate(); // Initialize useNavigate
   const { id } = useParams();  // Get id from URL (if available)
   const [loading, setLoading] = useState(false);  // Add loading state for fetching data
@@ -33,9 +33,11 @@ export default function AddServiceForm() {
       description: '',
       icon: null,
       featured: false,
-      status:'Pending',
+      status:'Active',
       amount:'',
       type:"percent",
+      bookingsFee:"",
+      bookingType:"",
     },
     validationSchema: validationSchema,
     onSubmit: async (values) => {
@@ -47,6 +49,8 @@ export default function AddServiceForm() {
       formData.append('status', values.status);
       formData.append('amount', values.amount);
       formData.append('type', values.type);
+      formData.append('bookingsFee', values.bookingsFee);
+      formData.append('bookingType', values.bookingType);
       // alert(JSON.stringify(values),)
       console.log(JSON.stringify(values))
       // navigate(`/admin/services/all`);
@@ -108,6 +112,8 @@ export default function AddServiceForm() {
             status: data.status || '',
             amount: data.amount || '',
             type: data.type || '',
+            bookingsFee: data.bookingsFee || '',
+            bookingType: data.bookingType || '',
           });
           setLoading(false);
         })
@@ -308,6 +314,40 @@ export default function AddServiceForm() {
                       {formik.errors.type && (
                           <FormHelperText error id="standard-weight-helper-text-email-login">
                               {formik.errors.type}
+                          </FormHelperText>
+                      )}
+                  </Grid>
+                </Grid>
+                <Grid item container spacing={2}>
+                  <Grid item xs={8} sm={6} lg={6}>
+                      <CustomFormLabel>Bookings Fee</CustomFormLabel>
+                      <CustomTextField
+                          fullWidth
+                          id="bookingsFee"
+                          name="bookingsFee"
+                          value={formik.values.bookingsFee}
+                          onChange={formik.handleChange}
+                          error={formik.touched.bookingsFee && Boolean(formik.errors.bookingsFee)}
+                          helperText={formik.touched.bookingsFee && formik.errors.bookingsFee}
+                      />
+                  </Grid>
+                  <Grid item xs={4} sm={6} lg={6}>
+                      <CustomFormLabel>Type</CustomFormLabel>
+                      <CustomSelect
+                          fullWidth
+                          labelId="gender-select"
+                          id="bookingType"
+                          name="bookingType"
+                          value={formik.values.bookingType}
+                          onChange={formik.handleChange}
+                      >
+                          <MenuItem value='EURO'>EURO</MenuItem>
+                          <MenuItem value='INR'>INR</MenuItem>
+                          <MenuItem value='TK'>TK</MenuItem>
+                      </CustomSelect>
+                      {formik.errors.bookingType && (
+                          <FormHelperText error id="standard-weight-helper-text-email-login">
+                              {formik.errors.bookingType}
                           </FormHelperText>
                       )}
                   </Grid>

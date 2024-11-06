@@ -14,6 +14,8 @@ const columns = [
     { field: 'status', headerName: 'Status' },
     { field: 'amount', headerName: 'Amount' },
     { field: 'type', headerName: 'Type' },
+    { field: 'bookingsFee', headerName: 'Booking fee' },
+    { field: 'bookingType', headerName: 'Type' },
     { field: 'icon', headerName: 'Icon' ,renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
 ];
 
@@ -26,8 +28,8 @@ const ServicesAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://fullzapmor-api.vercel.app/api/services"
-        // apiUrl="http://localhost:5000/api/services"
+        // apiUrl="https://fullzapmor-api.vercel.app/api/services"
+        apiUrl="http://localhost:5000/api/services"
         enableSearch={true}
         enableSort={true}
         >

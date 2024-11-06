@@ -6,10 +6,10 @@ const mongoose = require('mongoose');
 // Create a new service
 exports.createService = async (req, res) => {
     try {
-        const { name, description, featured, status, amount, type } = req.body;
+        const { name, description, featured, status, amount, type,bookingsFee,bookingType } = req.body;
         const icon = req.file ? req.file.path : null; // assuming multer is used for image upload
         
-        const service = new Service({ name, description, icon, featured, status, amount, type });
+        const service = new Service({ name, description, icon, featured, status, amount, type,bookingsFee,bookingType });
         await service.save();
         res.status(201).json(service);
     } catch (error) {
@@ -48,6 +48,8 @@ exports.getAllServices = async (req, res) => {
             status: service.status,
             amount: service.amount,
             type: service.type,
+            bookingsFee: service.bookingsFee,
+            bookingType: service.bookingType,
             createdAt: service.createdAt,
             updatedAt: service.updatedAt
         }));
@@ -153,12 +155,12 @@ exports.getServiceById = async (req, res) => {
 // Update a service
 exports.updateService = async (req, res) => {
     try {
-        const { name, description, featured, status, amount, type } = req.body;
+        const { name, description, featured, status, amount, type,bookingsFee,bookingType } = req.body;
         const icon = req.file ? req.file.path : null;
 
         const service = await Service.findByIdAndUpdate(
             req.params.id,
-            { name, description, icon, featured, status, amount, type },
+            { name, description, icon, featured, status, amount, type,bookingsFee,bookingType },
             { new: true }
         );
         

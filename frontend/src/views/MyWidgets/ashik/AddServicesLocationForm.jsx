@@ -27,7 +27,6 @@ const validationSchema = yup.object({
   organizationDescription: yup.string(),
   organizationWebsite: yup.string(),
   phoneNumber: yup.string().matches(/^[0-9]+$/, 'Phone Number must be only digits'),  
-  emergencyPhoneNumber: yup.string().matches(/^[0-9]+$/, 'Emergency Phone Number must be only digits'), 
   employeeNumbers: yup.number().integer('Employee Numbers must be an integer').positive('Employee Numbers must be a positive number')
 ,});
 
@@ -234,137 +233,6 @@ console.log(selectedState)
               </Grid>
 
               <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Owner Name</CustomFormLabel>
-                <CustomTextField
-                placeholder='Enter the owner name'
-                  fullWidth
-                  id="ownerName"
-                  name="ownerName"
-                  value={formik.values.ownerName}
-                  onChange={formik.handleChange}
-                  error={formik.touched.ownerName && Boolean(formik.errors.ownerName)}
-                  helperText={formik.touched.ownerName && formik.errors.ownerName}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <CustomFormLabel>State</CustomFormLabel>
-                <CustomSelect
-                    labelId="state-select"
-                    fullWidth
-                    id="state" 
-                    name="state"
-                    value={formik.values.state}
-                    onChange={handleStateChange}
-                    >
-                       {StateNames.map(state => (
-                    <MenuItem key={state.id} value={state.StateName}>
-                        {state.StateName}
-                    </MenuItem>
-                ))}
-                    </CustomSelect>
-                    {formik.errors.state && (
-                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                            {' '}
-                            {formik.errors.state}{' '}
-                        </FormHelperText>
-                    )}
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <CustomFormLabel>City</CustomFormLabel>
-                <CustomSelect
-                    labelId="city-select"
-                    fullWidth
-                    id="city" 
-                    name="city"
-                    value={formik.values.city}
-                    onChange={formik.handleChange}
-                    >
-                       {CityNames.map(city => (
-                    <MenuItem key={city.id} value={city.cityName}>
-                        {city.cityName}
-                    </MenuItem>
-                ))}
-                    </CustomSelect>
-                    {formik.errors.city && (
-                        <FormHelperText error id="standard-weight-helper-text-email-login">
-                            {' '}
-                            {formik.errors.city}{' '}
-                        </FormHelperText>
-                    )}
-              </Grid>
-
-              <Grid item xs={12} lg={12}>
-                <CustomFormLabel>Address</CustomFormLabel>
-                <CustomTextField
-                placeholder='Enter the organization address'
-                  fullWidth
-                  id="address"
-                  name="address"
-                  value={formik.values.address}
-                  onChange={formik.handleChange}
-                  error={formik.touched.address && Boolean(formik.errors.address)}
-                  helperText={formik.touched.address && formik.errors.address}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={12}>
-                <CustomFormLabel>Map Selection</CustomFormLabel>
-                <LocationInput setFieldValue={formik.setFieldValue}  mapSelection={formik.values.mapSelection}/>
-                {formik.touched.mapSelection && formik.errors.mapSelection && (
-                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.mapSelection}</div>
-                  )
-                }
-              </Grid>
-
-              <Grid item xs={12} lg={12}>
-                <CustomFormLabel>Organization Bio</CustomFormLabel>
-                <CustomTextField
-                placeholder='Write a Organization Bio ...'
-                  fullWidth
-                  multiline
-                  rows={2}
-                  id="organizationBio"
-                  name="organizationBio"
-                  value={formik.values.organizationBio}
-                  onChange={formik.handleChange}
-                  error={formik.touched.organizationBio && Boolean(formik.errors.organizationBio)}
-                  helperText={formik.touched.organizationBio && formik.errors.organizationBio}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={12}>
-                <CustomFormLabel>Organization Description</CustomFormLabel>
-                <CustomTextField
-                placeholder="Write a Organization Description ..."
-                  fullWidth
-                  multiline
-                  rows={2}
-                  id="organizationDescription"
-                  name="organizationDescription"
-                  value={formik.values.organizationDescription}
-                  onChange={formik.handleChange}
-                  error={formik.touched.organizationDescription && Boolean(formik.errors.organizationDescription)}
-                  helperText={formik.touched.organizationDescription && formik.errors.organizationDescription}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Employee Numbers</CustomFormLabel>
-                <CustomTextField
-                placeholder='Enter Employee Numbers'
-                  fullWidth
-                  id="employeeNumbers"
-                  name="employeeNumbers"
-                  value={formik.values.employeeNumbers}
-                  onChange={formik.handleChange}
-                  error={formik.touched.employeeNumbers && Boolean(formik.errors.employeeNumbers)}
-                  helperText={formik.touched.employeeNumbers && formik.errors.employeeNumbers}
-                />
-              </Grid>
-              
-              <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Organization Website (optional)</CustomFormLabel>
                 <CustomTextField
                 placeholder='Enter your Organization Website'
@@ -375,34 +243,6 @@ console.log(selectedState)
                   onChange={formik.handleChange}
                   error={formik.touched.organizationWebsite && Boolean(formik.errors.organizationWebsite)}
                   helperText={formik.touched.organizationWebsite && formik.errors.organizationWebsite}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Phone Number</CustomFormLabel>
-                <CustomTextField
-                  placeholder='Enter your Phone Number'
-                  fullWidth
-                  id="phoneNumber"
-                  name="phoneNumber"
-                  value={formik.values.phoneNumber}
-                  onChange={formik.handleChange}
-                  error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
-                  helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
-                />
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-                <CustomFormLabel>Emergency Phone Number</CustomFormLabel>
-                <CustomTextField
-                  placeholder='Enter your Emergency Phone Number'
-                  fullWidth
-                  id="emergencyPhoneNumber"
-                  name="emergencyPhoneNumber"
-                  value={formik.values.emergencyPhoneNumber}
-                  onChange={formik.handleChange}
-                  error={formik.touched.emergencyPhoneNumber && Boolean(formik.errors.emergencyPhoneNumber)}
-                  helperText={formik.touched.emergencyPhoneNumber && formik.errors.emergencyPhoneNumber}
                 />
               </Grid>
 
@@ -486,6 +326,164 @@ console.log(selectedState)
                   {formik.touched.organizationBanner && formik.errors.organizationBanner && (
                     <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.organizationBanner}</div>
                   )}
+              </Grid>
+
+              <Grid item xs={12} lg={12}>
+                <CustomFormLabel>Organization Bio</CustomFormLabel>
+                <CustomTextField
+                placeholder='Write a Organization Bio ...'
+                  fullWidth
+                  multiline
+                  rows={2}
+                  id="organizationBio"
+                  name="organizationBio"
+                  value={formik.values.organizationBio}
+                  onChange={formik.handleChange}
+                  error={formik.touched.organizationBio && Boolean(formik.errors.organizationBio)}
+                  helperText={formik.touched.organizationBio && formik.errors.organizationBio}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={12}>
+                <CustomFormLabel>Organization Description</CustomFormLabel>
+                <CustomTextField
+                placeholder="Write a Organization Description ..."
+                  fullWidth
+                  multiline
+                  rows={2}
+                  id="organizationDescription"
+                  name="organizationDescription"
+                  value={formik.values.organizationDescription}
+                  onChange={formik.handleChange}
+                  error={formik.touched.organizationDescription && Boolean(formik.errors.organizationDescription)}
+                  helperText={formik.touched.organizationDescription && formik.errors.organizationDescription}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>State</CustomFormLabel>
+                <CustomSelect
+                    labelId="state-select"
+                    fullWidth
+                    id="state" 
+                    name="state"
+                    value={formik.values.state}
+                    onChange={handleStateChange}
+                    >
+                       {StateNames.map(state => (
+                    <MenuItem key={state.id} value={state.StateName}>
+                        {state.StateName}
+                    </MenuItem>
+                ))}
+                    </CustomSelect>
+                    {formik.errors.state && (
+                        <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {' '}
+                            {formik.errors.state}{' '}
+                        </FormHelperText>
+                    )}
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>District</CustomFormLabel>
+                <CustomSelect
+                    labelId="city-select"
+                    fullWidth
+                    id="city" 
+                    name="city"
+                    value={formik.values.city}
+                    onChange={formik.handleChange}
+                    >
+                       {CityNames.map(city => (
+                    <MenuItem key={city.id} value={city.cityName}>
+                        {city.cityName}
+                    </MenuItem>
+                ))}
+                    </CustomSelect>
+                    {formik.errors.city && (
+                        <FormHelperText error id="standard-weight-helper-text-email-login">
+                            {' '}
+                            {formik.errors.city}{' '}
+                        </FormHelperText>
+                    )}
+              </Grid>
+
+              <Grid item xs={12} lg={12}>
+                <CustomFormLabel>Address</CustomFormLabel>
+                <CustomTextField
+                placeholder='Enter the organization address'
+                  fullWidth
+                  id="address"
+                  name="address"
+                  value={formik.values.address}
+                  onChange={formik.handleChange}
+                  error={formik.touched.address && Boolean(formik.errors.address)}
+                  helperText={formik.touched.address && formik.errors.address}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={12}>
+                <CustomFormLabel>Map Selection</CustomFormLabel>
+                <LocationInput setFieldValue={formik.setFieldValue}  mapSelection={formik.values.mapSelection}/>
+                {formik.touched.mapSelection && formik.errors.mapSelection && (
+                    <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.mapSelection}</div>
+                  )
+                }
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>Owner Name</CustomFormLabel>
+                <CustomTextField
+                placeholder='Enter the owner name'
+                  fullWidth
+                  id="ownerName"
+                  name="ownerName"
+                  value={formik.values.ownerName}
+                  onChange={formik.handleChange}
+                  error={formik.touched.ownerName && Boolean(formik.errors.ownerName)}
+                  helperText={formik.touched.ownerName && formik.errors.ownerName}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>Owner Contact Number</CustomFormLabel>
+                <CustomTextField
+                  placeholder='Enter your Phone Number'
+                  fullWidth
+                  id="phoneNumber"
+                  name="phoneNumber"
+                  value={formik.values.phoneNumber}
+                  onChange={formik.handleChange}
+                  error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
+                  helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Assistant Name</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter The Assistant Name'
+                  fullWidth
+                  id="emergencyPhoneNumber"
+                  name="emergencyPhoneNumber"
+                  value={formik.values.emergencyPhoneNumber}
+                  onChange={formik.handleChange}
+                  error={formik.touched.emergencyPhoneNumber && Boolean(formik.errors.emergencyPhoneNumber)}
+                  helperText={formik.touched.emergencyPhoneNumber && formik.errors.emergencyPhoneNumber}
+                />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>Assistant Contact Number </CustomFormLabel>
+                <CustomTextField
+                placeholder='Enter Employee Numbers'
+                  fullWidth
+                  id="employeeNumbers"
+                  name="employeeNumbers"
+                  value={formik.values.employeeNumbers}
+                  onChange={formik.handleChange}
+                  error={formik.touched.employeeNumbers && Boolean(formik.errors.employeeNumbers)}
+                  helperText={formik.touched.employeeNumbers && formik.errors.employeeNumbers}
+                />
               </Grid>
 
               <Grid item xs={12} lg={6}>

@@ -7,7 +7,9 @@ const serviceSchema = new mongoose.Schema({
     featured: { type: Boolean, default: false },
     status: { type: String,default: "Active" },
     amount: { type: Number, required: false },
-    type: { type: String, required: false }
+    type: { type: String, required: false },
+    bookingsFee: { type: Number, required: false },
+    bookingType: { type: String, required: false },
 });
 
 module.exports = mongoose.model('Service', serviceSchema);
