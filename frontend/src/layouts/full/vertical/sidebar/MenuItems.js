@@ -1,6 +1,6 @@
 
 
-import { AccountBalance, BookmarkAdd, DeleteForever, GradingSharp, HourglassTop, LocalAtmSharp, LocationCity, MapOutlined, MapsHomeWorkOutlined, MiscellaneousServices, NotInterested, PaidSharp, Pending, PermIdentity, RotateLeftSharp, Soap, TableRows } from '@mui/icons-material';
+import { AccountBalance, BookmarkAdd, Camera, DeleteForever, GradingSharp, HourglassTop, LocalAtmSharp, LocationCity, MapOutlined, MapsHomeWorkOutlined, MiscellaneousServices, NotInterested, PaidSharp, Pending, PermIdentity, RotateLeftSharp, Soap, TableRows } from '@mui/icons-material';
 import { uniqueId } from 'lodash';
 import SaveAsIcon from '@mui/icons-material/SaveAs';
 
@@ -13,7 +13,7 @@ const Menuitems = [
     {
       id: uniqueId(),
       title: 'Dashboard',
-      icon: AccountBalance,
+      icon: Camera,
       href: '/admin',
       chipColor: 'secondary',
     },
