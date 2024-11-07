@@ -9,6 +9,7 @@ const CitySchema = new mongoose.Schema({
         type: String,
         required: true
     },
+    pin:{type:String,},
     longitude: {
         type: String,
         required: false

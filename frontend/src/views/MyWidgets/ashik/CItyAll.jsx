@@ -9,6 +9,7 @@ import { Link } from 'react-router-dom';
 const columns = [
     { field: 'CityName', headerName: 'City Name' },
     { field: 'StateName', headerName: 'State Name' },
+    { field: 'pin', headerName: 'PIN' },
     { field: 'longitude', headerName: 'Longitude' },
     { field: 'latitude', headerName: 'Latitude' },
    ];
@@ -24,6 +25,7 @@ const ServicesLocationAll = () => (
         title="Services List"
         columns={columns}
         apiUrl="https://fullzapmor-api.vercel.app/api/cities"
+        // apiUrl="http://localhost:5000/api/cities"
         enableSearch={true}
         enableSort={true}
         >

@@ -37,7 +37,7 @@ const validationSchema = yup.object({
 
 export default function AddCityForm() {
   const basic = "https://fullzapmor-api.vercel.app";
-  const mainBasic = "http://localhost:5000";
+  const cbasic = "http://localhost:5000";
     const [StateNames, setStateNames] = useState([]);
 
   const navigate = useNavigate();
@@ -48,6 +48,7 @@ export default function AddCityForm() {
     initialValues: {
       StateName: '',
       cityName:'',
+      pin:'',
       longitude: '',
       latitude:'',
     },
@@ -69,6 +70,7 @@ export default function AddCityForm() {
           body: JSON.stringify({
             StateName: values.StateName,
             cityName:values.cityName,
+            pin:values.pin,
             latitude: values.latitude, // Assuming it's an array of [latitude, longitude]
             longitude: values.longitude,
           }),
@@ -112,6 +114,7 @@ export default function AddCityForm() {
           formik.setValues({
             StateName: data.StateName || '',
             cityName:data.cityName || '',
+            pin:data.pin || '',
             latitude: data.latitude || '',
             longitude: data.longitude || '',
           });
@@ -123,7 +126,7 @@ export default function AddCityForm() {
         });
     }
   }, [id]); // Fetch data on mount if there's an ID
-
+//state
   useEffect(() => {
     // Fetch the service options from the API
     const fetchStateName = async () => {
@@ -184,6 +187,18 @@ export default function AddCityForm() {
                             {formik.errors.StateName}{' '}
                         </FormHelperText>
                     )}
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>PIN</CustomFormLabel>
+                <CustomTextField
+                  fullWidth
+                  id="pin"
+                  name="pin"
+                  value={formik.values.pin}
+                  onChange={formik.handleChange}
+                  error={formik.touched.pin && Boolean(formik.errors.pin)}
+                  helperText={formik.touched.pin && formik.errors.pin}
+                />
               </Grid>
               <Grid item xs={12} lg={6}>
                 <CustomFormLabel>Longitude</CustomFormLabel>

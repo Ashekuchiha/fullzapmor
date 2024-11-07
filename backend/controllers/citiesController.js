@@ -16,7 +16,7 @@ exports.getCitiesByStateName = async (req, res) => {
     try {
         const stateName = req.params.stateName;
         const cities = await City.find({ StateName: stateName });
-        
+        console.log(cities)
         res.json({
             success: true,
             data: {
@@ -28,7 +28,7 @@ exports.getCitiesByStateName = async (req, res) => {
     }
 };
 
-exports.getAllcitiesAll = async (req, res) => {
+exports.getAllcitiesAll = async (req, res) => {console.log('all')
     try {
         const cities = await City.find(); // Fetch all service locations
 
@@ -36,6 +36,7 @@ exports.getAllcitiesAll = async (req, res) => {
             id: city._id,
             cityName: city.cityName,
             StateName: city.StateName,
+            pin: city.pin,
             longitude: city.longitude,
             latitude: city.latitude,
             createdAt: city.createdAt,
@@ -71,6 +72,7 @@ exports.getAllCities = async (req, res) => {
             id: City._id,
             CityName: City.cityName,
             StateName:City.StateName,
+            pin:City.pin,
             longitude: City.longitude,
             latitude: City.latitude,
             createdAt: City.createdAt,
@@ -105,11 +107,13 @@ exports.getAllCities = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-
+console.log('con')
 // Get a single city by ID
 exports.getCityById = async (req, res) => {
+    console.log('hit')
     try {
         const city = await City.findById(req.params.id);
+        console.log(city)
         if (!city) return res.status(404).json({ message: 'City not found' });
         res.json(city);
     } catch (err) {
@@ -122,6 +126,7 @@ exports.createCity = async (req, res) => {
     const city = new City({
         cityName: req.body.cityName,
         StateName: req.body.StateName,
+        pin: req.body.pin,
         longitude: req.body.longitude,
         latitude: req.body.latitude
     });
@@ -141,6 +146,7 @@ exports.updateCity = async (req, res) => {
 
         city.cityName = req.body.cityName || city.cityName;
         city.StateName = req.body.StateName || city.StateName;
+        city.pin = req.body.pin || city.pin;
         city.longitude = req.body.longitude || city.longitude;
         city.latitude = req.body.latitude || city.latitude;
 
