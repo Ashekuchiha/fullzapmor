@@ -12,6 +12,10 @@ const serviceProviderSchema = new mongoose.Schema({
     status: { type: String },
     amount:{type: String},
     type:{type:String},
+    assistantName:{type:String},
+    assistantphoneNumber:{type:String},
+    qualification:{type:String},
+    organizationMobile:{type:String},
     featured: { type: Boolean, default: false },
     certificate: { type: String }, // store image file path or URL
     profileImage: { type: String }, // store image file path or URL

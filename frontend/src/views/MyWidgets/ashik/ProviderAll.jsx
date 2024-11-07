@@ -11,15 +11,19 @@ const columns = [
     { field: 'name', headerName: 'Name' },
     { field: 'email', headerName: 'E-mail' },
     { field: 'phoneNumber', headerName: 'Phone Number' },
-    { field: 'service', headerName: 'Service'},
+    { field: 'assistantName', headerName: 'Assistent Name' },
+    { field: 'assistantphoneNumber', headerName: 'Assistant Phone Number' },
+    { field: 'qualification', headerName: 'Qualification' },
     { field: 'specialized', headerName: 'Exparties'},
     { field: 'experience', headerName: 'Experience' },
+    { field: 'service', headerName: 'Service'},
+    { field: 'organizationMobile', headerName: 'Organization Mobile' },
     { field: 'serviceOrganization', headerName: 'Service Organization'},
-    { field: 'status', headerName: 'Status'},
-    { field: 'certificate', headerName: 'Certificate', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
-    { field: 'profileImage', headerName: 'Profile Image', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
     { field: 'amount', headerName: 'Amount'},
     { field: 'type', headerName: 'Type'},
+    { field: 'certificate', headerName: 'Cover photo', renderCell: (value) => (<img src={value?(value==='null'?iconn:value):iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
+    { field: 'profileImage', headerName: 'Profile Image', renderCell: (value) => (<img src={value?(value==='null'?iconn:value):iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>) },
+    { field: 'status', headerName: 'Status'},
     { field: 'featured', headerName: 'Featured'},
 ];
 
@@ -34,8 +38,8 @@ const ProviderAll = () => (
         <ReusablePaginationTable
         title="Services List"
         columns={columns}
-        apiUrl="https://fullzapmor-api.vercel.app/api/services-providers"
-        // apiUrl="http://localhost:5000/api/services-providers"
+        // apiUrl="https://fullzapmor-api.vercel.app/api/services-providers"
+        apiUrl="http://localhost:5000/api/services-providers"
         enableSearch={true}
         enableSort={true}
         >

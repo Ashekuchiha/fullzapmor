@@ -22,16 +22,17 @@ const validationSchema = Yup.object({
     phoneNumber: Yup.string()
       .matches(/^[0-9]+$/, 'Phone Number must be only digits')
       .required('Phone Number is required'),
-    password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .required('Password is required'),
+      password: Yup.string()
+      .min(8, 'Password must be at least 8 characters'),
+    confirmPassword: Yup.string()
+      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
     service: Yup.string().required('Service is required'),
     specialized: Yup.string().required('Specialized field is required'),
     experience: Yup.number()
       .integer('Experience must be a whole number')
       .positive('Experience must be a positive number')
       .required('Experience is required'),
-    serviceOrganization: Yup.string().required('Service Organization is required'),
+    // serviceOrganization: Yup.string().required('Service Organization is required'),
     status: Yup.string().required('Status is required'),
   });
 
@@ -86,36 +87,51 @@ export default function AddProviderForm() {
       )
     }
 
-  const basic = "https://fullzapmor-api.vercel.app";
-  const cbasic = "http://localhost:5000";
+  const cbasic = "https://fullzapmor-api.vercel.app";
+  const basic = "http://localhost:5000";
   const navigate = useNavigate();
   const [switchs, setswitchs] = useState(false); 
+
   const formik = useFormik({
         initialValues : {
           name: '',
           email: '',
           phoneNumber: '',
+          assistantName: '',
+          assistantphoneNumber: '',
+
           password: '',
-          service: '',
+          confirmPassword: '',
+          qualification: '',
           specialized: '',
           experience: '',
+
+          service: '',
           serviceOrganization: [],
-          status:'',
+          organizationMobile: '',
+
           amount: '',
           type:'',
+
+          status:'',
           featured: false,
+
           profileImage: null,       // For single file upload (not required)
           certificate: null,         // For multiple file uploads (not required)
         },          
 
-      // validationSchema: validationSchema,
+      validationSchema: validationSchema,
       onSubmit: async (values) => {
           const formData = new FormData();
         
           // Append text and other basic fields
           formData.append('name', values.name);
           formData.append('email', values.email);
+          formData.append('assistantName', values.assistantName);
+          formData.append('assistantphoneNumber', values.assistantphoneNumber);
+          formData.append('qualification', values.qualification);
           formData.append('phoneNumber', values.phoneNumber);
+          formData.append('organizationMobile', values.organizationMobile);
           formData.append('password', values.password);
           formData.append('service', values.service);
           formData.append('specialized', values.specialized);
@@ -181,7 +197,11 @@ export default function AddProviderForm() {
           formik.setValues({
             name: data.name || '',
             email: data.email || '',
+            assistantName: data.assistantName || '',
+            assistantphoneNumber: data.assistantphoneNumber || '',
+            qualification: data.qualification || '',
             phoneNumber: data.phoneNumber || '',
+            organizationMobile: data.organizationMobile || '',
             service: data.service || '',
             specialized: data.specialized || '',
             experience: data.experience || '', // Expecting [latitude, longitude]
@@ -246,6 +266,7 @@ useEffect(() => {
         ):(
           <form onSubmit={formik.handleSubmit}>
             <Grid container spacing={2} mb={3}>
+
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Name</CustomFormLabel>
               <CustomTextField
@@ -259,7 +280,6 @@ useEffect(() => {
                   helperText={formik.touched.name && formik.errors.name}
               />
               </Grid>
-
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Email</CustomFormLabel>
               <CustomTextField
@@ -274,7 +294,6 @@ useEffect(() => {
                   helperText={formik.touched.email && formik.errors.email}
               />
               </Grid>
-
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Phone Number</CustomFormLabel>
               <CustomTextField
@@ -286,6 +305,45 @@ useEffect(() => {
                   onChange={formik.handleChange}
                   error={formik.touched.phoneNumber && Boolean(formik.errors.phoneNumber)}
                   helperText={formik.touched.phoneNumber && formik.errors.phoneNumber}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Qualification</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter The Qualification'
+                  fullWidth
+                  id="qualification"
+                  name="qualification"
+                  value={formik.values.qualification}
+                  onChange={formik.handleChange}
+                  error={formik.touched.qualification && Boolean(formik.errors.qualification)}
+                  helperText={formik.touched.qualification && formik.errors.qualification}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Assistant Name</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter The Name'
+                  fullWidth
+                  id="assistantName"
+                  name="assistantName"
+                  value={formik.values.assistantName}
+                  onChange={formik.handleChange}
+                  error={formik.touched.assistantName && Boolean(formik.errors.assistantName)}
+                  helperText={formik.touched.assistantName && formik.errors.assistantName}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Assistant Phone Number</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter THe phone number'
+                  fullWidth
+                  id="assistantphoneNumber"
+                  name="assistantphoneNumber"
+                  value={formik.values.assistantphoneNumber}
+                  onChange={formik.handleChange}
+                  error={formik.touched.assistantphoneNumber && Boolean(formik.errors.assistantphoneNumber)}
+                  helperText={formik.touched.assistantphoneNumber && formik.errors.assistantphoneNumber}
               />
               </Grid>
 
@@ -301,6 +359,47 @@ useEffect(() => {
                   onChange={formik.handleChange}
                   error={formik.touched.password && Boolean(formik.errors.password)}
                   helperText={formik.touched.password && formik.errors.password}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+                <CustomFormLabel>Re-enter Password</CustomFormLabel>
+                <CustomTextField
+                  placeholder="Re-enter your password"
+                  fullWidth
+                  type="password"
+                  id="confirmPassword"
+                  name="confirmPassword"
+                  value={formik.values.confirmPassword}
+                  onChange={formik.handleChange}
+                  error={formik.touched.confirmPassword && Boolean(formik.errors.confirmPassword)}
+                  helperText={formik.touched.confirmPassword && formik.errors.confirmPassword}
+                />
+              </Grid>
+
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Expertise</CustomFormLabel>
+              <CustomTextField
+                  placeholder='What you good at'
+                  fullWidth
+                  id="specialized"
+                  name="specialized"
+                  value={formik.values.specialized}
+                  onChange={formik.handleChange}
+                  error={formik.touched.specialized && Boolean(formik.errors.specialized)}
+                  helperText={formik.touched.specialized && formik.errors.specialized}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel>Experience</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter your experience'
+                  fullWidth
+                  id="experience"
+                  name="experience"
+                  value={formik.values.experience}
+                  onChange={formik.handleChange}
+                  error={formik.touched.experience && Boolean(formik.errors.experience)}
+                  helperText={formik.touched.experience && formik.errors.experience}
               />
               </Grid>
 
@@ -326,35 +425,6 @@ useEffect(() => {
                 )}
               />
               </Grid>
-
-              <Grid item xs={12} lg={6}>
-              <CustomFormLabel>Expertise</CustomFormLabel>
-              <CustomTextField
-                  placeholder='What you good at'
-                  fullWidth
-                  id="specialized"
-                  name="specialized"
-                  value={formik.values.specialized}
-                  onChange={formik.handleChange}
-                  error={formik.touched.specialized && Boolean(formik.errors.specialized)}
-                  helperText={formik.touched.specialized && formik.errors.specialized}
-              />
-              </Grid>
-
-              <Grid item xs={12} lg={6}>
-              <CustomFormLabel>Experience</CustomFormLabel>
-              <CustomTextField
-                  placeholder='Enter your experience'
-                  fullWidth
-                  id="experience"
-                  name="experience"
-                  value={formik.values.experience}
-                  onChange={formik.handleChange}
-                  error={formik.touched.experience && Boolean(formik.errors.experience)}
-                  helperText={formik.touched.experience && formik.errors.experience}
-              />
-              </Grid>
-
               <Grid item xs={12} lg={6}>
               <CustomFormLabel>Service Organization</CustomFormLabel>
               <Autocomplete
@@ -385,6 +455,19 @@ useEffect(() => {
                     helperText={formik.touched.serviceOrganization && formik.errors.serviceOrganization}
                   />
                 )}
+              />
+              </Grid>
+              <Grid item xs={12} lg={6}>
+              <CustomFormLabel> Organization Mobile</CustomFormLabel>
+              <CustomTextField
+                  placeholder='Enter your Organization Mobile'
+                  fullWidth
+                  id="organizationMobile"
+                  name="organizationMobile"
+                  value={formik.values.organizationMobile}
+                  onChange={formik.handleChange}
+                  error={formik.touched.organizationMobile && Boolean(formik.errors.organizationMobile)}
+                  helperText={formik.touched.organizationMobile && formik.errors.organizationMobile}
               />
               </Grid>
 
@@ -428,9 +511,8 @@ useEffect(() => {
               <div style={{ color: 'red', marginTop: '5px' }}>{formik.errors.profileImage}</div>
             )}
               </Grid>
-
               <Grid item xs={12} lg={6}>
-              <CustomFormLabel>Certificate</CustomFormLabel>
+              <CustomFormLabel>Cover Photo</CustomFormLabel>
               <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <Button component="label">
                 Upload certificate Image

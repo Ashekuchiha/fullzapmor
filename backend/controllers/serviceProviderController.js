@@ -32,6 +32,10 @@ exports.getAllServiceProvidersAll = async (req, res) => {
             status: provider.status,
             amount: provider.amount,
             type: provider.type,
+            qualification: provider.qualification,
+            assistantName: provider.assistantName,
+            assistantphoneNumber: provider.assistantphoneNumber,
+            organizationMobile: provider.organizationMobile,
             featured: provider.featured,
             certificate: provider.certificate,
             profileImage: provider.profileImage,
@@ -79,6 +83,10 @@ exports.getAllServiceProviders = async (req, res) => {
             status:user.status,
             amount:user.amount,
             type:user.type,
+            qualification:user.qualification,
+            assistantName:user.assistantName,
+            assistantphoneNumber:user.assistantphoneNumber,
+            organizationMobile:user.organizationMobile,
             featured:user.featured ? 'Yes': 'No',
             certificate:user.certificate,
             profileImage:user.profileImage,
@@ -130,7 +138,7 @@ exports.getServiceProviderById = async (req, res) => {
 // Create a new service provider
 exports.createServiceProvider = async (req, res) => {
     try {
-        const { name,email, phoneNumber, password, service, specialized, experience,  serviceOrganization = [], status,amount,type, featured = false  } = req.body;
+        const { name,email, phoneNumber, password, service, specialized, experience,  serviceOrganization = [], status,amount,type,qualification,assistantName,assistantphoneNumber,organizationMobile, featured = false  } = req.body;
         
         // Hash password
         const hashedPassword = await bcrypt.hash(password, 10);
@@ -152,6 +160,10 @@ exports.createServiceProvider = async (req, res) => {
             status,
             amount,
             type,
+            qualification,
+            assistantName,
+            assistantphoneNumber,
+            organizationMobile,
             certificate,
             profileImage,
             featured,
