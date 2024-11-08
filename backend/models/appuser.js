@@ -14,9 +14,12 @@ const appUserSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    address: {
+    dob: {
         type: String,
         required: true
+    },
+    city:{
+        type:String,
     },
     profile: {
         type: String, // will store the path to the image

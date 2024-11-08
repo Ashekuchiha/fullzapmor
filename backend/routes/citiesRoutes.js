@@ -6,6 +6,7 @@ const citiesController = require('../controllers/citiesController');
 // Get all cities
 router.get('/all', citiesController.getAllcitiesAll); // All cities, regardless of criteria
 router.get('/', citiesController.getAllCities);       // General get all route
+router.get('/names', citiesController.getAllCityNames);
 
 // Get cities by state name (specific filter by state name)
 router.get('/state/:stateName', citiesController.getCitiesByStateName); 

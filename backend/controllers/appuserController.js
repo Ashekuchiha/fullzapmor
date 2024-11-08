@@ -8,14 +8,16 @@ const path = require('path');
 // Create a new app user
 exports.createAppUser = async (req, res) => {
     try {
-        const { name, email, phone, address, password } = req.body;
+        const { name, email, phone,dob,city, password } = req.body;
         const hashedPassword = await bcrypt.hash(password, 10);
 
         const appUser = new AppUser({
             name,
             email,
             phone,
-            address,
+            // address,
+            dob,
+            city,
             password: hashedPassword,
             profile: req.file ? req.file.path : ''
         });
@@ -111,7 +113,9 @@ exports.getAppUsers = async (req, res) => {
             name: user.name,
             email: user.email,
             phone: user.phone,
-            address: user.address,
+            // address: user.address,
+            dob: user.dob,
+            city: user.city,
             profile: user.profile,
             createdAt: user.createdAt,
             updatedAt: user.updatedAt
@@ -161,8 +165,8 @@ exports.getAppUserById = async (req, res) => {
 // Update app user by ID
 exports.updateAppUser = async (req, res) => {
     try {
-        const { name, email, phone, address } = req.body;
-        let updatedData = { name, email, phone, address };
+        const { name, email, phone, dob,city, } = req.body;
+        let updatedData = { name, email, phone, dob,city, };
 
         if (req.file) {
             updatedData.profile = req.file.path;

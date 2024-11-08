@@ -11,7 +11,8 @@ const columns = [
     { field: 'name', headerName: 'Name' },
     { field: 'email', headerName: 'Email' },
     { field: 'phone', headerName: 'Phone' },
-    { field: 'address', headerName: 'Address'},
+    { field: 'dob', headerName: 'Date of birth'},
+    { field: 'city', headerName: 'District'},
     { field: 'profile', headerName: 'Profile', renderCell: (value) => (<img src={value?value:iconn} style={{ width: 50, height: 50, borderRadius: '50%' }} alt='no image'/>)},
 ];
 
@@ -26,7 +27,7 @@ const UserAll = () => (
         title="Services List"
         columns={columns}
         apiUrl="https://fullzapmor-api.vercel.app/api/appusers"
-        // apiUrl="http://localhost:5000/api/service-organization"
+        // apiUrl="http://localhost:5000/api/appusers"
         enableSearch={true}
         enableSort={true}
         >

@@ -10,6 +10,17 @@ const mongoose = require('mongoose');
 //         res.status(500).json({ message: err.message });
 //     }
 // };
+//get all city name
+exports.getAllCityNames = async (req, res) => {
+    try {
+        const cities = await City.find().select('cityName');
+        const cityNames = cities.map(city => city.cityName);
+        
+        res.json(cityNames);
+    } catch (err) {
+        res.status(500).json({ message: err.message });
+    }
+};
 
 // Get all cities for a specific state
 exports.getCitiesByStateName = async (req, res) => {
@@ -28,7 +39,7 @@ exports.getCitiesByStateName = async (req, res) => {
     }
 };
 
-exports.getAllcitiesAll = async (req, res) => {console.log('all')
+exports.getAllcitiesAll = async (req, res) => {
     try {
         const cities = await City.find(); // Fetch all service locations
 
@@ -107,10 +118,8 @@ exports.getAllCities = async (req, res) => {
         res.status(500).json({ error: error.message });
     }
 };
-console.log('con')
 // Get a single city by ID
 exports.getCityById = async (req, res) => {
-    console.log('hit')
     try {
         const city = await City.findById(req.params.id);
         console.log(city)

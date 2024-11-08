@@ -24,8 +24,7 @@ const validationSchema = Yup.object({
       .required('Phone Number is required'),
       password: Yup.string()
       .min(8, 'Password must be at least 8 characters'),
-    confirmPassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match'),
+    confirmPassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match'),
     service: Yup.string().required('Service is required'),
     specialized: Yup.string().required('Specialized field is required'),
     experience: Yup.number()
