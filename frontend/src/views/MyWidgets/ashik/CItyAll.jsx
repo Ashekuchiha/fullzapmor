@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import ReusablePaginationTable from './CustomPaginationTable';
 
 const columns = [
-    { field: 'CityName', headerName: 'City Name' },
+    { field: 'CityName', headerName: 'District Name' },
     { field: 'StateName', headerName: 'State Name' },
     { field: 'pin', headerName: 'PIN' },
     { field: 'longitude', headerName: 'Longitude' },
@@ -22,7 +22,7 @@ const ServicesLocationAll = () => (
 
     <div>
         <ReusablePaginationTable
-        title="Services List"
+        title="District List"
         columns={columns}
         apiUrl="https://fullzapmor-api.vercel.app/api/cities"
         // apiUrl="http://localhost:5000/api/cities"
@@ -36,7 +36,7 @@ const ServicesLocationAll = () => (
                 to= '/admin/addCityform'
                 type="submit"
             >
-                Add City
+                Add District
             </Button>
         </ReusablePaginationTable>
     </div>

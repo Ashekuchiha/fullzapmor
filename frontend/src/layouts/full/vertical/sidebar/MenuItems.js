@@ -81,7 +81,7 @@ const Menuitems = [
         },
         {
           id: uniqueId(),
-          title: 'City',
+          title: 'District',
           icon: LocationCity,
           href: '/admin/location/city/all',
         },

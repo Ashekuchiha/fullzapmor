@@ -17,7 +17,7 @@ const columns = [
     { field: 'organizationDescription', headerName: 'Organization Description' },
 
     { field: 'state', headerName: 'State' },
-    { field: 'city', headerName: 'City' },
+    { field: 'city', headerName: 'District' },
     { field: 'address', headerName: 'Address' },
     { field: 'mapSelection', headerName: 'Longitude & Latitude', renderCell:(value)=>(<><p>{`Longitude : ${value[0]}`}</p> <p>{`Latitude : ${value[1]}`}</p></>) },
 

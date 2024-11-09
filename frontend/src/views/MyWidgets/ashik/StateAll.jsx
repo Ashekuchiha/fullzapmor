@@ -7,7 +7,7 @@ import { Link } from 'react-router-dom';
 // import ReusablePaginationTable from './CustomPaginationTable';
 
 const columns = [
-    { field: 'StateName', headerName: 'Location Name' },
+    { field: 'StateName', headerName: 'State Name' },
     { field: 'longitude', headerName: 'Longitude' },
     { field: 'latitude', headerName: 'Latitude' },
    ];
